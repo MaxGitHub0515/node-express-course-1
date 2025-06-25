@@ -67,10 +67,11 @@ if (process.env.NODE_ENV === "production") {
 // serve static files from the built 
 app.use(express.static(clientBuildPath));
 
+// !! CAUSES ISSUES  !!
 // serve the main HTML file (SPA fallback) : encountering issue here 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(clientBuildPath, 'index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(clientBuildPath, 'index.html'));
+// });
 }
 
 

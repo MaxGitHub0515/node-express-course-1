@@ -1,7 +1,6 @@
 
 const testController = async (req, res) => {
     try {
-  
         const result = { message: "Test successful" };
         return res.status(200).json(result);
        

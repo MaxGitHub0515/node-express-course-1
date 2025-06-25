@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js",
-    "build": "tsc"
+    "dev": "node --watch server.js"
+    
   },
   "keywords": [],
   "author": "",
