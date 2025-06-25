@@ -20,7 +20,7 @@
   "workspaces": [
     "_apps/*",
     "packages/*",
-    "main-dashaboard/rt-client",
+    "main-dashboard/rt-client",
     "main-dashboard/rt-server"
   ]
 }
