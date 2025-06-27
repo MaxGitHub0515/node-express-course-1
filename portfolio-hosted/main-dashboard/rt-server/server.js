@@ -13,6 +13,7 @@ import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import hpp from 'hpp';
 import { xss } from 'express-xss-sanitizer';
+import configedCors from  './config/cors.config.js';
 // __dirname is not available in es modules, so derive it
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -35,10 +36,15 @@ app.use(express.urlencoded({ extended: true }));
 // Headers Set by Default 
 app.use(helmet());
 
+// CORS configuration
+app.use(configedCors());
+
 // Reduce size of response bodies sent to the client
 app.use(compression());
+
 // Prevent parameter pollution attacks 
 app.use(hpp());
+
 // xss senetizer
 app.use(xss());
 
