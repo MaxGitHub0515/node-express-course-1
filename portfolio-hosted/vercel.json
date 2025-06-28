@@ -1,0 +1,34 @@
+{
+  "rewrites": [
+    // Rewrite requests for /book-store/* to the 'book-store' Vercel project
+    {
+      "source": "/book-store/:path*",
+      "destination": "/12-book-store/:path*" // IMPORTANT: 'destination' should match the **Vercel project name**
+                                           // you assigned to this app. If Vercel detects and names your project
+                                           // '12-book-store' (which it will by default if the root dir is that folder),
+                                           // then use '12-book-store' here.
+    },
+    // Rewrite requests for /chat-app/* to the 'chat-app' Vercel project
+    {
+      "source": "/chat-app/:path*",
+      "destination": "/13-chat-app/:path*" // Adjust Vercel project name if different
+    },
+    // Rewrite requests for /e-commerce/* to the 'e-commerce' Vercel project
+    {
+      "source": "/e-commerce/:path*",
+      "destination": "/14-e-commerce/:path*" // Adjust Vercel project name if different
+    },
+    // Handle API requests to your main-dashboard/rt-server (if it's a Vercel Serverless Function project)
+    {
+      "source": "/api/:path*", // Assuming your server routes start with /api
+      "destination": "/rt-server/:path*" // IMPORTANT: This should be the Vercel project name for your backend.
+                                        // Vercel might name it 'rt-server' if its root is 'main-dashboard/rt-server'.
+    },
+    // Catch-all: All other requests go to the main-dashboard/rt-client (your host app)
+    {
+      "source": "/:path*",
+      "destination": "/rt-client/:path*" // IMPORTANT: This should be the Vercel project name for your main client app.
+                                         // Vercel might name it 'rt-client' if its root is 'main-dashboard/rt-client'.
+    }
+  ]
+}

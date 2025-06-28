@@ -32,7 +32,7 @@ app.use(express.json({ limit: "10mb" }));
 // parse URL-encoded request bodies
 app.use(express.urlencoded({ extended: true }));
 
-// app.use(mongoSanitize()); // causes issues 
+app.use(mongoSanitize()); // causes issues 
 // Headers Set by Default 
 app.use(helmet());
 
@@ -78,6 +78,7 @@ app.use(express.static(clientBuildPath));
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(clientBuildPath, 'index.html'));
 // });
+
 }
 
 
