@@ -1,11 +1,30 @@
 import mongoose from "mongoose";
 
 const projectSchema = new mongoose.Schema({
-  id: { type: String, unique: true },
-  name: String,
-  description: String,
-  imageUrl: String,
-});
+  projectId: {
+    type: String,
+    required: false,
+    trim: true,
+  }, 
 
-const Project = mongoose.model("Project", projectSchema);
+  cuid: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  name:{
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+    required: true,
+  }
+}, {timestamps:true} );
+
+const Project = mongoose.model("Project", projectSchema, 'projects');
 export default Project;

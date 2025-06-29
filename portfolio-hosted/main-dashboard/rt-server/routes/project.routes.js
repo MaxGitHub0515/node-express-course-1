@@ -1,6 +1,6 @@
 import express from "express";
 
-import Project from "../models/Project.js";
+import Project from "../models/project.model.js";
 import cuid from "cuid";
 import { createProject, getSingleProject } from "../controllers/project.controller.js";
 

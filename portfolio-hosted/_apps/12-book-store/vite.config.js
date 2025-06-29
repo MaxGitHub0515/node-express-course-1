@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/book-store/',
+  base: '/12-book-store/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',

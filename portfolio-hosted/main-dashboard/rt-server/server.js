@@ -21,18 +21,19 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 // getting absolute path of the dir containing this file.
 const __dirname = dirname(__filename);
-
+// Routes
+import handleCUIDRoute from './controllers/cuid.controller.js';
+import projectRouter from './routes/project.routes.js';
 // Mongo Santize
 import mongoSanitize from 'express-mongo-sanitize';
-// Routers
-import testRouter from './routes/test.js';
+
 
 // parse JSON request bodies, json body can not be < 10mb
 app.use(express.json({ limit: "10mb" }));
 // parse URL-encoded request bodies
 app.use(express.urlencoded({ extended: true }));
 
-app.use(mongoSanitize()); // causes issues 
+// app.use(mongoSanitize()); // causes issues 
 // Headers Set by Default 
 app.use(helmet());
 
@@ -59,8 +60,10 @@ const apiLimiter = rateLimit({
 
 
 // Routes
-app.use('/api/v1/projects', apiLimiter, testRouter );
+app.use('/api/v1/projects', apiLimiter, projectRouter);
 
+// handle cuid routes
+// app.get('/main-dashboard/projects/mern/:cuidId/*', handleCUIDRoute);
 
 
 
@@ -110,4 +113,3 @@ try {
 
 LaunchRTServerAndDB();
 
-       

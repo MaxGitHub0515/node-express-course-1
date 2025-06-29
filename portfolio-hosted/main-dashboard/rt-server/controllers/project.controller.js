@@ -1,10 +1,12 @@
 
-
-
+import Project from '../models/project.model.js';
+import Cuid from 'cuid';
 const  createProject = async (req, res) => {
-  const { name, description, imageUrl } = req.body;
+  const { projectId, cuid, name, description, imageUrl,  } = req.body;
+
   const newProject = new Project({
-    id: cuid(),
+    projectId,
+    cuid: Cuid(),
     name,
     description,
     imageUrl,
@@ -20,7 +22,8 @@ const  createProject = async (req, res) => {
 
 const getSingleProject = async (req, res) => {
    try {
-    const project = await Project.findOne({ id: req.params.id });
+    // req.params.id; id - name taken from router.get("/:id",getSingleProject) 
+    const project = await Project.findOne({ _id: req.params.id });
     if (!project) return res.status(404).json({ message: "Not found" });
     res.json(project);
   } catch (err) {
@@ -28,3 +31,5 @@ const getSingleProject = async (req, res) => {
   }
 
 }
+
+export { createProject, getSingleProject };

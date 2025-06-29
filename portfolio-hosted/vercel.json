@@ -1,34 +1,75 @@
 {
-  "rewrites": [
-    // Rewrite requests for /book-store/* to the 'book-store' Vercel project
+  "version": 2,
+  "builds": [
     {
-      "source": "/book-store/:path*",
-      "destination": "/12-book-store/:path*" // IMPORTANT: 'destination' should match the **Vercel project name**
-                                           // you assigned to this app. If Vercel detects and names your project
-                                           // '12-book-store' (which it will by default if the root dir is that folder),
-                                           // then use '12-book-store' here.
+      "src": "main-dashboard/rt-server/server.js",
+      "use": "@vercel/node"
     },
-    // Rewrite requests for /chat-app/* to the 'chat-app' Vercel project
-    {
-      "source": "/chat-app/:path*",
-      "destination": "/13-chat-app/:path*" // Adjust Vercel project name if different
+     {
+      "src": "_apps/12-book-store/backend/server.js", 
+      "use": "@vercel/node"
     },
-    // Rewrite requests for /e-commerce/* to the 'e-commerce' Vercel project
     {
-      "source": "/e-commerce/:path*",
-      "destination": "/14-e-commerce/:path*" // Adjust Vercel project name if different
+      "src": "_apps/13-chat-app/backend/server.js",
+      "use": "@vercel/node"
     },
-    // Handle API requests to your main-dashboard/rt-server (if it's a Vercel Serverless Function project)
     {
-      "source": "/api/:path*", // Assuming your server routes start with /api
-      "destination": "/rt-server/:path*" // IMPORTANT: This should be the Vercel project name for your backend.
-                                        // Vercel might name it 'rt-server' if its root is 'main-dashboard/rt-server'.
+      "src": "_apps/14-e-commerce/backend/server.js",
+      "use": "@vercel/node"
     },
-    // Catch-all: All other requests go to the main-dashboard/rt-client (your host app)
+
     {
-      "source": "/:path*",
-      "destination": "/rt-client/:path*" // IMPORTANT: This should be the Vercel project name for your main client app.
-                                         // Vercel might name it 'rt-client' if its root is 'main-dashboard/rt-client'.
+      "src": "_apps/12-book-store/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "_apps/12-book-store/frontend/dist"
+      }
+    },
+    {
+      "src": "_apps/13-chat-app/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "_apps/13-chat-app/frontend/dist"
+      }
+    },
+    {
+      "src": "_apps/14-e-commerce/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "_apps/14-e-commerce/frontend/dist"
+      }
     }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "status": 308,
+      "headers": {
+        "Location": "/main-dashboard"
+      }
+    },
+
+    {
+      "src": "/api/(.*)",
+      "dest": "main-dashboard/rt-server/server.js"
+    },
+
+     {
+      "src": "/main-dashboard/projects/mern/([^/]+)/(.*)",
+      "dest": "main-dashboard/rt-server/server.js"
+    },
+
+    {
+      "src": "/main-dashboard/(.*)",
+      "dest": "_apps/main-dashboard/frontend/dist/$1" 
+    },
+  
+    {
+      "src": "/(.*)",
+      "dest": "main-dashboard/rt-server/server.js" 
+    }
+
+  
+   
   ]
 }
