@@ -10,6 +10,7 @@ import dotenv from "dotenv"
 dotenv.config({ path: '.env.local' });
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import Redis from 'ioredis';
 import compression from 'compression';
 import hpp from 'hpp';
 import { xss } from 'express-xss-sanitizer';
@@ -26,6 +27,7 @@ import handleCUIDRoute from './controllers/cuid.controller.js';
 import projectRouter from './routes/project.routes.js';
 // Mongo Santize
 import mongoSanitize from 'express-mongo-sanitize';
+
 
 
 // parse JSON request bodies, json body can not be < 10mb
@@ -58,6 +60,14 @@ const apiLimiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
+const redisClient = new Redis({
+  host: process.env.REDIS_HOST || 'localhost',
+  port: process.env.REDIS_PORT || 6379,
+  password: process.env.REDIS_PASSWORD || '',
+});
+
+redisClient.on('connect', () => console.log('Connected to Redis'.green));
+redisClient.on('error', (err) => console.error('Redis error:', err.red));
 
 // Routes
 app.use('/api/v1/projects', apiLimiter, projectRouter);
