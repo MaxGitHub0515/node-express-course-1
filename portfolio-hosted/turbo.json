@@ -8,8 +8,14 @@
       "outputs": ["dist/**"]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^lint"],
+      "outputs": []
     },
+
+    "test": {
+      "outputs": []
+    },
+
     "check-types": {
       "dependsOn": ["^check-types"]
     },

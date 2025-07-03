@@ -23,12 +23,30 @@ const handleCUID = async (req, res, next) => {
         console.log(filePath)
         const baseDistPath = path.join(process.cwd(), internalDistPath);
 
-        if (!filePath.startsWith(baseDistPath)) {
-            console.warn(`Path traversal attempt detected: ${req.url} trying to access ${filePath}`);
-            return res.status(400).send('Invalid path requested.');
-        }
+        // if (!filePath.startsWith(baseDistPath)) {
+        //     console.warn(`Path traversal attempt detected: ${req.url} trying to access ${filePath}`);
+        //     return res.status(400).send('Invalid path requested.');
+        // }
 
-       
+        // if (filePath.endsWith('.html') || (subpath === 'index.html' && filePath.endsWith('/index.html'))) {
+        //     let htmlContent = await fs.readFile(filePath, 'utf8');
+        //     const baseUrl = `/main-dashboard/projects/mern/${cuidId}/`;
+        //     htmlContent = htmlContent.replace(/__BASE_URL__/g, baseUrl);
+
+        //     res.setHeader('Content-Type', 'text/html');
+        //     res.send(htmlContent);
+        // } else {
+        //     res.sendFile(filePath, (err) => {
+        //         if (err) {
+        //             if (err.code === 'ENOENT' && !filePath.includes('.')) {
+        //                 res.sendFile(path.join(baseDistPath, 'index.html'));
+        //             } else {
+        //                 console.error(`Error serving file ${filePath}:`, err);
+        //                 res.status(err.status || 500).send('Failed to load resource.');
+        //             }
+        //         }
+        //     });
+        // }
 
     } catch (error) {
         console.error('Error in dynamic frontend serving:', error);

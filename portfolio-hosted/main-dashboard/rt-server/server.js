@@ -23,7 +23,7 @@ const __filename = fileURLToPath(import.meta.url);
 // getting absolute path of the dir containing this file.
 const __dirname = dirname(__filename);
 // Routes
-import handleCUIDRoute from './controllers/cuid.controller.js';
+// import handleCUIDRoute from './controllers/cuid.controller.js';
 import projectRouter from './routes/project.routes.js';
 // Mongo Santize
 import mongoSanitize from 'express-mongo-sanitize';
@@ -51,7 +51,7 @@ app.use(hpp());
 // xss senetizer
 app.use(xss());
 
-
+// API Rate Limiter
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
@@ -60,14 +60,17 @@ const apiLimiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
+// Redis Client Setup & Connection
 const redisClient = new Redis({
   host: process.env.REDIS_HOST || 'localhost',
   port: process.env.REDIS_PORT || 6379,
   password: process.env.REDIS_PASSWORD || '',
 });
 
-redisClient.on('connect', () => console.log('Connected to Redis'.green));
-redisClient.on('error', (err) => console.error('Redis error:', err.red));
+// Redis Client Event Listeners
+redisClient.on('connect', () =>  console.log('   --> Redis Client: Connected to Redis!'.green));
+redisClient.on('error', (err) => console.error('   --> Redis Client: Error connecting to Redis:', err.message.red));
+redisClient.on('ready', () => {  console.log('   --> Redis Client: Ready to accept commands.'.blue)});
 
 // Routes
 app.use('/api/v1/projects', apiLimiter, projectRouter);

@@ -23,5 +23,8 @@
     "packages/*",
     "main-dashboard/rt-client",
     "main-dashboard/rt-server"
-  ]
+  ],
+  "dependencies": {
+    "cwd": "^0.10.0"
+  }
 }
