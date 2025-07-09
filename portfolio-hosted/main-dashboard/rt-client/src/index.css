@@ -1,11 +1,85 @@
 
 @import "tailwindcss";
 
-
+:root {
+  --grape: 114, 35, 204;
+}
 /*  global styles go here, after the @import */
-body {
-  margin: 0;
-  font-family: sans-serif;
+body{
+    margin: 0;
+  font-family:
+    system-ui,    /* Uses the native UI font on the user's system (e.g., San Francisco on iOS/macOS, Segoe UI on Windows) */
+    -apple-system, /* Specific for Apple's system font */
+    BlinkMacSystemFont, /* Specific for Apple's system font */
+    "Segoe UI",    /* Windows default UI font */
+    Roboto,         /* Common on Android and widely used web font */
+    "Helvetica Neue", /* Classic sans-serif */
+    Arial,          /* Another classic sans-serif */
+    "Noto Sans",    /* Google's open-source font, good for internationalization */
+    sans-serif;     /* Generic fallback to ensure a sans-serif font is always used */
 }
 
 /* ... other styles ... */
+
+
+/*  gentle rotation */
+@keyframes spinSlowly {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+}
+
+.icon-spin {
+  animation: spinSlowly 5s linear infinite; /* 5 seconds, continuous, constant speed */
+}
+
+
+.icon-spin-on-hover {
+  transition: transform 0.7.icon-pulses ease-in-out;
+}
+
+.icon-spin-on-hover:hover {
+ animation: spin 0.7s ease-out infinite forwards; /* Name, duration, timing, iteration count (1), fill-mode */
+}
+
+@keyframes pulseEffect{
+   0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1); /* Slightly larger */
+    opacity: 0.8; /* Slightly faded */
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+
+@keyframes wiggleEffect {
+  0%, 100% {
+    transform: translateX(0) rotate(0deg); /* Start and end at original position */
+  }
+  25% {
+    transform: translateX(-5px) rotate(-3deg); /* Wiggle left slightly */
+  }
+  75% {
+    transform: translateX(5px) rotate(3deg); /* Wiggle right slightly */
+  }
+}
+
+
+
+.icon-pulse-on-hover:hover {
+  animation: pulseEffect 0.5s ease-in-out infinite forwards; 
+  background: #00ff80;
+  border-radius: 10%;;
+}
+
+.icon-wiggle-on-hover:hover {
+  animation: wiggleEffect 0.5s ease-in-out infinite forwards; 
+}
+
+

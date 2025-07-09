@@ -10,7 +10,11 @@ export default defineConfig({
     proxy: {
 			"/api": {
 				target: "http://localhost:5000",
+        
 			},
+      
 		},
-  }
+    allowedHosts: [ 'illustrates.info', 'www.illustrates.info', 'localhost' ],
+  }, 
+  
 })

@@ -1,6 +1,6 @@
 // tailwind.config.js (Optional for basic setup in v4, but useful for customization)
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from 'tailwindcss';
+const config: Config = {
   content: [
     "./src/**/*.{html,js,ts,jsx,tsx}",
     "./*.html",
@@ -9,4 +9,10 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  darkMode: 'class', 
+  
+
 }
+
+
+export default config;
