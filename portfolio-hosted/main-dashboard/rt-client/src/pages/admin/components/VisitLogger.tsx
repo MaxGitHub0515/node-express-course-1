@@ -9,6 +9,8 @@ export default function UserLogger() {
     useEffect(() => {
     // Only log visits when location is available
     if (!location?.pathname) return;
+    // skip logging admin panel routes if hit 
+    if(location.pathname.startsWith('/cpanel')) return;
     console.log('Sending URL:', location.pathname);
 
     fetch('/api/v1/visitors', {

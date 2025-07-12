@@ -35,7 +35,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 app.use(express.json({ limit: "10mb" }));
 // parse URL-encoded request bodies
 app.use(express.urlencoded({ extended: true }));
-// Trust proxy to get real client IP behind proxies like CloudFlare  proxy server
+// (When hosted on the web) Trust proxy to get real client IP behind proxies like CloudFlare  proxy server
 app.set('trust proxy', true);
 
 // app.use(mongoSanitize()); // causes issues 
