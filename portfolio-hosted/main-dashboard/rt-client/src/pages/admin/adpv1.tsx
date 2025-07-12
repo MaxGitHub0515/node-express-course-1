@@ -21,7 +21,20 @@ const makeResponsiveIcons = "text-1xl md:text-3xl lg:text-5xl"
   { month: 'Apr', users: 700, sales: 3600 },
   { month: 'May', users: 900, sales: 4100 },
 ];
-
+const MoreData = [
+  { month: 'Jan', visits: 400 },
+  { month: 'Feb', visits: 600 },
+  { month: 'Mar', visits: 800 },
+  { month: 'Apr', visits: 700 },
+  { month: 'May', visits: 900 },
+  { month: 'Jun', visits: 1100 },
+  { month: 'Jul', visits: 1000 },
+  { month: 'Aug', visits: 1200 },
+  { month: 'Sep', visits: 950 },
+  { month: 'Oct', visits: 1150 },
+  { month: 'Nov', visits: 1300 },
+  { month: 'Dec', visits: 1050 },
+];
 
     return (
         <>

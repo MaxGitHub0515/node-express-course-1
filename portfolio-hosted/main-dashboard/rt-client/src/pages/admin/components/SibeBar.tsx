@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import { AiOutlineDashboard, AiOutlineMail, AiOutlinePlus } from 'react-icons/ai';
 import { BsGear, BsPerson, BsGraphUp, BsBell } from 'react-icons/bs';
 export default function SideBar() {
-    const makeResponsiveIcons = "text-1xl md:text-3xl lg:text-5xl"
+    const makeResponsiveIcons = "sm:text-1xl md:text-2xl lg:text-3xl"
     return (
           <aside className=''>
             <div className="flex flex-col gap-y-4 p-2.5 bg-[#22C55E] h-auto ">

@@ -11,7 +11,7 @@ export default function AdminPage() {
         <>
     <div className='flex gap-x-1'>
         <SideBar/>
-        <main className='lg:w-full p-3 pounded=lg shadow-lg bg-[#F5F5F5]'>
+        <main className='lg:w-full md:w-full p-3 pounded=lg shadow-lg bg-[#F5F5F5]'>
           <div className='flex justify-between'>
             {/* Header */}
             <div className='text-1xl font-bold text-gray-800'>Admin Dashboard</div>

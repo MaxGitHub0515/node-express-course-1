@@ -6,36 +6,63 @@ import {
   AreaChart, Area,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
+import { useEffect, useState } from 'react';
 
   {/* Urgent charts for Admin Page
   Area chart Bar chart  Line Chart */}
+interface VisitData {
+  month: string;
+  visits: number;
+}
+
 export default function LineChartComponent() {
-     //dummy data for charts
-    const data = [
-  { month: 'Jan', users: 400, sales: 2400 },
-  { month: 'Feb', users: 600, sales: 3200 },
-  { month: 'Mar', users: 800, sales: 2900 },
-  { month: 'Apr', users: 700, sales: 3600 },
-  { month: 'May', users: 900, sales: 4100 },
-];
+  const [data, setData] = useState<VisitData[]>([]);
+
+  useEffect(() => {
+    fetch('/api/v1/visits/monthly')
+      .then(res => res.json())
+      .then((raw: { month: number; visits: number }[]) => {
+        const months = [
+          "Jan", "Feb", "Mar", "Apr",
+          "May", "Jun", "Jul", "Aug",
+          "Sep", "Oct", "Nov", "Dec"
+        ];
+
+        const filled: VisitData[] = Array.from({ length: 12 }, (_, i) => ({
+          month: months[i],
+          visits: 0
+        }));
+
+        raw.forEach(({ month, visits }) => {
+          if (month >= 1 && month <= 12) {
+            filled[month - 1].visits = visits;
+          }
+        });
+
+        setData(filled);
+      });
+  }, []);
+
 
     return (
             
-    <div className='flex gap-x-4 mt-1.5'>
+    <div className='flex flex-wrap gap-4 mt-1.5  '>
     {/* Line Charts */}
-    <div className="bg-white p-4 rounded-2xl shadow flex flex-col justify-center items-center max-h-64">
-    <div className="text-lg font-medium uppercase mb-2 text-center">User Growth</div> 
-    <ResponsiveContainer width={500} height={250}>
+    <div className="bg-white p-4 rounded-2xl shadow flex flex-col justify-center flex-grow min-w-[860px]  ">
+    <div className="text-lg font-medium uppercase mb-4 text-center">Monthly Visits</div> 
+    <ResponsiveContainer width="100%" height={400}>
     <LineChart data={data}>
     <XAxis dataKey="month" />
     <YAxis />
     <Tooltip />
     <CartesianGrid strokeDasharray="3 3" />
-    <Line type="monotone" dataKey="users" stroke="#16a34a" strokeWidth={2} />
+    <Line type="monotone" dataKey="visits" stroke="#16a34a" strokeWidth={2} />
     </LineChart>
     </ResponsiveContainer>
+    </div>  
     </div>
-    </div>
+
+    
     )
     
 

@@ -25,9 +25,12 @@ const __dirname = dirname(__filename);
 // Routes
 // import handleCUIDRoute from './controllers/cuid.controller.js';
 import projectRouter from './routes/project.routes.js';
+// import middleware like for visitor
+import visitorRouter from "./routes/visitor.routes.js"
+// import router for visitor
+import {createVisitor} from "./controllers/visitor.controller.js" 
 // Mongo Santize
 import mongoSanitize from 'express-mongo-sanitize';
-
 
 
 // parse JSON request bodies, json body can not be < 10mb
@@ -73,7 +76,11 @@ redisClient.on('error', (err) => console.error('   --> Redis Client: Error conne
 redisClient.on('ready', () => {  console.log('   --> Redis Client: Ready to accept commands.'.blue)});
 
 // Routes
+// log all requests first
+app.use(createVisitor)
 app.use('/api/v1/projects', apiLimiter, projectRouter);
+// then route api calls 
+app.use('/api/v1/visits', visitorRouter)
 
 // handle cuid routes
 // app.get('/main-dashboard/projects/mern/:cuidId/*', handleCUIDRoute);
