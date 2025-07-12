@@ -14,12 +14,13 @@ import SettingsPage from './pages/admin/SettingsPage.tsx';
 import ProjectsPage from './pages/admin/ProjectsPage.tsx';
 import MaintenancePage from './pages/admin/MaintenancePage..tsx';
 import {Toaster} from 'react-hot-toast';
-
+import VisitLogger from "./pages/admin/components/VisitLogger.tsx"
 
 function App() {
 
   return (
     <>
+    <VisitLogger />
      <Routes>
         <Route path="/main-dashboard" element={<MainDashboardPage />} />
         <Route path='*' element={<NotFoundPage />} />
@@ -32,8 +33,9 @@ function App() {
         <Route path="/cpanel/projects" element={<ProjectsPage />} />
         <Route path="/cpanel/settings" element={<SettingsPage />} />
         <Route path="/cpanel/dashboard/maintenance" element={<MaintenancePage />} />
-     
+        
      </Routes>
+     
      <Toaster />
     </>
   )

@@ -1,9 +1,9 @@
 
 import {
   LineChart, Line,
-  BarChart, Bar,
-  PieChart, Pie, Cell,
-  AreaChart, Area,
+  // BarChart, Bar,
+  // PieChart, Pie, Cell,
+  // AreaChart, Area,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
 import { useEffect, useState } from 'react';
@@ -19,7 +19,7 @@ export default function LineChartComponent() {
   const [data, setData] = useState<VisitData[]>([]);
 
   useEffect(() => {
-    fetch('/api/v1/visits/monthly')
+      fetch('/api/v1/visitors/monthly') 
       .then(res => res.json())
       .then((raw: { month: number; visits: number }[]) => {
         const months = [

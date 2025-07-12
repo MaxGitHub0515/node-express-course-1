@@ -3,16 +3,17 @@ import Visitor from "../models/visitor.model.js"
 // middleware like
 const createVisitor = async(req, res, next) => {
     try {
+    const {url} = req.body;
     const visitor = await Visitor.create({
       ip: req.ip,
       userAgent: req.get('User-Agent'),
-      url: req.originalUrl
+      url
     });
-      console.log('Visitor saved:', visitor);
-    next();
+      console.log('Visitor was saved successfully:', visitor);
+      res.status(201).json(visitor)
 } catch (error) {
     next(error)
-}
+} 
 }
 
 const aggregateUser = async(req, res) => {
@@ -34,7 +35,8 @@ const aggregateUser = async(req, res) => {
     { $sort: { month: 1 } }
     ]);
 
-    res.json(result)
+    res.json(result, {"msg" : "Success"})
+   
     } catch (error) {
       console.error(error)
       res.status(500).json({ error: "Failed to aggregate visits" });

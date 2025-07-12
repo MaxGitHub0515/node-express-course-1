@@ -27,8 +27,6 @@ const __dirname = dirname(__filename);
 import projectRouter from './routes/project.routes.js';
 // import middleware like for visitor
 import visitorRouter from "./routes/visitor.routes.js"
-// import router for visitor
-import {createVisitor} from "./controllers/visitor.controller.js" 
 // Mongo Santize
 import mongoSanitize from 'express-mongo-sanitize';
 
@@ -37,6 +35,8 @@ import mongoSanitize from 'express-mongo-sanitize';
 app.use(express.json({ limit: "10mb" }));
 // parse URL-encoded request bodies
 app.use(express.urlencoded({ extended: true }));
+// Trust proxy to get real client IP behind proxies like CloudFlare  proxy server
+app.set('trust proxy', true);
 
 // app.use(mongoSanitize()); // causes issues 
 // Headers Set by Default 
@@ -75,34 +75,47 @@ redisClient.on('connect', () =>  console.log('   --> Redis Client: Connected to 
 redisClient.on('error', (err) => console.error('   --> Redis Client: Error connecting to Redis:', err.message.red));
 redisClient.on('ready', () => {  console.log('   --> Redis Client: Ready to accept commands.'.blue)});
 
+
 // Routes
-// log all requests first
-app.use(createVisitor)
 app.use('/api/v1/projects', apiLimiter, projectRouter);
-// then route api calls 
-app.use('/api/v1/visits', visitorRouter)
+app.use('/api/v1/visitors', visitorRouter )
 
 // handle cuid routes
 // app.get('/main-dashboard/projects/mern/:cuidId/*', handleCUIDRoute);
 
 
-
 // --> Static File Serving for Production(loading frontend) <--
 
 console.log(`Current project directory: ${__dirname.blue}`);
+console.log(`NODE_ENV is: ${process.env.NODE_ENV}`);
+// change to  NODE_ENV === "production" !!!
 if (process.env.NODE_ENV === "production") {
   const clientBuildPath = path.join(__dirname, '..', 'rt-client', 'dist');
   console.log(`Serving static files from: ${clientBuildPath.yellow}`);
-// serve static files from the built 
+// serve static files from the built   
 app.use(express.static(clientBuildPath));
+/*
+there is a problem with express 5+, it's using path-to-regexp library, and they changed the rules.
+Instead of using:
+.get('/**', xxxx) / .get('/*', xxxx)
+Use this workaround:
+.get('/*\w', xxxx)
+*/
+
+app.get('/.*\w', (req, res, next) => {
+  res.sendFile(path.join(clientBuildPath, 'index.html'));
+  next()
+});  
 
 // !! CAUSES ISSUES  !!
 // serve the main HTML file (SPA fallback) : encountering issue here 
 // app.get('*', (req, res) => {
-//   res.sendFile(path.join(clientBuildPath, 'index.html'));
+//   res.sendFile(path.join(clientBuildPath, 'index.html'));  
 // });
 
 }
+
+
 
 
 const PORT = process.env.PORT || 8000;
