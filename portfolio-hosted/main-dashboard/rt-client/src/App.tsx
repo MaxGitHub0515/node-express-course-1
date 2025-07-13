@@ -12,7 +12,8 @@ import NotifyPage from './pages/admin/NotifyPage.tsx';
 import EmailPage from './pages/admin/EmailPage.tsx';
 import SettingsPage from './pages/admin/SettingsPage.tsx';
 import ProjectsPage from './pages/admin/ProjectsPage.tsx';
-import MaintenancePage from './pages/admin/MaintenancePage..tsx';
+import MaintenancePage from './pages/admin/MaintenancePage.tsx';
+import LoginPage from './pages/admin/LoginPage.tsx';
 import {Toaster} from 'react-hot-toast';
 import VisitLogger from "./pages/admin/components/VisitLogger.tsx"
 
@@ -33,7 +34,8 @@ function App() {
         <Route path="/cpanel/projects" element={<ProjectsPage />} />
         <Route path="/cpanel/settings" element={<SettingsPage />} />
         <Route path="/cpanel/dashboard/maintenance" element={<MaintenancePage />} />
-        
+        <Route path="/auth/login" element={<LoginPage />} />
+       
      </Routes>
      
      <Toaster />

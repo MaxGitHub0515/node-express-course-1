@@ -60,18 +60,6 @@ export default function LineChartComponent() {
     </LineChart>
     </ResponsiveContainer>
     </div>  
-    <div className="bg-white p-4 rounded-2xl shadow flex flex-col justify-center flex-grow min-w-[860px]  ">
-    <div className="text-lg font-medium uppercase mb-4 text-center">Monthly Visits</div> 
-    <ResponsiveContainer width="100%" height={400}>
-    <LineChart data={data}>
-    <XAxis dataKey="month" />
-    <YAxis />
-    <Tooltip />
-    <CartesianGrid strokeDasharray="3 3" />
-    <Line type="monotone" dataKey="visits" stroke="#16a34a" strokeWidth={2} />
-    </LineChart>
-    </ResponsiveContainer>
-    </div>  
     </div>
 
     

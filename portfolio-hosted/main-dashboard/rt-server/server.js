@@ -15,6 +15,7 @@ import compression from 'compression';
 import hpp from 'hpp';
 import { xss } from 'express-xss-sanitizer';
 import configedCors from  './config/cors.config.js';
+import cookieParser from 'cookie-parser';
 // __dirname is not available in es modules, so derive it
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -25,11 +26,15 @@ const __dirname = dirname(__filename);
 // Routes
 // import handleCUIDRoute from './controllers/cuid.controller.js';
 import projectRouter from './routes/project.routes.js';
+//
+import userRouter from "./routes/auth.routes.js"
 // import middleware like for visitor
 import visitorRouter from "./routes/visitor.routes.js"
 // Mongo Santize
 import mongoSanitize from 'express-mongo-sanitize';
 
+// middleware
+import protectRoute from './middleware/protectRoute.js';
 
 // parse JSON request bodies, json body can not be < 10mb
 app.use(express.json({ limit: "10mb" }));
@@ -42,6 +47,8 @@ app.set('trust proxy', true);
 // Headers Set by Default 
 app.use(helmet());
 
+// cookie parser - parse the incoming cookies from req.cookies
+app.use(cookieParser())
 // CORS configuration
 app.use(configedCors());
 
@@ -78,7 +85,9 @@ redisClient.on('ready', () => {  console.log('   --> Redis Client: Ready to acce
 
 // Routes
 app.use('/api/v1/projects', apiLimiter, projectRouter);
-app.use('/api/v1/visitors', visitorRouter )
+app.use('/api/v1/visitors', visitorRouter);
+app.use('/api/v1/auth', apiLimiter, userRouter);
+app.use('/api/v1/cpanel', protectRoute, adminCheck)
 
 // handle cuid routes
 // app.get('/main-dashboard/projects/mern/:cuidId/*', handleCUIDRoute);

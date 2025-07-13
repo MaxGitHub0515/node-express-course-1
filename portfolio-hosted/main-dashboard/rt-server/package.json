@@ -14,7 +14,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "compression": "^1.8.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "cuid": "^3.0.0",
@@ -27,6 +29,7 @@
     "hpp": "^0.2.3",
     "ioredis": "^5.6.1",
     "jest": "^30.0.4",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.16.0",
     "morgan": "^1.10.0",
     "rate-limit-redis": "^4.2.1"
