@@ -41,7 +41,7 @@ app.use(express.json({ limit: "10mb" }));
 // parse URL-encoded request bodies
 app.use(express.urlencoded({ extended: true }));
 // (When hosted on the web) Trust proxy to get real client IP behind proxies like CloudFlare  proxy server
-app.set('trust proxy', true);
+app.set('trust proxy', false);
 
 // app.use(mongoSanitize()); // causes issues 
 // Headers Set by Default 
@@ -87,7 +87,7 @@ redisClient.on('ready', () => {  console.log('   --> Redis Client: Ready to acce
 app.use('/api/v1/projects', apiLimiter, projectRouter);
 app.use('/api/v1/visitors', visitorRouter);
 app.use('/api/v1/auth', apiLimiter, userRouter);
-app.use('/api/v1/cpanel', protectRoute, adminCheck)
+// app.use('/api/v1/cpanel', protectRoute, adminCheck)
 
 // handle cuid routes
 // app.get('/main-dashboard/projects/mern/:cuidId/*', handleCUIDRoute);

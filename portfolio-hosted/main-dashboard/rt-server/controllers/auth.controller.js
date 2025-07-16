@@ -18,7 +18,7 @@ export const SignUp = async(req,res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPwd = await bcrypt.hash(pwd, salt);
 
-        const addNewUser = User.create({
+        const addNewUser = await User.create({
             username,
             email,
             pwd:hashedPwd
@@ -38,7 +38,7 @@ export const SignUp = async(req,res) => {
      
     } catch (error) {
     console.log("Error in signup controller", error.message);
-    res.status(500).json({e: "Internal Server Error"})
+    res.status(500).json({e: "Internal Server Error in SignUp"})
     }
 
 }
@@ -49,6 +49,7 @@ export const SignUp = async(req,res) => {
 
 export const LogIn = async(req, res) => {
     try{
+    const {username, pwd} = req.body;
     // in order to compare passwords you first need to find a user in db 
     const user = await User.findOne({username});
     //if undefined or null compare with empty string = wont throw an error
@@ -58,6 +59,8 @@ export const LogIn = async(req, res) => {
         return res.status(401).json({msg: "Invalid user credentials"});
 
     }
+    generateTokenAndSetCookie(user._id, res);
+    
     res.status(200).json({
         _id: user._id,
         username: user.username,
@@ -71,7 +74,7 @@ export const LogIn = async(req, res) => {
 }
 
 
-export const LogOut = async(res, req) => {
+export const LogOut = async(req, res) => {
     try{
         res.cookie("jwt", "", {
             maxAge: 0

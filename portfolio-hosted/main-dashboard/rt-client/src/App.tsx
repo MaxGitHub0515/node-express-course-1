@@ -1,7 +1,7 @@
 
 
 import './App.css'
-import {Route, Routes} from 'react-router-dom';
+import {Route, Routes, Navigate} from 'react-router-dom';
 import NotFoundPage from './pages/404/NotFoundPage.tsx';
 import MainDashboardPage from './pages/rt-dashboard/MainDashboard.tsx';
 import AdminPage from './pages/admin/AdminPage.tsx';
@@ -16,25 +16,31 @@ import MaintenancePage from './pages/admin/MaintenancePage.tsx';
 import LoginPage from './pages/admin/LoginPage.tsx';
 import {Toaster} from 'react-hot-toast';
 import VisitLogger from "./pages/admin/components/VisitLogger.tsx"
-
+import { useAuthContext } from './context/AuthContext.tsx';
+import ProtectedLayout from './context/ProtectedLayout.tsx';
 function App() {
+  const {authUser} = useAuthContext();
 
   return (
     <>
+    
     <VisitLogger />
      <Routes>
         <Route path="/main-dashboard" element={<MainDashboardPage />} />
         <Route path='*' element={<NotFoundPage />} />
-        <Route path="/cpanel" element={<AdminPage />} />
-        <Route path="/cpanel/stats" element={<StatisticsPage />} />
-        <Route path="/cpanel/users" element={<UserPage />} />
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/cpanel/notifications" element={<NotifyPage />} />
-        <Route path="/cpanel/email" element={<EmailPage />} />
-        <Route path="/cpanel/projects" element={<ProjectsPage />} />
-        <Route path="/cpanel/settings" element={<SettingsPage />} />
-        <Route path="/cpanel/dashboard/maintenance" element={<MaintenancePage />} />
-        <Route path="/auth/login" element={<LoginPage />} />
+        <Route path="/auth/login" element={authUser ? <Navigate to="/cpanel" replace /> : <LoginPage />} />
+        {/* restricting access to all the routes  */}
+        <Route path="/cpanel" element={<ProtectedLayout />}>
+        <Route index element={<AdminPage />} />
+        <Route path="stats" element={<StatisticsPage />} />
+        <Route path="users" element={<UserPage />} />
+        <Route path="notifications" element={<NotifyPage />} />
+        <Route path="email" element={<EmailPage />} />
+        <Route path="projects" element={<ProjectsPage />} />
+        <Route path="settings" element={<SettingsPage />} />
+        <Route path="dashboard/maintenance" element={<MaintenancePage />} />
+        </Route>
        
      </Routes>
      
