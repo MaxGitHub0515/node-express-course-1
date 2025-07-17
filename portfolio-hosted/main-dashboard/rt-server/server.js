@@ -87,6 +87,7 @@ redisClient.on('ready', () => {  console.log('   --> Redis Client: Ready to acce
 app.use('/api/v1/projects', apiLimiter, projectRouter);
 app.use('/api/v1/visitors', visitorRouter);
 app.use('/api/v1/auth', apiLimiter, userRouter);
+// app.use('/api/v1/logs')
 // app.use('/api/v1/cpanel', protectRoute, adminCheck)
 
 // handle cuid routes
@@ -111,9 +112,11 @@ Use this workaround:
 .get('/*\w', xxxx)
 */
 
-app.get('/.*\w', (req, res, next) => {
-  res.sendFile(path.join(clientBuildPath, 'index.html'));
-  next()
+app.get('/.*\w/', (req, res, next) => {
+  const tryPath = path.join(clientBuildPath, 'index.html');
+  res.sendFile(tryPath);
+  console.log(`${tryPath.red}`)
+
 });  
 
 // !! CAUSES ISSUES  !!

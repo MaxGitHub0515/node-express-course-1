@@ -24,7 +24,9 @@ export default function LoginPage() {
     }
     const validSchema = Yup.object({
         username: Yup.string()
-         .required("Username is required"),
+         .required("Username is required")
+         .min(3)
+         .max(24),
         pwd: Yup.string()
             .min(6)
             .required("Password is required"),
@@ -81,7 +83,7 @@ export default function LoginPage() {
                 <div>
                     <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">Username</label>
                     <Field name="username" type="text" className="w-full px-3 py-2 border rounded "/>
-                    <ErrorMessage name="username" component="div" className="text-red-600 text-sm"/>
+                    <ErrorMessage name="username" component="div" className="text-red-600 border-red-500 text-sm"/>
                 </div>
                 <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
@@ -90,11 +92,11 @@ export default function LoginPage() {
                 </div>
                 <div>
                     <label htmlFor="pwd" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <Field name="pwd" type="password" className="w-full px-3 py-2 border rounded "/>
+                    <Field name="pwd" type="password" autoComplete="new-password" className="w-full px-3 py-2 border rounded "/>
                     <ErrorMessage name="pwd" component="div" className="text-red-600 text-sm"/>
                 </div>
                
-                <button type="submit" className="w-full bg-blue-600 text-gray-100 p-2 rounded hover:bg-blue-700">Submit</button>
+                <button type="submit" className="w-full bg-blue-600 text-gray-100 p-2 rounded hover:bg-blue-700 mt-3">Submit</button>
             </Form>
           </Formik>
        
