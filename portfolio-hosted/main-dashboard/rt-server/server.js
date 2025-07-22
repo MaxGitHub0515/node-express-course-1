@@ -1,13 +1,10 @@
 
 import express from 'express';
-import http from 'http';
 const app = express();
-const server = http.createServer(app);
 import path from 'path';
 import colors from 'colors';
-import {connectDB} from './db/connect.js'
 import dotenv from "dotenv"
-dotenv.config({ path: '.env.local' });
+dotenv.config({ path: '.env.local' });mongoose.set('bufferCommands', false);
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import Redis from 'ioredis';
@@ -32,25 +29,37 @@ import userRouter from "./routes/auth.routes.js"
 import visitorRouter from "./routes/visitor.routes.js"
 // Mongo Santize
 import mongoSanitize from 'express-mongo-sanitize';
-
+import mongoose from "mongoose"
 // middleware
 import protectRoute from './middleware/protectRoute.js';
-
+// CORS configuration
+app.use(configedCors());
+// helps to catch connection issues
+mongoose.set('bufferCommands', false)
 // parse JSON request bodies, json body can not be < 10mb
 app.use(express.json({ limit: "10mb" }));
 // parse URL-encoded request bodies
 app.use(express.urlencoded({ extended: true }));
 // (When hosted on the web) Trust proxy to get real client IP behind proxies like CloudFlare  proxy server
-app.set('trust proxy', false);
-
+app.set('trust proxy', 2);
+// mongo sanatize
+// app.use(mongoSanitize({ allowDots: true, replaceWith: '_' }));
 // app.use(mongoSanitize()); // causes issues 
+
+app.use((req, res, next) => {
+ if(req.query) {
+  req._sanitizeQuery = mongoSanitize.sanitize(req.query) // santize manually instead of middleware's default mutation
+ };
+ next()
+
+});
+
+
 // Headers Set by Default 
 app.use(helmet());
 
 // cookie parser - parse the incoming cookies from req.cookies
 app.use(cookieParser())
-// CORS configuration
-app.use(configedCors());
 
 // Reduce size of response bodies sent to the client
 app.use(compression());
@@ -60,6 +69,7 @@ app.use(hpp());
 
 // xss senetizer
 app.use(xss());
+
 
 // API Rate Limiter
 const apiLimiter = rateLimit({
@@ -85,7 +95,7 @@ redisClient.on('ready', () => {  console.log('   --> Redis Client: Ready to acce
 
 // Routes
 app.use('/api/v1/projects', apiLimiter, projectRouter);
-app.use('/api/v1/visitors', visitorRouter);
+// app.use('/api/v1/visitors', visitorRouter);
 app.use('/api/v1/auth', apiLimiter, userRouter);
 // app.use('/api/v1/logs')
 // app.use('/api/v1/cpanel', protectRoute, adminCheck)
@@ -104,6 +114,8 @@ if (process.env.NODE_ENV === "production") {
   console.log(`Serving static files from: ${clientBuildPath.yellow}`);
 // serve static files from the built   
 app.use(express.static(clientBuildPath));
+
+
 /*
 there is a problem with express 5+, it's using path-to-regexp library, and they changed the rules.
 Instead of using:
@@ -112,49 +124,20 @@ Use this workaround:
 .get('/*\w', xxxx)
 */
 
-app.get('/.*\w/', (req, res, next) => {
+app.get(/(.*)/, (req, res, next) => {
   const tryPath = path.join(clientBuildPath, 'index.html');
-  res.sendFile(tryPath);
-  console.log(`${tryPath.red}`)
+  console.log(`Serving index.html fallback for: ${req.url.blue} from ${tryPath.cyan}`);
+  res.sendFile(tryPath, (err) => {
+     if(err) {
+      console.error(`Error sending index.html: `, err.message);
+      res.status(500).send('Error serving application.');
+     }
+  });
+  
+
 
 });  
 
-// !! CAUSES ISSUES  !!
-// serve the main HTML file (SPA fallback) : encountering issue here 
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(clientBuildPath, 'index.html'));  
-// });
-
 }
 
-
-
-
-const PORT = process.env.PORT || 8000;
-
-const LaunchRTServerAndDB = async () => {
-try {
-  await new Promise ((resolve, reject) => {
-    server.listen(PORT, () => {
-    console.log(`   --> Main-Dashboard: RT Server is Running on  http://localhost:${PORT}`.green);
-    resolve();
-}).on('error', (err) => {
-  reject(err);
-});
-
-  });
-
-  await connectDB(process.env.MONGO_URI);
-  console.log(`   --> RT Server Successfully Connected to MongoDB`.green);
- 
-
-} catch (e) {
-  console.log(e.message);
-  console.log("||| MAIN DASHBOARD: --CAUGHT A CONNECT_DB ERROR OR A SERVER ERROR--|||".red)
-}
-
-};
-
-
-LaunchRTServerAndDB();
-
+export default app;

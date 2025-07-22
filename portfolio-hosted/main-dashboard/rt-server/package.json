@@ -4,8 +4,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node server.js",
-    "dev": "cross-env NODE_ENV=development node --watch server.js",
+    "start": "cross-env NODE_ENV=production node start.js",
+    "dev": "cross-env NODE_ENV=development node --watch start.js",
     "test": "jest --watchAll=false",
     "lint": "eslint . --max-warnings 0"
   },

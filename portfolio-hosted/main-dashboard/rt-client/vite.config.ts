@@ -6,15 +6,17 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'dist',
-    emptyOutDir: true 
+    emptyOutDir: true,
+    sourcemap:false // in production
   },
-  base: './',
+  base: '/',
   // (server) ignored in the produciton build, for development only
   server: {
     port: 3000,
     proxy: {
 			"/api": {
 				target: "http://localhost:5000",
+        changeOrigin:true
         
 			},
       

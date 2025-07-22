@@ -35,7 +35,7 @@ const aggregateUser = async(req, res) => {
     { $sort: { month: 1 } }
     ]);
 
-    res.json(result, {"msg" : "Success"})
+    res.json(result)
    
     } catch (error) {
       console.error(error)

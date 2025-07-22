@@ -49,13 +49,17 @@ export const SignUp = async(req,res) => {
 
 export const LogIn = async(req, res) => {
     try{
-    const {username, pwd} = req.body;
+    const {username, pwd, email} = req.body;
     // in order to compare passwords you first need to find a user in db 
-    const user = await User.findOne({username});
+    const user = await User.findOne({ $or: [{ username }, { email }] });
+    if (!user) {
+        return res.status(401).json({ msg: "Invalid user credentials" });
+}
+
     //if undefined or null compare with empty string = wont throw an error
-    const isPasswordCorrect = await bcrypt.compare(pwd, user?.pwd || '');
+    const isPasswordCorrect = await bcrypt.compare(pwd, user.pwd);
     // if any of them is false
-    if(!user || !isPasswordCorrect) {
+    if(!isPasswordCorrect) {
         return res.status(401).json({msg: "Invalid user credentials"});
 
     }
@@ -69,7 +73,7 @@ export const LogIn = async(req, res) => {
     })
     } catch (error) {
         console.log("Error in login controller", error.message, error.stack);
-        res.status(500).json({e: "Internal Server Error"})
+        res.status(500).json({e: "Internal Server Error in Login"})
     }
 }
 
@@ -84,6 +88,6 @@ export const LogOut = async(req, res) => {
         })
     } catch (error) {
         console.log("Error in logout controller", error.message, error.stack);
-        res.status(500).json({e: "Internal Server Error"})
+        res.status(500).json({e: "Internal Server Error in Logout"})
     }
 }

@@ -4,14 +4,15 @@ import cors from "cors";
 const configCors = () => {
     return cors({
         origin: (origin, callback) =>{
+            console.log('Incoming Origin:', origin);
             const allowedOrigins = [
                 'http://localhost:3000', // front in development
+                'http://localhost:5000',
                 'https://illustrates.info' // front in production
-            ]
-             // if undefined or not in allowed list
-             //  only listed origins can make requests.
 
-            if(!origin || allowedOrigins.indexOf(origin) !== -1) {
+            ]
+      
+            if(!origin || allowedOrigins.includes(origin)) {
                 callback(null, true) // if true - request is allowed
             } else {
                 callback(new Error("Not allowed by cors"))

@@ -106,3 +106,128 @@
 
   */
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{
+  "version": 2,
+  // --- Root-level commands for Turborepo ---
+  // This command installs all dependencies for the entire monorepo.
+  // 'turbo install' ensures Turbo's specific caching mechanisms are considered.
+  // If you use 'turbo prune --docker', adjust this command accordingly.
+  "installCommand": "npm install && turbo install",
+
+  // This command runs the 'build' task across all relevant workspaces as defined in your turbo.json.
+  "buildCommand": "turbo run build",
+  // --- End of root-level commands ---
+
+  "builds": [
+    // Backend applications (Node.js serverless functions)
+    {
+      "src": "main-dashboard/rt-server/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "_apps/12-book-store/backend/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "_apps/13-chat-app/backend/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "_apps/14-e-commerce/backend/server.js",
+      "use": "@vercel/node"
+    },
+
+    // Frontend applications (Static builds served from Vercel's CDN)
+    {
+      "src": "_apps/12-book-store/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist" // Output directory relative to the frontend package.json
+      }
+    },
+    {
+      "src": "_apps/13-chat-app/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist" // Output directory relative to the frontend package.json
+      }
+    },
+    {
+      "src": "_apps/14-e-commerce/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist" // Output directory relative to the frontend package.json
+      }
+    },
+    {
+      "src": "_apps/main-dashboard/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist" // Output directory relative to the frontend package.json
+      }
+    }
+  ],
+  "routes": [
+    // Redirect root to main dashboard
+    {
+      "src": "/",
+      "status": 308,
+      "headers": {
+        "Location": "/main-dashboard"
+      }
+    },
+
+    // API routes for the main dashboard backend
+    {
+      "src": "/api/(.*)",
+      "dest": "main-dashboard/rt-server/server.js"
+    },
+    {
+      "src": "/main-dashboard/projects/mern/([^/]+)/(.*)",
+      "dest": "main-dashboard/rt-server/server.js"
+    },
+
+    // Serve main dashboard frontend static assets
+    {
+      "src": "/main-dashboard/(.*)",
+      "dest": "_apps/main-dashboard/frontend/dist/$1"
+    },
+
+    // Routes for individual application frontends (adjust paths/prefixes as per your app URLs)
+    {
+      "src": "/book-store/(.*)",
+      "dest": "_apps/12-book-store/frontend/dist/$1"
+    },
+    {
+      "src": "/chat-app/(.*)",
+      "dest": "_apps/13-chat-app/frontend/dist/$1"
+    },
+    {
+      "src": "/e-commerce/(.*)",
+      "dest": "_apps/14-e-commerce/frontend/dist/$1"
+    },
+
+    // Fallback/catch-all for the main dashboard backend.
+    // This is crucial for single-page applications (SPAs) where client-side routing is used.
+    // If a static file isn't found, the request goes to the main backend, which would then serve index.html.
+    {
+      "src": "/(.*)",
+      "dest": "main-dashboard/rt-server/server.js"
+    }
+  ]
+}

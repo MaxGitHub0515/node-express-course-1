@@ -1,5 +1,7 @@
 {
   "version": 2,
+  "installCommand": "npm install && turbo install",
+  "buildCommand": "turbo run build",
   "builds": [
     {
       "src": "main-dashboard/rt-server/server.js",
@@ -19,24 +21,32 @@
     },
 
     {
+      "src": "main-dashboard/rt-client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    },
+
+    {
       "src": "_apps/12-book-store/frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "_apps/12-book-store/frontend/dist"
+        "distDir": "dist"
       }
     },
     {
       "src": "_apps/13-chat-app/frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "_apps/13-chat-app/frontend/dist"
+        "distDir": "dist"
       }
     },
     {
       "src": "_apps/14-e-commerce/frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "_apps/14-e-commerce/frontend/dist"
+        "distDir": "dist"
       }
     }
   ],
@@ -61,9 +71,9 @@
 
     {
       "src": "/main-dashboard/(.*)",
-      "dest": "_apps/main-dashboard/frontend/dist/$1" 
+      "dest": "main-dashboard/rt-client/dist/$1" 
     },
-  
+ 
     {
       "src": "/(.*)",
       "dest": "main-dashboard/rt-server/server.js" 
