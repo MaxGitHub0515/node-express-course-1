@@ -1,0 +1,85 @@
+{
+  "version": 2,
+  "installCommand": "npm install && turbo install",
+  "buildCommand": "turbo run build",
+  "builds": [
+    {
+      "src": "main-dashboard/rt-server/server.js",
+      "use": "@vercel/node"
+    },
+     {
+      "src": "_apps/12-book-store/backend/server.js", 
+      "use": "@vercel/node"
+    },
+    {
+      "src": "_apps/13-chat-app/backend/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "_apps/14-e-commerce/backend/server.js",
+      "use": "@vercel/node"
+    },
+
+    {
+      "src": "main-dashboard/rt-client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    },
+
+    {
+      "src": "_apps/12-book-store/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    },
+    {
+      "src": "_apps/13-chat-app/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    },
+    {
+      "src": "_apps/14-e-commerce/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "status": 308,
+      "headers": {
+        "Location": "/main-dashboard"
+      }
+    },
+
+    {
+      "src": "/api/(.*)",
+      "dest": "main-dashboard/rt-server/server.js"
+    },
+
+     {
+      "src": "/main-dashboard/projects/mern/([^/]+)/(.*)",
+      "dest": "main-dashboard/rt-server/server.js"
+    },
+
+    {
+      "src": "/main-dashboard/(.*)",
+      "dest": "main-dashboard/rt-client/dist/$1" 
+    },
+ 
+    {
+      "src": "/(.*)",
+      "dest": "main-dashboard/rt-server/server.js" 
+    }
+
+  
+   
+  ]
+}

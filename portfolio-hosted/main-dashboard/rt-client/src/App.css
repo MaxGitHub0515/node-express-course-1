@@ -1,0 +1,13 @@
+/* src/App.css */
+.app-container {
+  @apply min-h-screen flex flex-col; /* Using Tailwind classes via @apply */
+}
+
+/* Other CSS rules specific to your App component */
+.app-header {
+  /* custom header styles */
+  padding: 1rem;
+}
+
+
+
