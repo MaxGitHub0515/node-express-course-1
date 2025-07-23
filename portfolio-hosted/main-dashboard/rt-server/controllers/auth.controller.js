@@ -14,7 +14,7 @@ export const SignUp = async(req,res) => {
         if(user) {
             return res.status(400).json({msg: "Such user already exists"})
         }
-        // Password Hasing
+        // Password Hashing
         const salt = await bcrypt.genSalt(10);
         const hashedPwd = await bcrypt.hash(pwd, salt);
 
@@ -51,15 +51,12 @@ export const LogIn = async(req, res) => {
     try{
     const {username, pwd, email} = req.body;
     // in order to compare passwords you first need to find a user in db 
-    const user = await User.findOne({ $or: [{ username }, { email }] });
-    if (!user) {
-        return res.status(401).json({ msg: "Invalid user credentials" });
-}
+    const user = await User.findOne({ username, email });
 
     //if undefined or null compare with empty string = wont throw an error
-    const isPasswordCorrect = await bcrypt.compare(pwd, user.pwd);
+    const isPasswordCorrect = await bcrypt.compare(pwd, user?.pwd || "") 
     // if any of them is false
-    if(!isPasswordCorrect) {
+    if(!user || !isPasswordCorrect) {
         return res.status(401).json({msg: "Invalid user credentials"});
 
     }

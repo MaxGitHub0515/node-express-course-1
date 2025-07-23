@@ -31,7 +31,7 @@ import visitorRouter from "./routes/visitor.routes.js"
 import mongoSanitize from 'express-mongo-sanitize';
 import mongoose from "mongoose"
 // middleware
-import protectRoute from './middleware/protectRoute.js';
+// import protectRoute from './middleware/protectRoute.js';
 // CORS configuration
 app.use(configedCors());
 // helps to catch connection issues
@@ -46,13 +46,13 @@ app.set('trust proxy', 2);
 // app.use(mongoSanitize({ allowDots: true, replaceWith: '_' }));
 // app.use(mongoSanitize()); // causes issues 
 
-app.use((req, res, next) => {
- if(req.query) {
-  req._sanitizeQuery = mongoSanitize.sanitize(req.query) // santize manually instead of middleware's default mutation
- };
- next()
+// app.use((req, res, next) => {
+//  if(req.query) {
+//   req._sanitizeQuery = mongoSanitize.sanitize(req.query) // santize manually instead of middleware's default mutation
+//  };
+//  next()
 
-});
+// });
 
 
 // Headers Set by Default 
@@ -95,7 +95,7 @@ redisClient.on('ready', () => {  console.log('   --> Redis Client: Ready to acce
 
 // Routes
 app.use('/api/v1/projects', apiLimiter, projectRouter);
-// app.use('/api/v1/visitors', visitorRouter);
+app.use('/api/v1/visitors', visitorRouter);
 app.use('/api/v1/auth', apiLimiter, userRouter);
 // app.use('/api/v1/logs')
 // app.use('/api/v1/cpanel', protectRoute, adminCheck)
