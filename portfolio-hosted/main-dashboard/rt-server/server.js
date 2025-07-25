@@ -27,15 +27,17 @@ import projectRouter from './routes/project.routes.js';
 import userRouter from "./routes/auth.routes.js"
 // import middleware like for visitor
 import visitorRouter from "./routes/visitor.routes.js"
+// verify cookie http only
+import verifyAuthRouter from "./routes/authVerify.routes.js"
 // Mongo Santize
 import mongoSanitize from 'express-mongo-sanitize';
-import mongoose from "mongoose"
-// middleware
-// import protectRoute from './middleware/protectRoute.js';
+
+// middleware from utils
+import protectRoute from './middleware/protectRoute.js';
+import adminOnly from './middleware/roleCheck.js';
 // CORS configuration
 app.use(configedCors());
-// helps to catch connection issues
-mongoose.set('bufferCommands', false)
+
 // parse JSON request bodies, json body can not be < 10mb
 app.use(express.json({ limit: "10mb" }));
 // parse URL-encoded request bodies
@@ -95,8 +97,9 @@ redisClient.on('ready', () => {  console.log('   --> Redis Client: Ready to acce
 
 // Routes
 app.use('/api/v1/projects', apiLimiter, projectRouter);
-// app.use('/api/v1/visitors', visitorRouter);
+app.use('/api/v1/visitors', protectRoute, adminOnly, visitorRouter);
 app.use('/api/v1/auth', apiLimiter, userRouter);
+app.use('/api/v1/auth/verify', protectRoute, verifyAuthRouter)
 // app.use('/api/v1/logs')
 // app.use('/api/v1/cpanel', protectRoute, adminCheck)
 

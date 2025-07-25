@@ -12,21 +12,14 @@ const protectRoute = async(req, res, next) => {
             return res.status(401).json({
                 e: "Unauthorized: No Token Provided"
             })
-
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        if(!decoded) {
-             if(!decoded) return res.status(401).json({e:"Unauthorized: Invalid Token"});
-        }
+        if(!decoded) return res.status(401).json({e:"Unauthorized: Invalid Token"});
         // userID taken from generateToken.js when signing jwt
-        const user = await User.findById(
-            // ??
-            decoded.userID 
-        ).select("-pwd");
-        if(!user) return res.status(404).json({e: 'User Not FOund'})
+        const user = await User.findById(decoded.userID ).select("-pwd");
+        if(!user) return res.status(401).json({e: 'User Not FOund'})
         
         req.user = user;
-
         return next();
     } catch(error) {
         console.log("Error in protectRoute middleware", error.message);

@@ -51,9 +51,7 @@ export default function LoginPage() {
         if (!res.ok) {
             throw new Error(data.msg || 'Login failed');
         }
-        localStorage.setItem("authUser", JSON.stringify(data));
-        // Storing only  user data (not JWT) in context
-        setAuthUser(data); // e.g., { _id, username, email }
+        setAuthUser(data);
 
         toast.success("Admin logged in yeahh");
         resetForm();  
@@ -62,19 +60,16 @@ export default function LoginPage() {
         navigate('/cpanel')
      
         } catch (error) {
-
-        if (error instanceof Error) {
-            toast.error(error.message);
-        } else {
-            toast.error("Login failed");
-        }
+            
+        if (error instanceof Error) toast.error(error.message);
+        else toast.error('Login failed');
         }
 
 
         // logout logic here!!!
-        
 
     } 
+   
     return ( 
         <div className="flex flex-col max-w-md  mx-auto bg-gray-200 p-6 mt-10 rounded-xl shadow justify-center items-center">
           <div className="uppercase font-medium text-2xl mb-6">Log In</div>

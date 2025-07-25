@@ -3,7 +3,7 @@
 import express from "express";
 
 const router = express.Router();
-
+import protectRoute from "../middleware/protectRoute.js";
 import {
     LogIn, 
     SignUp,
@@ -15,6 +15,6 @@ import {
 router.post("/signup", SignUp);
 
 router.post("/login", LogIn);
-router.post("/logout", LogOut);
+router.post("/logout", protectRoute, LogOut);
 
 export default router;

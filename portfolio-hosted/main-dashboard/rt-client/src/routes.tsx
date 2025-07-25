@@ -13,7 +13,7 @@ import EmailPage from './pages/admin/EmailPage.tsx';
 import SettingsPage from './pages/admin/SettingsPage.tsx';
 import ProjectsPage from './pages/admin/ProjectsPage.tsx';
 import MaintenancePage from './pages/admin/MaintenancePage.tsx';
-import LoginPage from './pages/admin/LoginPage.tsx';
+// import LoginPage from './pages/admin/LoginPage.tsx';
 import AppLayout from './AppLayout.tsx';
 import ProtectedLayout from './context/ProtectedLayout.tsx';
 import RedirectIfAuthenticated from './context/RedirectIfAuthenticated.tsx';
@@ -39,15 +39,15 @@ const routes = createBrowserRouter([
             element: <RedirectIfAuthenticated />
         },
 
-        {
-            path: "/cpanel",
-            element: <LoginPage />
-        },
+        // {
+        //     path: "/cpanel",
+        //     element: <LoginPage />
+        // },
 
-        {
-            path: "/auth/login",
-            element: <LoginPage />
-        },
+        // {
+        //     path: "/auth/login",
+        //     element: <LoginPage />
+        // },
         
         {
         path: "/cpanel",
