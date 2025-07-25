@@ -12,6 +12,7 @@ export default function AppLayout() {
         <RouteLoader disabled={isNotFound} />
         <Outlet />
         <Toaster/>
+        {/* Vercel */}
         <Analytics />
         </>
     )
