@@ -4,7 +4,7 @@ const app = express();
 import path from 'path';
 import colors from 'colors';
 import dotenv from "dotenv"
-dotenv.config({ path: '.env.local' });mongoose.set('bufferCommands', false);
+dotenv.config({ path: '.env.local' });
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import Redis from 'ioredis';
@@ -95,7 +95,7 @@ redisClient.on('ready', () => {  console.log('   --> Redis Client: Ready to acce
 
 // Routes
 app.use('/api/v1/projects', apiLimiter, projectRouter);
-app.use('/api/v1/visitors', visitorRouter);
+// app.use('/api/v1/visitors', visitorRouter);
 app.use('/api/v1/auth', apiLimiter, userRouter);
 // app.use('/api/v1/logs')
 // app.use('/api/v1/cpanel', protectRoute, adminCheck)

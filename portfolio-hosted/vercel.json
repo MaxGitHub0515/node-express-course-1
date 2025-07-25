@@ -3,10 +3,11 @@
   "installCommand": "npm install && turbo install",
   "buildCommand": "turbo run build",
   "builds": [
-    {
-      "src": "main-dashboard/rt-server/server.js",
+     {
+      "src": "main-dashboard/rt-server/api/index.js",
       "use": "@vercel/node"
     },
+
      {
       "src": "_apps/12-book-store/backend/server.js", 
       "use": "@vercel/node"
@@ -61,12 +62,12 @@
 
     {
       "src": "/api/(.*)",
-      "dest": "main-dashboard/rt-server/server.js"
+      "dest": "main-dashboard/rt-server/api/index.js"
     },
-
-     {
+    
+  {
       "src": "/main-dashboard/projects/mern/([^/]+)/(.*)",
-      "dest": "main-dashboard/rt-server/server.js"
+      "dest": "main-dashboard/rt-server/api/index.js"
     },
 
     {
@@ -76,10 +77,12 @@
  
     {
       "src": "/(.*)",
-      "dest": "main-dashboard/rt-server/server.js" 
+      "dest": "main-dashboard/rt-server/api/index.js" 
     }
 
   
    
   ]
 }
+
+
