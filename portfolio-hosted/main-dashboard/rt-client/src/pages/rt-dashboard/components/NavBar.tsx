@@ -1,18 +1,16 @@
 
 
 import { Link } from "react-router-dom";
-import logo from "../../../assets/logo.svg"
+
+// import Logo  from "../../../assets/logo.svg";
 export default function NavBarComponent() {
+    
     return (
           <div className="w-screen  bg-[#1E1E1E] p-8 flex items-center justify-center gap-8 md:gap-48 sm:gap-x-6 ">
             <div className="flex items-center ">
-                   <Link to={"/main-dashboard"} >
-                    <img src={logo}
-                        alt=""
-                        className="w-10 h-10 inline-block  "
-                        color="#F5F5F5"
-                     />
-                 </Link>
+                <Link to={"/main-dashboard"} >
+                    {/* <Logo className="w-10 h-10 text-[#F5F5F5] inline-block" />     */}
+                </Link>
             </div>
            <ul className="flex items-center gap-8 sm:gap-12 md:gap-x-24 ">
             

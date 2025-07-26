@@ -1,7 +1,7 @@
 
 
 import {Navigate, Outlet} from "react-router-dom";
-import {useAuthContext} from "./AuthContext.tsx"
+import {useAuthContext} from "./AuthContext"
 
 // using ReactNode instead of JSX.Element to support multiple children
 

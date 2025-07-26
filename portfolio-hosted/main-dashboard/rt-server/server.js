@@ -58,7 +58,24 @@ app.set('trust proxy', 2);
 
 
 // Headers Set by Default 
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false, // diasble default CSP middleware
+}));
+// to be better added as a middleware in seperate file
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://vo.vercel-scripts.com"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:"],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'"],
+      objectSrc: ["'none'"],
+    },
+  })
+);
+
 
 // cookie parser - parse the incoming cookies from req.cookies
 app.use(cookieParser())
@@ -117,6 +134,9 @@ if (process.env.NODE_ENV === "production") {
   console.log(`Serving static files from: ${clientBuildPath.yellow}`);
 // serve static files from the built   
 app.use(express.static(clientBuildPath));
+
+// for now
+// app.use('/assets', express.static(path.join(clientBuildPath, 'assets')));
 
 
 /*
