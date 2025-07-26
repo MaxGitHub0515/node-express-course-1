@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "webpack serve --config webpack.config.js",
     "build": "webpack --config webpack.config.js",
+    "build:types": "tsc --project tsconfig.types.json",
+    "build:all": "npm run build && npm run build:types",
     "preview": "serve dist"
   },
   "dependencies": {
