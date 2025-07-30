@@ -1,8 +1,11 @@
 
 
-
+import PaginationComponent from "./PaginationComponent"
+import { useState } from "react";
 export default function MainComponent() {
  
+    // paginatiion handle
+    const [currentPage, setCurrentPage] = useState<number>(1);
     const handleClick = () => {
      
     }
@@ -22,18 +25,22 @@ schema:
                     <div className="text-xl uppercase tracking-wide font-semibold">Mern Stack Projects</div>
                 </header>
                 <div className="flex-grow flex-[1_1_0%] max-w-sm sm:mx-auto space-y-8">
+                    <div className="relative aniamte-gradient-border">
                     <img
                     src="https://res.cloudinary.com/dixiuoxw2/image/upload/v1753631592/MESSERA-BG_uvuf8s.png"
-                    alt="Mountains"
+                    alt="Messera Logo"
                     onClick={handleClick}
                     className="
                         w-full h-auto rounded-xl
                         bg-gradient-to-br from-gray-800 to-gray-700
                         border-2 border-indigo-700
                         transition-transform duration-300 ease-in-out
-                        hover:scale-110 block"                       
-                    />
-                    <div className="space-y-3 border border-[#addbff] rounded-lg p-2 ">
+                        hover:scale-110 block
+                        animate-gradient-border
+                        "                       
+                    /> 
+                    </div>
+                    <div className="space-y-3 border border-[#addbff] rounded-lg p-2 mb-4 ">
                     <section>
                         <div className="text-lg text-medium uppercase text-center my-4 
                         underline underline-offset-4 tracking-widest
@@ -62,8 +69,9 @@ schema:
                     </div>
                 </div>
                 <div className="flex-grow flex-[1_1_0%] shrink max-w-sm sm:mx-auto space-y-8">
+                     <div className="relative animate-gradient-border">
                     <img src="https://res.cloudinary.com/dixiuoxw2/image/upload/v1753630347/MODAILY_BG_yqbhgx.png" 
-                    alt="Northern Lights"
+                    alt="Medaily Logo"
                         className="
                         w-full h-auto rounded-xl
                         bg-gradient-to-br from-gray-800 to-gray-700
@@ -71,7 +79,8 @@ schema:
                         transition-transform duration-300 ease-in-out
                         hover:scale-110"
                     />
-                      <div className="space-y-3 border border-[#addbff] rounded-lg p-2">
+                    </div>
+                      <div className="space-y-3 border border-[#addbff] rounded-lg p-2 mb-4">
                     <section>
                         <div className="text-lg text-medium uppercase text-center my-4 
                         underline underline-offset-4 tracking-widest
@@ -100,8 +109,9 @@ schema:
                      
                 </div>
                 <div className="flex-grow flex-[1_1_0%] max-w-sm sm:mx-auto space-y-8">
-                    <img src="https://res.cloudinary.com/dixiuoxw2/image/upload/v1753631930/RANDOM-BG_hlyaiy.png" 
-                    alt="Northern Lights"
+                       <div className="relative animate-gradient-border">
+                    <img src="https://res.cloudinary.com/dixiuoxw2/image/upload/v1753815881/Bookstore-BG_ztvpmd.png" 
+                    alt="BooklyStore Logo"
                         className="
                         w-full h-auto rounded-xl
                         bg-gradient-to-br from-gray-800 to-gray-700
@@ -109,36 +119,47 @@ schema:
                         transition-transform duration-300 ease-in-out
                         hover:scale-110"
                     />
-                        <div className="space-y-3 border border-[#addbff] rounded-lg p-2">
+                    </div>
+                    <div className="space-y-3 border border-[#addbff] rounded-lg p-2 mb-4">
                     <section>
                         <div className="text-lg text-medium uppercase text-center my-4 
                         underline underline-offset-4 tracking-widest
                         
-                         ">random</div>
+                         ">booklystore</div>
                         <ul className="list-disc pl-5 tracking-wider text-sm">
                             <li className="">
-                                <span className="uppercase font-medium decoration-2 drop-shadow-xs">random </span>
-                                is a real-time chat application that lets you connect with friends, 
-                                family, or colleagues instantly — no matter where they are. With a focus on speed and privacy, 
-                                We bring modern communication to your fingertips.
+                                <span className="uppercase font-medium decoration-2 drop-shadow-xs">booklystore </span>
+                                    a modern bookstore app that puts your next great read just a click away. Browse bestsellers,
+                                     explore personalized recommendations, and manage your orders effortlessly — all in one place.
+                                     With a focus on simplicity and seamless experience,
+                                     BooklyStore makes discovering and buying books fast, easy, and enjoyable.
                             </li>
                         </ul>
                     </section>
                     <section>
                         <ul className="text-sm list-disc pl-5 space-y-3 tracking-wider pl-12">
                             <li className="-ml-6">Key Features</li>
-                            <li>📱 1-on-1 & Group Chats</li>
-                            <li>🔒 End-to-End Encryption – Your messages stay private, always.</li>
-                            <li>🚀 Real-Time Messaging – Instant delivery using WebSockets.</li>
-                            <li>🌓 Dark Mode Support – Chat comfortably day or night.</li>
-                            <li>🖼️ Media Sharing – Send images, videos, and documents with a tap.</li>
-                        
-                        </ul>
+                            <li>📚 Easily browse through a wide selection of books, organized by category, genre, and top sellers.</li>
+                            <li>🔍 Use smart search and filters to quickly find exactly what you’re looking for.</li>
+                            <li>🛒 Add books to your cart with ease, update quantities, or remove items whenever you want.</li>
+                            <li>🚚 Choose cash on delivery for a hassle-free and secure checkout experience.</li>
+                            <li>📦 Keep track of your orders from purchase to delivery, so you always know what’s coming.</li>
+                            <li>💡 Get personalized book recommendations tailored just for you.</li>
+                            <li>🌓 Switch to dark mode for comfortable browsing anytime, day or night.</li>
+                            <li>🗂 Access your digital library instantly and enjoy your purchased eBooks whenever you want.</li>
+                    
+                    </ul>
                     </section>
                     </div>
                 </div>
-                
             </main>
+             <PaginationComponent
+                currentPage={currentPage}
+                totalPages={4}
+                onPageChange={(page: number) => setCurrentPage(page)}
+            />
+   
+
         </div>
         
     )
