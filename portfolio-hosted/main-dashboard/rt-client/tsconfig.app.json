@@ -9,12 +9,20 @@
     "jsx": "react-jsx",
     "moduleResolution": "node",
     "composite": true,
+  
 
     /* Bundler mode */
     // "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
+    // If "noEmit" is set to false (to allow emitting files),
+    // then to emit declaration files (types), also set:
+    //  to emit .d.ts declaration - "declaration": true,
+    //ts-loader expects compiled JS output to continue bundling.
+    // So with noEmit: true, ts-loader gets no JS output → build fails.
+    "outDir": "./dist",
+    "rootDir": "./src", // no extra src folder inside dist
     "noEmit": false,
  
     /* Linting */
@@ -25,5 +33,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src"] // or src/**/* to include all files recursively
 }

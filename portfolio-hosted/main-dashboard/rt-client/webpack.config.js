@@ -48,9 +48,13 @@ export default {
             issuer: /\.[jt]sx?$/,
             use: ['@svgr/webpack'], // SVGs as React components
         },
+        // {
+        //     test: /\.svg$/i,
+        //     type: 'asset/resource', // fallack for non-component
+        // },
         {
-            test: /\.svg$/i,
-            type: 'asset/resource', // fallack for non-component
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        type: 'asset/resource',
         },
         ] 
     },

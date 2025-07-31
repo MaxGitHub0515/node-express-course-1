@@ -139,15 +139,15 @@ schema:
                     <section>
                         <ul className="text-sm list-disc pl-5 space-y-3 tracking-wider pl-12">
                             <li className="-ml-6">Key Features</li>
-                            <li>📚 Easily browse through a wide selection of books, organized by category, genre, and top sellers.</li>
-                            <li>🔍 Use smart search and filters to quickly find exactly what you’re looking for.</li>
-                            <li>🛒 Add books to your cart with ease, update quantities, or remove items whenever you want.</li>
-                            <li>🚚 Choose cash on delivery for a hassle-free and secure checkout experience.</li>
-                            <li>📦 Keep track of your orders from purchase to delivery, so you always know what’s coming.</li>
-                            <li>💡 Get personalized book recommendations tailored just for you.</li>
-                            <li>🌓 Switch to dark mode for comfortable browsing anytime, day or night.</li>
-                            <li>🗂 Access your digital library instantly and enjoy your purchased eBooks whenever you want.</li>
-                    
+                            <li>📚 Wide Selection of Books – Easily browse by category, genre, and top sellers.</li>
+                            <li>🔍 Smart Search & Filters – Quickly find exactly what you’re looking for.</li>
+                            <li>🛒 Easy Cart Management – Add, update, or remove books anytime.</li>
+                            <li>🚚 Cash on Delivery – Enjoy a hassle-free and secure checkout experience.</li>
+                            <li>📦 Order Tracking – Stay updated from purchase to delivery.</li>
+                            <li>💡 Personalized Recommendations – Discover books tailored just for you.</li>
+                            <li>🌓 Dark Mode – Browse comfortably any time of day or night.</li>
+                            <li>🗂 Digital Library Access – Instantly enjoy your purchased eBooks.</li>
+
                     </ul>
                     </section>
                     </div>

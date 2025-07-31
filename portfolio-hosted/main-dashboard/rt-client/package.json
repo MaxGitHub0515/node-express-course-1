@@ -4,8 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "clean": "rimraf dist types",
     "dev": "webpack serve --config webpack.config.js",
     "build": "webpack --config webpack.config.js",
+    "build:clean": "npm run clean && npm run build",
+    "type-check": "tsc --noEmit --project tsconfig.app.json",
     "build:types": "tsc --project tsconfig.types.json",
     "build:all": "npm run build && npm run build:types",
     "preview": "serve dist"
@@ -41,6 +44,7 @@
     "globals": "^16.3.0",
     "html-webpack-plugin": "^5.6.3",
     "postcss-loader": "^8.1.1",
+    "rimraf": "^6.0.1",
     "style-loader": "^4.0.0",
     "tailwindcss": "^4.1.11",
     "ts-loader": "^9.5.2",

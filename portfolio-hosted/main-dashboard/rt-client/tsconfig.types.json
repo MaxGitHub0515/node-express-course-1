@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "declaration": true, // geenrate declartion files
+        "outDir": "./dist/types",
+        "rootDir": "./types",
+        "emitDeclarationOnly": true, // only emit .d.ts, no js output
+        "composite": true, // ref
+        "target": "ES2020",
+        "lib": ["ES2020", "DOM"],
+        "moduleResolution": "node"
+    },
+    "include": ["types/**/*"],
+    // "exclude": ["node_modules", "dist"]
+    
+}
