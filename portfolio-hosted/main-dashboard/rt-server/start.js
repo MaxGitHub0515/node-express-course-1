@@ -12,9 +12,8 @@ const server = http.createServer(app)
 const LaunchRTServerAndDB = async () => {
 try {
   await connectDB(process.env.MONGO_URI);
-  console.log('Mongoose connection readyState: ', mongoose.connection.readyState);
-  console.log(`   --> RT Server Successfully Connected to MongoDB`.green);
-  
+  console.log(`Mongoose connection readyState: ${mongoose.connection.readyState}`.green);
+  console.log(`${'   --> RT Server Successfully Connected to MongoDB'.green}`);
   await new Promise ((resolve, reject) => {
     server.listen(PORT, () => {
     console.log(`   --> Main-Dashboard: RT Server is Running on  http://localhost:${PORT}`.green);

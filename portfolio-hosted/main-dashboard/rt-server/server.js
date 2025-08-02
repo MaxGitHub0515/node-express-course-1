@@ -37,6 +37,8 @@ import protectRoute from './middleware/protectRoute.js';
 import adminOnly from './middleware/roleCheck.js';
 // CORS configuration
 app.use(configedCors());
+//
+import crypto from "crypto"
 
 // parse JSON request bodies, json body can not be < 10mb
 app.use(express.json({ limit: "10mb" }));
@@ -57,6 +59,9 @@ app.set('trust proxy', 2);
 // });
 
 
+function generateNonce() {
+  return crypto.randomBytes(16).toString('base64');
+}
 // Headers Set by Default 
 app.use(helmet({
     contentSecurityPolicy: false, // diasble default CSP middleware
@@ -66,7 +71,7 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "https://vo.vercel-scripts.com"],
+      scriptSrc: ["'self'", "https://vo.vercel-scripts.com", "https://static.cloudflareinsights.com"],
       styleSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:"],
       connectSrc: ["'self'"],
@@ -75,6 +80,25 @@ app.use(
     },
   })
 );
+
+app.use((req, res, next) => {
+  const nonce = generateNonce();
+  res.locals.nonce = nonce;
+  
+  const csp = `
+    default-src 'self';
+    script-src 'self' https://vo.vercel-scripts.com https://static.cloudflareinsights.com 'nonce-${nonce}';
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data: https://res.cloudinary.com;
+    connect-src 'self';
+    font-src 'self';
+    object-src 'none';
+  `.replace(/\n/g, ''); // remove line breaks
+
+  res.setHeader('Content-Security-Policy', csp);
+  next();
+});
+
 
 
 // cookie parser - parse the incoming cookies from req.cookies
@@ -135,18 +159,7 @@ if (process.env.NODE_ENV === "production") {
 // serve static files from the built   
 app.use(express.static(clientBuildPath));
 
-// for now
-// app.use('/assets', express.static(path.join(clientBuildPath, 'assets')));
-
-
-/*
-there is a problem with express 5+, it's using path-to-regexp library, and they changed the rules.
-Instead of using:
-.get('/**', xxxx) / .get('/*', xxxx)
-Use this workaround:
-.get('/*\w', xxxx)
-*/
-
+// catch-all SPA fallback 
 app.get(/(.*)/, (req, res, next) => {
   const tryPath = path.join(clientBuildPath, 'index.html');
   console.log(`Serving index.html fallback for: ${req.url.blue} from ${tryPath.cyan}`);
@@ -154,6 +167,8 @@ app.get(/(.*)/, (req, res, next) => {
      if(err) {
       console.error(`Error sending index.html: `, err.message);
       res.status(500).send('Error serving application.');
+     } else {
+      console.log(`Successfully served index.html for: ${req.url.green}`);
      }
   });
   

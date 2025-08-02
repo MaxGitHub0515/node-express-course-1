@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "clean": "rimraf dist types",
-    "dev": "webpack serve --config webpack.config.js",
+    "dev": "webpack serve --config webpack.config.js --mode development --hot --open",
     "build": "webpack --config webpack.config.js",
     "build:clean": "npm run clean && npm run build",
     "type-check": "tsc --noEmit --project tsconfig.app.json",

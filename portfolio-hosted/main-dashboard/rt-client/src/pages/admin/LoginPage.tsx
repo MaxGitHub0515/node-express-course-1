@@ -71,6 +71,7 @@ export default function LoginPage() {
     } 
    
     return ( 
+        
         <div className="flex flex-col max-w-md  mx-auto bg-gray-200 p-6 mt-10 rounded-xl shadow justify-center items-center">
           <div className="uppercase font-medium text-2xl mb-6">Log In</div>
           <Formik initialValues={initValues} validationSchema={validSchema} onSubmit={handleSubmit}>

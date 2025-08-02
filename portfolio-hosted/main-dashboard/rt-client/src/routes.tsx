@@ -1,7 +1,6 @@
 
-import './App.css'
+
 import {createBrowserRouter, Navigate} from 'react-router-dom';
-// import { useMatches } from 'react-router-dom';
 import NotFoundPage from './pages/404/NotFoundPage';
 import MainDashboardPage from './pages/rt-dashboard/MainDashboard';
 import AdminPage from './pages/admin/AdminPage';
@@ -13,7 +12,6 @@ import EmailPage from './pages/admin/EmailPage';
 import SettingsPage from './pages/admin/SettingsPage';
 import ProjectsPage from './pages/admin/ProjectsPage';
 import MaintenancePage from './pages/admin/MaintenancePage';
-// import LoginPage from './pages/admin/LoginPage.tsx';
 import AppLayout from './AppLayout';
 import ProtectedLayout from './context/ProtectedLayout';
 import RedirectIfAuthenticated from './context/RedirectIfAuthenticated';

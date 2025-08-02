@@ -1,7 +1,7 @@
 
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
-import generateTokenAndSetCookie from "../utils/generateToken.js";
+import generateTokenAndSetCookie from "../utils/auth/generateToken.js";
 export const SignUp = async(req,res) => {
     try{
         // for future implemntation if adding a user functionality(like confirmPwd field etc  +  user dashboard

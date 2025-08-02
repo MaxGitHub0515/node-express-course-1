@@ -1,6 +1,6 @@
 
 
-import { isAdmin } from "../utils/roles.js";
+import { isAdmin } from "../utils/auth/roles.js";
 
 function adminOnly(req,res,next) {
     if(!isAdmin(req.user)) return res.status(401).json({message: "Admins only"})
