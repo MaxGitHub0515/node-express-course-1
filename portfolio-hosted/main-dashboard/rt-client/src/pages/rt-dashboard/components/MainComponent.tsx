@@ -1,6 +1,7 @@
 
 
 import PaginationComponent from "./PaginationComponent"
+import SearchBarAndFilteringComponent from "./SearchBar";
 import { useState } from "react";
 export default function MainComponent() {
  
@@ -22,9 +23,10 @@ schema:
         /* The projects will be added dynamically via admin console later */
         
         <div className="mx-auto mt-3 md:gap-8  max-w-[1280px] bg-[#E5E5E5] drop-shadow-lg drop-shadow-blue-500/50 p-3">
-            <main className="flex flex-col sm:flex-row  mx-auto flex-wrap gap-4  h-full">
-                <header className="my-3 w-full ">
-                    <div className="text-xl uppercase tracking-wide font-semibold">Mern Stack Projects</div>
+            <SearchBarAndFilteringComponent />
+            <main className="flex flex-col sm:flex-row  mx-auto sm:items-start items-center flex-wrap gap-4 h-full">
+                <header className=" w-full ">
+                    <div className="text-xl uppercase tracking-wide font-semibold px-1 mt-4 sm:text-start text-center">Mern Stack Projects</div>
                 </header>
                 <div className="flex-grow flex-[1_1_0%] max-w-sm sm:mx-auto space-y-8">
                     <div className="relative aniamte-gradient-border">

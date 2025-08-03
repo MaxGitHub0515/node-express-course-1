@@ -27,8 +27,6 @@ export default function NavBarComponent() {
             </li>
 
            </ul>
-
-        
         </div>
     )
 }

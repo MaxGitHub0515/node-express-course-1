@@ -18,8 +18,8 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
             <button
             key={page}
             onClick={() => onPageChange(page)}
-            className={`border rounded-md px-3 py-1.5 hover:bg-gray-200 transition ${
-                page === currentPage ? "bg-[#3B82F6] text-white border-blue-500" : ""
+            className={`border rounded-md px-3 py-1.5 hover:bg-[#E5E7EB] transition ${
+                page === currentPage ? "bg-[#3B82F6] text-white border-[#2196F3]" : ""
             }`}
             aria-current={page === currentPage ? "page" : undefined}
             >
@@ -28,7 +28,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
         ))}
 
         {totalPages > 3 && (
-            <div className="self-end  px-2">...</div>
+            <div className="self-end px-2">...</div>
         )}
         </div>
     </div>
