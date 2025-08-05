@@ -1,7 +1,7 @@
 
 
 import PaginationComponent from "./PaginationComponent"
-import SearchBarAndFilteringComponent from "./SearchBar";
+import SearchBarAndFilteringComponent from "./SearchBarAndFilteringComponent";
 import { useState } from "react";
 export default function MainComponent() {
  

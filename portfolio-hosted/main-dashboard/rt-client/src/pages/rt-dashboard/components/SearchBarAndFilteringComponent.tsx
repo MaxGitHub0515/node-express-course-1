@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { FaSlidersH } from "react-icons/fa";
-// import { FiSearch } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
+// import { Suggestions, SuggestProjectName } from "../mockData/data";
+// import {Stack, stacksMock} from "../mockData/data";
+
 
 interface Stack {
   id: string;
@@ -13,6 +16,10 @@ const stacksMock: Stack[] = [
   { id: "mevn", label: "MEVN" },
   { id: "lamp", label: "LAMP" },
 ];
+
+// projects name suggestions
+
+
 
 export default function SearchBarAndFilteringComponent(): React.ReactElement {
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -38,11 +45,19 @@ export default function SearchBarAndFilteringComponent(): React.ReactElement {
 
 
   return (
-    <div className="relative flex sm:flex-row flex-col sm:items-center gap-y-2 items-start justify-between bg-blue-200 gap-x-6 rounded-lg sm:p-4 p-3">
+    <div className="relative flex sm:flex-row flex-col 
+    sm:justify-between sm:items-center
+    gap-y-2 gap-x-6 bg-blue-300 sm:bg-blue-200 sm:p-4 p-3">
     <div className="">
       <button
         onClick={toggleDropdown}
-        className="flex items-center gap-2 px-2 sm:px-4 py-1.5 sm:py-2 text-sm  border-1 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 "
+        className="flex items-center gap-2
+         px-2 py-1.5 sm:px-4 sm:py-1.5 text-sm  border-1 rounded-md 
+         focus:outline-none focus:ring-2 focus:ring-blue-500 
+         sm:hover:bg-gray-100 sm:focus:bg-transparent focus:bg-gray-100
+         transition-colors duration-300 ease-in-out
+
+         "
         aria-haspopup="true"
         aria-expanded={isOpen}
         type="button"
@@ -51,7 +66,7 @@ export default function SearchBarAndFilteringComponent(): React.ReactElement {
         <span>Filter Stack</span>
       </button>
         </div>
-
+   
       {isOpen && (
         <div className="absolute top-full mt-2 w-40 bg-white border rounded-md shadow-lg z-10">
           <form className="p-3">
@@ -74,17 +89,36 @@ export default function SearchBarAndFilteringComponent(): React.ReactElement {
           </form>
         </div>
       )}
-        <div className="flex-1 max-w-md  w-full">
-            {/* <button className="flex items-end"> 
-              <FaSlidersH />
+        <div className="flex-1 sm:max-w-md">
+          <div className="flex sm:flex-row flex-row-reverse gap-2 items-center ">
+            <button
+            type="button"
+            onClick={() => console.log("Search clicked")}
+            className="
+            cursor-pointer
+            border-1  rounded-md sm:p-1.5 p-2
+            focus:outline-none focus:ring-2 focus:ring-blue-500
+            sm:hover:bg-gray-100 focus:bg-gray-100 sm:focus:bg-transparent
+            transition-colors duration-200 ease-in-out 
+           
+            "
+            aria-label="Search"
+            > 
+              <FiSearch className="sm:w-[30px] sm:h-[30px] " />
 
-            </button> */}
+            </button>
             <input
                 type="text"
                 placeholder="Search projects..."
-                className="w-full text-sm placeholder-gray-500 tracking-wider  px-4 py-1.5 sm:py-2 border-1 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full text-sm placeholder-gray-700 sm:placeholder-gray-500 
+                tracking-wider px-4 py-1.5 sm:py-1.5 border-1 rounded-md
+                focus:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500
+                transition-colors duration-300 ease-in-out 
+                
+                "
             />
-            {/* <FiSearch className="" /> */}
+          </div>
+           
         </div>
     </div>
   );
@@ -92,6 +126,6 @@ export default function SearchBarAndFilteringComponent(): React.ReactElement {
 
 
 
-  
+
 }
 
