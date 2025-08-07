@@ -37,8 +37,11 @@ import protectRoute from './middleware/protectRoute.js';
 import adminOnly from './middleware/roleCheck.js';
 // CORS configuration
 app.use(configedCors());
-//
+// custpm middleware
+import errorHandlerMid from './middleware/error-handler.js';
+//temporary
 import crypto from "crypto"
+import NotFoundError from './errors/not-found.js';
 
 // parse JSON request bodies, json body can not be < 10mb
 app.use(express.json({ limit: "10mb" }));
@@ -147,7 +150,6 @@ app.use('/api/v1/auth/verify', protectRoute, verifyAuthRouter)
 // handle cuid routes
 // app.get('/main-dashboard/projects/mern/:cuidId/*', handleCUIDRoute);
 
-
 // --> Static File Serving for Production(loading frontend) <--
 
 console.log(`Current project directory: ${__dirname.blue}`);
@@ -156,26 +158,34 @@ console.log(`NODE_ENV is: ${process.env.NODE_ENV}`);
 if (process.env.NODE_ENV === "production") {
   const clientBuildPath = path.join(__dirname, '..', 'rt-client', 'dist');
   console.log(`Serving static files from: ${clientBuildPath.yellow}`);
-// serve static files from the built   
-app.use(express.static(clientBuildPath));
-
-// catch-all SPA fallback 
-app.get(/(.*)/, (req, res, next) => {
-  const tryPath = path.join(clientBuildPath, 'index.html');
-  console.log(`Serving index.html fallback for: ${req.url.blue} from ${tryPath.cyan}`);
-  res.sendFile(tryPath, (err) => {
-     if(err) {
-      console.error(`Error sending index.html: `, err.message);
-      res.status(500).send('Error serving application.');
-     } else {
-      console.log(`Successfully served index.html for: ${req.url.green}`);
-     }
-  });
+  // serve static files from the built   
+  app.use(express.static(clientBuildPath));
   
-
-
-});  
-
+  // catch-all SPA fallback 
+  app.get(/(.*)/, (req, res, next) => {
+    const tryPath = path.join(clientBuildPath, 'index.html');
+    console.log(`Serving index.html fallback for: ${req.url.blue} from ${tryPath.cyan}`);
+    res.sendFile(tryPath, (err) => {
+      if(err) {
+        console.error(`Error sending index.html: `, err.message);
+        res.status(500).send('Error serving application.');
+      } else {
+        console.log(`Successfully served index.html for: ${req.url.green}`);
+      }
+    });
+    
+    
+    
+  });  
+  
 }
+  /* Middleware */
+  // catch all unmatched routes
+  app.use((req, res, next) => {
+    next(new NotFoundError(`Route ${req.originalUrl} not found`));
+  });
 
+  app.use(errorHandlerMid)
+
+  
 export default app;

@@ -1,18 +1,25 @@
 
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import { StatusCodes } from "http-status-codes";
+/* Custom Errors */
+import UnauthorizedError from "../errors/unauthorized.js";
+import BadRequestError from "../errors/bad-request.js";
+/* utils */
 import generateTokenAndSetCookie from "../utils/auth/generateToken.js";
-export const SignUp = async(req,res) => {
+
+/* Auth Contoller */
+export const SignUp = async (req, res, next) => {
     try{
         // for future implemntation if adding a user functionality(like confirmPwd field etc  +  user dashboard
         // for now I will keep it simple - admin only
         const {username, pwd, email, confirmPwd} = req.body;    
         if(pwd !== confirmPwd) {
-            return res.status(400).json({e: "Passwords do not match"});
+            throw new BadRequestError("Passwords do not match");
         }
         const user = await User.findOne({username});
         if(user) {
-            return res.status(400).json({msg: "Such user already exists"})
+            throw new BadRequestError("Such user already exists");
         }
         // Password Hashing
         const salt = await bcrypt.genSalt(10);
@@ -33,12 +40,12 @@ export const SignUp = async(req,res) => {
             
         })
         } else {
-            res.status(400). json({err: "Invalid user data"})
+            throw new BadRequestError("Invalid user data");
         }
      
     } catch (error) {
-    console.log("Error in signup controller", error.message);
-    res.status(500).json({e: "Internal Server Error in SignUp"})
+        console.log("Error in signup controller", error.message);
+        next(error);
     }
 
 }
@@ -47,7 +54,7 @@ export const SignUp = async(req,res) => {
  On logout, the cookie is cleared, so the JWT is gone (session ends).
 */
 
-export const LogIn = async(req, res) => {
+export const LogIn = async(req, res, next) => {
     try{
     const {username, pwd, email} = req.body;
     // in order to compare passwords you first need to find a user in db 
@@ -57,8 +64,7 @@ export const LogIn = async(req, res) => {
     const isPasswordCorrect = await bcrypt.compare(pwd, user?.pwd || "") 
     // if any of them is false
     if(!user || !isPasswordCorrect) {
-        return res.status(401).json({msg: "Invalid user credentials"});
-
+        throw new UnauthorizedError("Invalid user credentials");
     }
     generateTokenAndSetCookie(user._id, res);
     
@@ -70,12 +76,15 @@ export const LogIn = async(req, res) => {
     })
     } catch (error) {
         console.log("Error in login controller", error.message, error.stack);
-        res.status(500).json({e: "Internal Server Error in Login"})
+        // better to pass errors to the centrilized error handler
+        next(error)
+       
+        
     }
 }
 
 
-export const LogOut = async(req, res) => {
+export const LogOut = async(req, res, next) => {
     try{
         res.cookie("jwt", "", {
             httpOnly:true,
@@ -88,6 +97,6 @@ export const LogOut = async(req, res) => {
         })
     } catch (error) {
         console.log("Error in logout controller", error.message, error.stack);
-        res.status(500).json({e: "Internal Server Error in Logout"})
+        next(error);
     }
 }
