@@ -15,6 +15,8 @@ interface FormValues {
 
 
 export default function LoginPage() {
+    // const baseURL = process.env.API_BASE_URL;
+
     const navigate = useNavigate();
     const {setAuthUser} = useAuthContext();
     const initValues: FormValues  = {
@@ -29,9 +31,14 @@ export default function LoginPage() {
          .max(24),
         pwd: Yup.string()
             .min(6)
-            .required("Password is required"),
+            .required("Password is required")
+            .matches(/\d/, "Password must contain a number")
+            .matches(/[A-Z]/, "Password must contain an uppercase letter"),
+        //   confirmPwd: Yup.string()
+        //     .oneOf([Yup.ref('pwd'), null], "Passwords must match")
+        //     .required("Confirm Password is required"),
         email: Yup.string()
-            .email('Invalid Email').required('Email is required')
+        .email('Invalid Email').required('Email is required')
 
     })
 

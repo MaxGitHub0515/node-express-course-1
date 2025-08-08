@@ -35,6 +35,7 @@ schema:
                     alt="Messera Logo"
                     onClick={handleClick}
                     className="
+                        cursor-pointer
                         w-full h-auto rounded-xl
                         bg-gradient-to-br from-gray-800 to-gray-700
                         border-2 border-indigo-700
@@ -77,6 +78,7 @@ schema:
                     <img src="https://res.cloudinary.com/dixiuoxw2/image/upload/v1753630347/MODAILY_BG_yqbhgx.png" 
                     alt="Medaily Logo"
                         className="
+                        cursor-pointer
                         w-full h-auto rounded-xl
                         bg-gradient-to-br from-gray-800 to-gray-700
                         border-2 border-indigo-700
@@ -117,6 +119,7 @@ schema:
                     <img src="https://res.cloudinary.com/dixiuoxw2/image/upload/v1753815881/Bookstore-BG_ztvpmd.png" 
                     alt="BooklyStore Logo"
                         className="
+                        cursor-pointer
                         w-full h-auto rounded-xl
                         bg-gradient-to-br from-gray-800 to-gray-700
                         border-2 border-indigo-700

@@ -1,7 +1,6 @@
 
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
-import { StatusCodes } from "http-status-codes";
 /* Custom Errors */
 import UnauthorizedError from "../errors/unauthorized.js";
 import BadRequestError from "../errors/bad-request.js";
@@ -13,10 +12,8 @@ export const SignUp = async (req, res, next) => {
     try{
         // for future implemntation if adding a user functionality(like confirmPwd field etc  +  user dashboard
         // for now I will keep it simple - admin only
-        const {username, pwd, email, confirmPwd} = req.body;    
-        if(pwd !== confirmPwd) {
-            throw new BadRequestError("Passwords do not match");
-        }
+        const {username, pwd, email} = req.body;    
+       
         const user = await User.findOne({username});
         if(user) {
             throw new BadRequestError("Such user already exists");
@@ -58,7 +55,7 @@ export const LogIn = async(req, res, next) => {
     try{
     const {username, pwd, email} = req.body;
     // in order to compare passwords you first need to find a user in db 
-    const user = await User.findOne({ username, email });
+    const user = await User.findOne({ username, email }).maxTimeMS(15000);
 
     //if undefined or null compare with empty string = wont throw an error
     const isPasswordCorrect = await bcrypt.compare(pwd, user?.pwd || "") 
