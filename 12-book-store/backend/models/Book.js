@@ -1,5 +1,5 @@
 
-import mongoose from "mongoose"
+const mongoose = require('mongoose');
 
 const BookSchema = new mongoose.Schema({
     title: {
@@ -44,18 +44,6 @@ const BookSchema = new mongoose.Schema({
 
 const Book = mongoose.model("Book", BookSchema, "books" )
 
-export default Book;
+module.exports = Book;
 
-/* BOOK MODEL
 
-    title
-    description
-    category
-    trending
-    coverImg
-    oldPrice
-    newPrice
-    createdAt
-        timestamps
-
-*/
