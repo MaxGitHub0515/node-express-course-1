@@ -1,5 +1,5 @@
 
-
+// Instead of express validator - Joi z
 import {body} from "express-validator";
 
 const emailValidator = body("email")

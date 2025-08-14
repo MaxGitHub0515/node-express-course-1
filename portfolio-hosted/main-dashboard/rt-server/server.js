@@ -29,6 +29,8 @@ import userRouter from "./routes/auth.routes.js"
 import visitorRouter from "./routes/visitor.routes.js"
 // verify cookie http only
 import verifyAuthRouter from "./routes/authVerify.routes.js"
+// contact 
+import contactRouter from "./routes/contact.routes.js"
 // Mongo Santize
 import mongoSanitize from 'express-mongo-sanitize';
 
@@ -144,6 +146,7 @@ app.use('/api/v1/projects', apiLimiter, projectRouter);
 app.use('/api/v1/visitors', protectRoute, adminOnly, visitorRouter);
 app.use('/api/v1/auth', apiLimiter, userRouter);
 app.use('/api/v1/auth/verify', protectRoute, verifyAuthRouter)
+app.use('/api/v1/contact', apiLimiter, contactRouter)
 // app.use('/api/v1/logs')
 // app.use('/api/v1/cpanel', protectRoute, adminCheck)
 

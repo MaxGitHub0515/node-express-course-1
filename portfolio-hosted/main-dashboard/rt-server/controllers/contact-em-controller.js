@@ -1,0 +1,45 @@
+
+import { transporter } from "../utils/email/sendEmail.js";
+import schemaJoi from "../utils/validators/contact-validator.js"
+import BadRequestError from "../errors/bad-request.js";
+import { StatusCodes } from "http-status-codes";
+// Contact Page Mailer
+
+export default async function sendEmailContact(req, res) {
+    // to validate and sanatize we use a bit smarter way to do so
+    // const {email, subject, message } = req.body;
+
+    const {error, value } = schemaJoi.validate(req.body);
+    if(error){
+        throw new BadRequestError('Error occured when validating contact inputs')
+      }
+    const {email, subject, message} = value;
+
+    const mailOptions = {
+      from: process.env.NODE_MAILER_EMAIL_USER,
+      to: process.env.NODE_MAILER_EMAIL_USER_TO_FIXED,
+      replyTo: email,
+      subject,
+      text: message
+    }
+    try {
+      await transporter.sendMail(mailOptions);
+      
+      return res.status(StatusCodes.OK).json({
+        status: 'success',
+        msg: "Email was sent Successfuly"
+      })
+    } catch (error) {
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      message: 'Failed to send an email',
+    });
+       
+    }
+
+
+
+
+
+}
+
