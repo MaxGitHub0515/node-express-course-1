@@ -52,6 +52,7 @@ export default function SearchBarAndFilteringComponent(): React.ReactElement {
     mevn: false,
     lamp: false,
   });
+
   const [isAutocompleteOpen, setAutocompleteOpen] = useState(false); 
   const containerRef = useRef<HTMLDivElement>(null); 
   const toggleDropdown = (): void => setOpen((prev) => !prev);
@@ -120,7 +121,7 @@ export default function SearchBarAndFilteringComponent(): React.ReactElement {
 
   return (
     <div className="relative flex sm:flex-row flex-col 
-    sm:justify-between sm:items-center
+    sm:justify-between sm:items-center 
     gap-y-2 gap-x-6 bg-blue-300 sm:bg-blue-200 sm:p-4 p-3 rounded-md"
     ref={containerRef}
     >
@@ -134,7 +135,7 @@ export default function SearchBarAndFilteringComponent(): React.ReactElement {
          focus:outline-none focus:ring-2 focus:ring-blue-500 
          sm:hover:bg-gray-100 sm:focus:bg-transparent focus:bg-gray-100
          transition-colors duration-300 ease-in-out
-
+        
          "
         aria-haspopup="true"
         aria-expanded={isOpen}

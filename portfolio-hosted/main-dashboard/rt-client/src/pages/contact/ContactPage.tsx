@@ -2,9 +2,10 @@
 
 import type {FormikHelpers} from "formik";
 import {Formik, Form, Field, ErrorMessage} from "formik";
+import toast from "react-hot-toast";
 import NavBarComponent from "../rt-dashboard/components/NavBar";
-
-// import * as Yup from 'yup';
+import * as Yup from 'yup';
+import { useNavigate } from "react-router-dom"; 
 // import {useEffect, useState} from "react";
 
 interface FormValues {
@@ -15,26 +16,27 @@ interface FormValues {
 
 
 export default function ContactPage() {
+     const navigate = useNavigate();
        const initValues: FormValues  = {
         email: "",
         subject: "",
         message: ""
     }
 
-     // const validSchema = Yup.object({
-    //     email: Yup.string()
-    //         .email('Invalid Email').required('Email is required'),
-    //     subject: Yup.string()
-    //         .min(3, 'Subject must be at least 3 characters')
-    //         .max(100, 'Subject cannot exceed 50 characters')
-    //         .required('Subject is required'),
-    //     message: Yup.string()
-    //         .min(10, 'Message must be at least 10 characters')
-    //         .required('Message is required')
-    // });
+     const validSchema = Yup.object({
+        email: Yup.string()
+            .email('Invalid Email').required('Email is required'),
+        subject: Yup.string()
+            .min(3, 'Subject must be at least 3 characters')
+            .max(50, 'Subject cannot exceed 50 characters')
+            .required('Subject is required'),
+        message: Yup.string()
+            .max(2000, 'Message exceeded the amount of allowed characters')
+            .required('Message is required')
+    });
 
     const handleContactSubmit = async  (values:FormValues, {resetForm}: FormikHelpers<FormValues>) =>{
-        const res = await fetch('/api/v1/contact', {
+        const res = await fetch('/api/v1/contact/send-email', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(values),
@@ -44,23 +46,20 @@ export default function ContactPage() {
         if (!res.ok) {
             throw new Error(getParsedJSON.msg || 'Contact form submission failed');
         }
-
+        toast.success("Email was sent successfully")
+        navigate('/contact')
         resetForm();
-
     }
-  
- 
-    
     return (
        <>
        <NavBarComponent />
-       <div className="flex flex-col max-w-md  mx-auto bg-gray-200 p-6 mt-10 rounded-xl shadow justify-center items-center">
+       <div className="flex flex-col max-w-md mx-auto bg-gray-200 p-6 mt-29 md:my-6 rounded-xl shadow justify-center items-center">
           <div className="uppercase font-medium text-2xl mb-6">Contact Me</div>
-          <Formik initialValues={initValues} onSubmit={handleContactSubmit}>
+          <Formik initialValues={initValues} validationSchema={validSchema} onSubmit={handleContactSubmit}>
             <Form className="space-y-4 w-full">
                 <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <Field name="email" type="email" className="w-full px-3 py-2 border rounded "/>
+                    <Field name="email" type="email" placeholder="E.g. johndoe@example.com" className="w-full px-3 py-2 border rounded "/>
                     <ErrorMessage name="email" component="div" className="text-red-600 text-sm"/>
                 </div>
                 <div>

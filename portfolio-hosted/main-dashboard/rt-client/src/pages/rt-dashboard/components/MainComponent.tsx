@@ -22,7 +22,7 @@ schema:
         /* The data is hardcoded just for demo and testing purpose */
         /* The projects will be added dynamically via admin console later */
         
-        <div className="mx-auto mt-3 md:gap-8  max-w-[1280px] bg-[#E5E5E5] drop-shadow-lg drop-shadow-blue-500/50 p-3">
+        <div className="mx-auto md:gap-8 max-w-[1280px] md:mt-3 mt-29 bg-[#E5E5E5] drop-shadow-lg drop-shadow-blue-500/50 p-3">
             <SearchBarAndFilteringComponent />
             <main className="flex flex-col sm:flex-row  mx-auto sm:items-start items-center flex-wrap gap-4 h-full">
                 <header className=" w-full ">
