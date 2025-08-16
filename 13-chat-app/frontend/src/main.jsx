@@ -6,7 +6,7 @@ import { SocketContextProvider } from './context/SocketContext.jsx'
 import {BrowserRouter} from "react-router-dom";
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>  {/*  to be able to use compoenent that comming from react-router-dom */}
+    <BrowserRouter> 
       <SocketContextProvider>
         <App />
       </SocketContextProvider>
