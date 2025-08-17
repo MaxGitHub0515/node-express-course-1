@@ -1,16 +1,14 @@
 
 import { Link } from "react-router-dom";
 import GenderCheckBox from "./GenderCheckBox";
-
+import Logo from "../../components/sidebar/Logo";
 export function SignUp() {
     return (
+        <>
         <div className="flex flex-col justify-center items-center min-w-96 mx-auto">
             <div className="w-full p-6 shadow-md bg-gray-400 bg-clip-padding 
-            bg-opacity-0 backdrop-filter backdrop-blur-lg ">
-                <h1 className="text-3xl font-semibold text-center text-gray-300">
-                    Sign Up
-                    <span className="text-blue-500 ml-2">Messera</span>
-                 </h1>
+            bg-opacity-0 backdrop-filter backdrop-blur-lg  ">
+                <Logo/>
                     <form>
                         <div>
                             <label className="label p-2">
@@ -42,11 +40,12 @@ export function SignUp() {
                         Already have an account?</Link>
                     </form>
                 <div>
-                    <button className="btn btn-block btn-sm mt-2 tracking-wide border-0 bg-blue-600 hover:bg-blue-700 ease-in-out">Login</button>
+                    <button className="btn btn-block btn-sm mt-2 tracking-wide border-0 bg-blue-600 hover:bg-blue-700 ease-in-out">Sign Up</button>
                 </div>
                 
             </div>
         </div>
+        </>
     );
 
 }

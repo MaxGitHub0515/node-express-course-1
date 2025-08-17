@@ -12,3 +12,10 @@ body{
     background-position: center;
     background-attachment: fixed;
 }
+
+
+.logo{
+    background-repeat: no-repeat;
+    background-position: left;
+    background-attachment: fixed;
+}
