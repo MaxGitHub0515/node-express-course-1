@@ -1,10 +1,10 @@
 import SideBar from "../../components/sidebar/SideBar";
-import MessageContainer from "../../components/sidebar/MessageContainer";
+import MessageContainer from "../../components/messages/MessageContainer";
 
 export function Home() {
     return (
     <>
-    <div className="flex sm:h-[450px] md:h-[550px] rounded-lg 
+    <div className="flex sm:h-[450px] md:h-[550px] rounded-lg
       overflow-hidden bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
     <SideBar />
     <MessageContainer />    

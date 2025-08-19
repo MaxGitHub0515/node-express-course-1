@@ -25,13 +25,14 @@ const PORT = process.env.PORT || 8000;
 // imported routes
 import authRoutes from "./routes/auth.routes.js"
 import messageRoutes from "./routes/message.routes.js"
-
+import userRoutes from "./routes/user.routes.js"
 // for serving static files including js
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/messages', messageRoutes)
+app.use('/api/v1/users', userRoutes)
 
 // tells server where to look for files to be served in browser 
 app.use(express.static(path.join(__dirname, 'dist')));
@@ -59,4 +60,6 @@ const Start = (async () => {
         
     }
 })();
+
+
 

@@ -67,7 +67,7 @@ export const login = async(req, res) => {
     }
     //??
     generateTokenAndSetCookie(user._id, res)
-    res.status(StatusCodes.CREATED).json({
+    res.status(StatusCodes.OK).json({
         _id: user._id,
         fullname: user.fullname,
         username: user.username, 
@@ -77,8 +77,6 @@ export const login = async(req, res) => {
     }catch (error) {
         console.log("Error in login controller", error.message, error.stack);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({e: "Internal Server Error"})
-   
-        
        }
 }
 export const logout  = async(req, res) => {
