@@ -1,6 +1,6 @@
 import app from "./server.js";
 import http from "http"
-import colors from 'colors';
+import 'colors';
 import {connectDB} from './db/connect.js'
 import dotenv from "dotenv"
 dotenv.config({ path: '.env.local' });
@@ -13,16 +13,18 @@ const LaunchRTServerAndDB = async () => {
 try {
   await connectDB(process.env.MONGO_URI);
   console.log(`Mongoose connection readyState: ${mongoose.connection.readyState}`.green);
-  console.log(`${'   --> RT Server Successfully Connected to MongoDB'.green}`);
-  await new Promise ((resolve, reject) => {
+  console.log(`${'   --> Successfully Connected to MongoDB'.green}`);
+    await new Promise ((resolve, reject) => {
     server.listen(PORT, () => {
     console.log(`   --> Main-Dashboard: RT Server is Running on  http://localhost:${PORT}`.green);
     resolve();
-}).on('error', (err) => {
-  reject(err);
-});
+    }).on('error', (err) => {
+      reject(err);
+    });
 
   });
+  
+ 
 
 
 } catch (e) {

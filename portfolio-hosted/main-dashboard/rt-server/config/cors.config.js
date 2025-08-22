@@ -8,9 +8,10 @@ const configCors = () => {
             const allowedOrigins = [
                 'http://localhost:3000', // front in development
                 'http://localhost:5000',
-                 // front in production
-                'https://www.illustrates.info',
-                'https://illustrates.info',
+                'http://localhost:5001',
+                // front in production
+                'https://www.illustrates.dev',
+                'https://illustrates.dev',
 
             ]
       

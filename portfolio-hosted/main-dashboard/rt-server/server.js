@@ -64,6 +64,10 @@ app.set('trust proxy', 2);
 // });
 
 
+
+// Headers Set by Default 
+// app.use(helmet())
+
 function generateNonce() {
   return crypto.randomBytes(16).toString('base64');
 }
@@ -103,7 +107,6 @@ app.use((req, res, next) => {
   res.setHeader('Content-Security-Policy', csp);
   next();
 });
-
 
 
 // cookie parser - parse the incoming cookies from req.cookies
@@ -154,12 +157,12 @@ app.use('/api/v1/contact', apiLimiter, contactRouter)
 // handle cuid routes
 // app.get('/main-dashboard/projects/mern/:cuidId/*', handleCUIDRoute);
 
-// --> Static File Serving for Production(loading frontend) <--
+// TESTINGLOCAL PRODUCTION
+// || Static Files Serving for Production(loading frontend) ||
 
-console.log(`Current project directory: ${__dirname.blue}`);
-console.log(`NODE_ENV is: ${process.env.NODE_ENV}`);
-// change to  NODE_ENV === "production" !!!
 if (process.env.NODE_ENV === "production") {
+  console.log(`Current project directory: ${__dirname.blue}`);
+  console.log(`NODE_ENV is: ${process.env.NODE_ENV}`);
   const clientBuildPath = path.join(__dirname, '..', 'rt-client', 'dist');
   console.log(`Serving static files from: ${clientBuildPath.yellow}`);
   // serve static files from the built   
@@ -177,12 +180,9 @@ if (process.env.NODE_ENV === "production") {
         console.log(`Successfully served index.html for: ${req.url.green}`);
       }
     });
-    
-    
-    
   });  
-  
 }
+// }
   /* Middleware */
   // catch all unmatched routes
   app.use((req, res, next) => {
