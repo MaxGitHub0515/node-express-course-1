@@ -12,6 +12,7 @@ const configCors = () => {
                 // front in production
                 'https://www.illustrates.dev',
                 'https://illustrates.dev',
+                'https://client.illustrates.dev'
 
             ]
       
