@@ -2,7 +2,7 @@
 import express from 'express';
 const app = express();
 import path from 'path';
-import colors from 'colors';
+import 'colors';
 import dotenv from "dotenv"
 dotenv.config({ path: '.env.local' });
 import helmet from 'helmet';
@@ -11,7 +11,7 @@ import Redis from 'ioredis';
 import compression from 'compression';
 import hpp from 'hpp';
 import { xss } from 'express-xss-sanitizer';
-import configedCors from  './config/cors.config.js';
+import configCors from  './config/cors.config.js';
 import cookieParser from 'cookie-parser';
 // __dirname is not available in es modules, so derive it
 import { fileURLToPath } from 'url';
@@ -32,19 +32,19 @@ import verifyAuthRouter from "./routes/authVerify.routes.js"
 // contact 
 import contactRouter from "./routes/contact.routes.js"
 // Mongo Santize
-import mongoSanitize from 'express-mongo-sanitize';
+// import mongoSanitize from 'express-mongo-sanitize';
 
 // middleware from utils
 import protectRoute from './middleware/protectRoute.js';
 import adminOnly from './middleware/roleCheck.js';
-// CORS configuration
-app.use(configedCors());
 // custpm middleware
 import errorHandlerMid from './middleware/error-handler.js';
 //temporary
 import crypto from "crypto"
 import NotFoundError from './errors/not-found.js';
 
+// CORS configuration
+app.use(configCors());
 // parse JSON request bodies, json body can not be < 10mb
 app.use(express.json({ limit: "10mb" }));
 // parse URL-encoded request bodies

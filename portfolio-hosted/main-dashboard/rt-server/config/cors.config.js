@@ -10,7 +10,7 @@ const configCors = () => {
                 'http://localhost:5000',
                 'http://localhost:5001',
                 // front in production
-                'https://www.illustrates.dev',
+                // 'https://www.illustrates.dev',
                 'https://illustrates.dev',
                 'https://client.illustrates.dev'
 
