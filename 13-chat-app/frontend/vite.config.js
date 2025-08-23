@@ -6,7 +6,12 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    allowedHosts: ['illustrates.info', 'localhost']
+    // allowedHosts: ['illustrates.info', 'localhost'],
+    proxy: {
+      "/api": {
+        target: "http://localhost:5000"
+      }
+    },
   },
   build: {
     sourcemap: false,

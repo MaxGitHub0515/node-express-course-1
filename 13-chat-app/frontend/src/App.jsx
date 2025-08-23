@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Toaster } from 'react-hot-toast';
 import {Home} from './pages/home/Home.jsx';
 import {Login} from './pages/login/Login.jsx';
 import {SignUp} from './pages/signup/SignUp.jsx';
@@ -17,6 +18,7 @@ function App() {
     <Route path="/sidebar" element={<SideBar />} />
     <Route path="*" element={<NotFound />} />
     </Routes>
+   <Toaster />
    </div>
   )
 }
