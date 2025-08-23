@@ -3,6 +3,7 @@
 
 const Message = () => {
   return (
+    <>
     <div className="chat chat-end ">
         <div className="chat-image avatar">
             <div className="w-10 rounded-full">
@@ -10,9 +11,11 @@ const Message = () => {
                  alt="" />
             </div>
         </div>
+        {/* MESSAGE CONTENT */}
         <div className={`chat-bubble text-white bg-blue-500`}>Hi. What is Up?</div>
-        <div className="{`chat-footer opacity-50 text-xs gap-1 items-center`}">11:21</div>
+        <div className='chat-footer opacity-50 text-xs gap-1 items-center'>11:21</div>
     </div>
+    </>
   )
 }
 

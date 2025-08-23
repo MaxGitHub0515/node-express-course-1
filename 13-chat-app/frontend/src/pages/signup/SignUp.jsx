@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import GenderCheckBox from "./GenderCheckBox";
 import Logo from "../../components/sidebar/Logo";
 export function SignUp() {
+    
     return (
         <>
         <div className="flex flex-col justify-center items-center min-w-96 mx-auto">
