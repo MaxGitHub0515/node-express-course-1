@@ -23,10 +23,10 @@ export function Login() {
                     </div>
                     <Link to="/signup" className="text-sm hover:underline hover:text-blue-600 ease-in-out mt-2 inline-block tracking-wide">
                     Don't have an account?</Link>
+                    <div>
+                        <button className="btn btn-block btn-sm mt-2 tracking-wide border border-slate-600 bg-blue-600 hover:bg-blue-700 ease-in-out">Login</button>
+                    </div>
                 </form>
-                <div>
-                    <button className="btn btn-block btn-sm mt-2 tracking-wide border-0 bg-blue-600 hover:bg-blue-700 ease-in-out">Login</button>
-                </div>
             </div>
         </div>
          </>

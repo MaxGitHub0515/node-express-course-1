@@ -73,11 +73,14 @@ export function SignUp() {
                         <GenderCheckBox onCheckBoxChange={handleCheckBoxChange} selectedGender={inputs.gender}/>
                         <Link to="/login" className="text-sm hover:underline hover:text-blue-600 ease-in-out mt-2 inline-block tracking-wide">
                         Already have an account?</Link>
+                        <div>
+                            <button 
+                            disabled={loading}
+                            className="btn btn-block btn-sm mt-2 tracking-wide border border-slate-600 bg-blue-600 hover:bg-blue-700 ease-in-out">
+                                {loading ? <span className="loading loading-spinner"></span> : "Sign Up"}
+                            </button>
+                        </div>
                     </form>
-                <div>
-                    <button className="btn btn-block btn-sm mt-2 tracking-wide border-0 bg-blue-600 hover:bg-blue-700 ease-in-out">Sign Up</button>
-                </div>
-                
             </div>
         </div>
         </>

@@ -1,0 +1,28 @@
+
+{
+    "version": 2,
+    "installCommand": "npm install && turbo install",
+    "buildCommand": "turbo run build ",
+    "builds": [
+        {
+        "src": "frontend/package.json",
+        "use": "@vercel/static-build",
+        "config": { "distDir": "dist" }
+        },
+        {
+        "src": "backend/api/api.js",
+        "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+        "src": "/api/(.*)",
+        "dest": "backend/api/api.js"
+        },
+        {
+        "src": "/(.*)",
+        "dest": "frontend/dist/$1"
+        }
+  ]
+}
+

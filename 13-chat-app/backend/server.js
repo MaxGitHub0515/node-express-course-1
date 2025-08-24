@@ -35,11 +35,11 @@ app.use('/api/v1/messages', messageRoutes)
 app.use('/api/v1/users', userRoutes)
 
 // tells server where to look for files to be served in browser 
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, '..', '/frontend/dist')));
 // fallaback SPA
-// app.get('*', (req, res) => {
-//   res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
-// });
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '..', 'frontend', 'dist', 'index.html'));
+});
 
 
 const Start = (async () => {
@@ -61,5 +61,4 @@ const Start = (async () => {
     }
 })();
 
-
-
+export default app;
