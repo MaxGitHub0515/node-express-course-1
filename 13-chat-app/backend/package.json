@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "1.0.0", 
+  "version": "1.0.0",
   "main": "backend/server.js",
   "type": "module",
   "scripts": {
@@ -8,8 +8,8 @@
     "dev": "nodemon server.js",
     "lint": "eslint ."
   },
-  
- "dependencies": {
+  "dependencies": {
+    "13-chat-app": "file:..",
     "bcryptjs": "^3.0.2",
     "cookie": "^1.0.2",
     "cookie-parser": "^1.4.7",
@@ -21,8 +21,7 @@
     "mongoose": "^8.13.2",
     "socket.io": "^4.8.1"
   },
-
-    "devDependencies": {
+  "devDependencies": {
     "@eslint/js": "^9.33.0",
     "colors": "^1.4.0",
     "eslint": "^9.33.0",
