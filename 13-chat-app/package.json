@@ -1,21 +1,31 @@
 {
   "name": "13-chat-app",
-  "version": "1.0.0", 
-  "main": "backend/server.js",
+  "private": true, 
   "type": "module",
-  "scripts": {
+   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "clean": "turbo run clean",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types",
-
-    "start": "node server.js",
-    "dev": "nodemon server.js",
-    "lint": "eslint ."
+    "check-types": "turbo run check-types"
   },
-  "keywords": [
+   "devDependencies": {
+    "turbo": "^2.5.4"
+    
+  },
+  
+  "engines": {
+    "node": ">=18"
+  },
+  
+ "packageManager": "npm@10.9.2",
+ "workspaces": [
+    "/frontend",
+    "/backend"
+  ],
+
+"keywords": [
     "chat-app",
     "REST API",
     "MERN",
@@ -25,36 +35,9 @@
     "mongoose",
     "backend"
   ],
-  "author": "Max Pavlovskiy",
+  "author": "Max Pavlovskyi",
   "license": "MIT",
-  "description": "Chat Application which allows you to communicate and connect with others",
-  "dependencies": {
-    "bcryptjs": "^3.0.2",
-    "cookie": "^1.0.2",
-    "cookie-parser": "^1.4.7",
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^4.18.2",
-    "http-status-codes": "^2.3.0",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.13.2",
-    "socket.io": "^4.8.1"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.33.0",
-    "colors": "^1.4.0",
-    "eslint": "^9.33.0",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^7.2.1",
-    "globals": "^16.3.0",
-    "nodemon": "^3.1.9",
-    "turbo": "^2.5.6"
-  },
+  "description": "Chat Application which allows you to communicate and connect with others"
 
-    "packageManager": "npm@10.9.2",
-     "workspaces": [
-      "/frontend",
-      "/backend"
-  ]
+  
 }
