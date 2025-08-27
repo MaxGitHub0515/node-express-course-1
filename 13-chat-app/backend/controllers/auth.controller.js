@@ -5,15 +5,15 @@ import generateTokenAndSetCookie from "../utils/generateToken.js";
 export const signup = async(req, res) => {
    try {
   
-    const {fullname, username, pwd, confirmPwd, gender} = req.body;
+    const {fullName, username, pwd, confirmPwd, gender} = req.body;
     // if the passwords are matching
     if(pwd !== confirmPwd) {
-        return res.status(StatusCodes.BAD_REQUEST).json({e:"Passwords do not match"})
+        return res.status(StatusCodes.BAD_REQUEST).json({error:"Passwords do not match"})
     }
     // if such username already present in db
     const user = await User.findOne({username});
     if(user) {
-        return res.status(StatusCodes.BAD_REQUEST).json({msg: "Such user already exists"})
+        return res.status(StatusCodes.BAD_REQUEST).json({error: "Such username already exists"})
     }
     // hashing pwd,  10 rounds
     const salt = await bcrypt.genSalt(10);
@@ -25,9 +25,12 @@ export const signup = async(req, res) => {
     const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
     // instead of User.create()
     // for newUser, what inside model is now equal to credentials pasted in by user
-    // e.g fullname(from db): fullname(send by user)
+    // e.g fullName(from db): fullName(send by user)
+    // fullName: fullName
+    // propertyforDB : propertyFromCLientSent = better to call them the same to use shortcut for object which names are the same 
+    // instead of fullName: fullName
     const newUser = new User({
-        fullname,
+        fullName,
         username,
         pwd:hashedPwd,
         gender, 
@@ -40,17 +43,17 @@ export const signup = async(req, res) => {
     //  get from database already stored data: check
     res.status(StatusCodes.CREATED).json({
         _id: newUser._id,
-        fullname: newUser.fullname,
+        fullName: newUser.fullName,
         username: newUser.username, 
         profilePic: newUser.profilePic
     })
    } else {
-    res.status(StatusCodes.BAD_REQUEST).json({err: "Invalid user data"})
+    res.status(StatusCodes.BAD_REQUEST).json({error: "Invalid user data"})
    }
 
    } catch (error) {
     console.log("Error in signup controller", error.message);
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({e: "Internal Server Error"})
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error"})
     
    }
 }
@@ -63,22 +66,20 @@ export const login = async(req, res) => {
     // if any of them is false
     const isPasswordCorrect = await bcrypt.compare(pwd, user?.pwd || "") // 
     if(!user || !isPasswordCorrect) {
-        return res.status(StatusCodes.BAD_REQUEST).json({err: "Invalid user credentials"})
+        return res.status(StatusCodes.BAD_REQUEST).json({error: "Invalid user credentials"})
     }
     //??
     generateTokenAndSetCookie(user._id, res)
-    res.status(StatusCodes.CREATED).json({
+    res.status(StatusCodes.OK).json({
         _id: user._id,
-        fullname: user.fullname,
+        fullName: user.fullName,
         username: user.username, 
         profilePic: user.profilePic
     })
 
     }catch (error) {
         console.log("Error in login controller", error.message, error.stack);
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({e: "Internal Server Error"})
-   
-        
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error"})
        }
 }
 export const logout  = async(req, res) => {
@@ -91,7 +92,7 @@ export const logout  = async(req, res) => {
 
     }catch (error) {
         console.log("Error in logout controller", error.message, error.stack);
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({e: "Internal Server Error"})
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error"})
    
         
        }

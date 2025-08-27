@@ -1,7 +1,8 @@
 
 
 import Book from "../models/Book.js";
-import {StatusCodes} from "http-status-codes"
+const Book = require("../models/Book.js")
+const {StatusCodes} = require('http-status-codes');
 const postABook = async(req, res, next) => {
 
     try {

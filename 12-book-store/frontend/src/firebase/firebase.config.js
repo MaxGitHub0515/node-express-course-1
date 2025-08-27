@@ -2,8 +2,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
-require('dotenv').config({ path: '.env.local' });
 
+import {config} from 'dotenv';
+config({path: '.env.local'})
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,

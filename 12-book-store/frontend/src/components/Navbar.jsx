@@ -5,7 +5,7 @@ import { HiOutlineShoppingCart, HiOutlineUser } from "react-icons/hi";
 import { HiOutlineHeart } from "react-icons/hi";
 import avatarImage from "../assets/avatar.png"
 import { useState } from "react";
-
+import {useSelector} from 'react-redux'
 
 
 const Navbar = () => {
@@ -13,6 +13,9 @@ const Navbar = () => {
   // React State ->> const [holder, updater] = definedstate(); 
   // holder - holds the state value, updater - updates the state 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const cartItems = useSelector(state => state.cart.cartItems);
+  // logout
+
   const navigationData = [
     {name: "Dashboard", href: "/dashboard"},
     {name: "Cart Page", href: "/cart"},
@@ -30,7 +33,7 @@ const Navbar = () => {
                 <HiMiniBars3CenterLeft className="size-6"/>
                 </Link>
                 <div className="relative sm:w-72 w-40 space-x-2">
-                <IoSearchOutline className="absolute inline-block left-1 inset-y-2"/>
+                <IoSearchOutline className="absolute inline-block left-2 inset-y-2"/>
                 <input type="text" placeholder="Search here" className="bg-[#EAEAEA] w-full py-1 md:px-8 px-6 rounded-md focus:outline-none"/>
                 </div>
             </div>
@@ -41,7 +44,7 @@ const Navbar = () => {
                      currentUser ? <>
                      <button className="flex items-center" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                       {/* using dynamic classes after alt */}
-                      <img src={avatarImage} alt="" className={`size-7 rounded-full 
+                      <img src={avatarImage} alt="Avatar Img" className={`size-7 rounded-full 
                          ${currentUser ? 'ring-2 ring-blue-400' : ''}`}/>
                      </button>
                      
@@ -56,7 +59,7 @@ const Navbar = () => {
                         */
                         // If isDropdownOpen is true, React will render the <div>.
                         isDropdownOpen && (
-                          <div className="absolute right-0 w-48 mt-2 z-40  bg-white shadow-lg rounded-md">
+                          <div className="absolute right-0 w-48 mt-2 z-40 bg-white shadow-lg rounded-md">
                             <ul className="py-2">
                               {
                                 navigationData.map((item) => (
@@ -68,15 +71,16 @@ const Navbar = () => {
                                     </Link>
                                     
                                   </li>
-                                )
-                              )
+                                ))
                               }
+                              {/* logut here */}
                               
                             </ul>
                           </div>
                         )     
                      
                       }
+                      {/* token here - local storage */}
             
                      </> : <Link to="/login">
                         <HiOutlineUser className="size-6" />
@@ -84,16 +88,27 @@ const Navbar = () => {
                   }
               
               </div>
-             
-                <button className="hidden  sm:block">
+                
+              <div className="relative flex item-center md:space-x-3">
+                <div>
+                  {
+                    currentUser ? <>
+                    <button>
+                      <img src={avatarImage} alt="Avatar Img" className={`size-7 rounded`} />
+                    </button>
+                    </> : <HiOutlineUser className="size-6" />
+                  }
+                </div>
+                <button className="hidden sm:block">
                   <HiOutlineHeart className="size-6" />
                 </button>
                 <Link to="/cart" className="bg-amber-300 p-1 sm:px-6 px-2 flex items-center">
-                <HiOutlineShoppingCart className="size-6"/>
-                <span>0</span>
-
-
+                <HiOutlineShoppingCart className=""/>
+                {
+                   cartItems.length > 0 ?  <span className="text-sm font-semibold sm:ml-1">{cartItems.length}</span> :  <span className="text-sm font-semibold sm:ml-1">0</span>
+                }
                 </Link>
+              </div>
             </div>
         </nav>
     </header>

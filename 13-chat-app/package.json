@@ -1,13 +1,31 @@
 {
   "name": "13-chat-app",
-  "version": "1.0.0",
-  "main": "backend/server.js",
+  "private": true, 
   "type": "module",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+   "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types"
   },
-  "keywords": [
+   "devDependencies": {
+    "turbo": "^2.5.4"
+    
+  },
+  
+  "engines": {
+    "node": ">=18 <=22"
+  },
+  
+ "packageManager": "npm@10.9.2",
+ "workspaces": [
+    "frontend",
+    "backend"
+  ],
+
+"keywords": [
     "chat-app",
     "REST API",
     "MERN",
@@ -17,23 +35,9 @@
     "mongoose",
     "backend"
   ],
-  "author": "Max Pavlovskiy",
+  "author": "Max Pavlovskyi",
   "license": "MIT",
-  "description": "Chat Application which allows you to communicate and connect with others",
-  "dependencies": {
-    "bcryptjs": "^3.0.2",
-    "cookie": "^1.0.2",
-    "cookie-parser": "^1.4.7",
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "http-status-codes": "^2.3.0",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.13.2",
-    "socket.io": "^4.8.1"
-  },
-  "devDependencies": {
-    "colors": "^1.4.0",
-    "nodemon": "^3.1.9"
-  }
+  "description": "Chat Application which allows you to communicate and connect with others"
+
+  
 }

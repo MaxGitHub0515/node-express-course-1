@@ -7,7 +7,6 @@ const figlet = require('figlet')
 require('dotenv').config({ path: '.env.local' });
 
 const connectDB = require('./db/connect');
-const { red } = require('colors');
 
 //optional
 require('colors');
