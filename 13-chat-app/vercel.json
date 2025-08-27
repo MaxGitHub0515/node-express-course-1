@@ -1,7 +1,7 @@
 
 {
     "version": 2,
-    "installCommand": "npm install && turbo install",
+    "installCommand": "npm install",
     "buildCommand": "turbo run build ",
     "builds": [
         {
@@ -21,8 +21,8 @@
         },
         {
         "src": "/(.*)",
-        "dest": "frontend/dist/$1"
+        "dest": "/frontend/dist/index.html"
         }
-  ]
+    ]
 }
 

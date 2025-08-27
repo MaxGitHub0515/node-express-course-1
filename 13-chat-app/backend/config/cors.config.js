@@ -6,7 +6,7 @@ const configCors = () => {
         origin: (origin, callback) =>{
             const allowedOrigins = [
                 'http://localhost:3000', // front in development
-                'https://myverceldomain.com' // front in production
+                'https://one3-chat-app.onrender.com' // front in production
             ]
              // if undefined or not in allowed list
              //  only listed origins can make requests.
