@@ -39,18 +39,20 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   // This version with localstorage is completely working but unreliable in terms of security  
   
   useEffect(() => {
-    const userData = localStorage.getItem("authUser");
-    if (userData) {
+    const verifyUser = async() => {
       try {
-        setAuthUser(JSON.parse(userData));
-      } catch(err) {
-        // if implementing localstorage removal when loggingout 
-        // logut page or UI will be added with poininting to /api/v1/auth/logout
-        // and clear the cookies on the backend 
-         console.error("Error parsing user from localStorage:", err);
-        localStorage.removeItem("authUser"); // Clean invalid data
+        const res = await fetch('/api/v1/auth/verify', {
+          credentials: 'include'
+        });
+        if (!res.ok) throw new Error('Not logged in');
+        const userData = await res.json();
+        setAuthUser(userData)
+
+      } catch (error) {
+        setAuthUser(null) // not logged in 
       }
-    }
+    };
+    verifyUser()
   }, []);
   // set remove 
 

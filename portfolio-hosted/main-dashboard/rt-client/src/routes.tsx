@@ -1,22 +1,22 @@
 
-import './App.css'
-import {createBrowserRouter} from 'react-router-dom';
-// import { useMatches } from 'react-router-dom';
-import NotFoundPage from './pages/404/NotFoundPage.tsx';
-import MainDashboardPage from './pages/rt-dashboard/MainDashboard.tsx';
-import AdminPage from './pages/admin/AdminPage.tsx';
-import StatisticsPage from './pages/admin/Statistics.tsx';
-import ContactPage from './pages/contact/ContactPage.tsx';
-import UserPage from './pages/admin/UserPage.tsx';
-import NotifyPage from './pages/admin/NotifyPage.tsx';
-import EmailPage from './pages/admin/EmailPage.tsx';
-import SettingsPage from './pages/admin/SettingsPage.tsx';
-import ProjectsPage from './pages/admin/ProjectsPage.tsx';
-import MaintenancePage from './pages/admin/MaintenancePage.tsx';
-import LoginPage from './pages/admin/LoginPage.tsx';
-import AppLayout from './AppLayout.tsx';
-import ProtectedLayout from './context/ProtectedLayout.tsx';
-import RedirectIfAuthenticated from './context/RedirectIfAuthenticated.tsx';
+
+import {createBrowserRouter, Navigate} from 'react-router-dom';
+import NotFoundPage from './pages/404/NotFoundPage';
+import MainDashboardPage from './pages/rt-dashboard/MainDashboard';
+import AdminPage from './pages/admin/AdminPage';
+import StatisticsPage from './pages/admin/Statistics';
+import ContactPage from './pages/contact/ContactPage';
+import UserPage from './pages/admin/UserPage';
+import NotifyPage from './pages/admin/NotifyPage';
+import EmailPage from './pages/admin/EmailPage';
+import SettingsPage from './pages/admin/SettingsPage';
+import ProjectsPage from './pages/admin/ProjectsPage';
+import MaintenancePage from './pages/admin/MaintenancePage';
+import AppLayout from './AppLayout';
+import ProtectedLayout from './context/ProtectedLayout';
+import RedirectIfAuthenticated from './context/RedirectIfAuthenticated';
+
+
 
 
 const routes = createBrowserRouter([
@@ -40,27 +40,26 @@ const routes = createBrowserRouter([
         },
 
         {
-            path: "/cpanel",
-            element: <LoginPage />
-        },
-
-        {
-            path: "/auth/login",
-            element: <LoginPage />
-        },
-        
-        {
         path: "/cpanel",
         element: <ProtectedLayout />,
         children: [
-          { index: true, element: <AdminPage /> },
+            // adding navigate temporarilt
+          {index:true, element: <Navigate to="dashboard" replace /> },
+          { path: "dashboard", element: <AdminPage />,
+            children: [
+                {path: "maintenance", element: <MaintenancePage />},
+                // {path: "task-runner", element: <TaskRunerPage />},
+                // {path: "system",  element: <SystemHealthPage />},
+                // {path: "logs", element: <LogsReview />}
+
+            ],
+          },  
           { path: "stats", element: <StatisticsPage /> },
           { path: "users", element: <UserPage /> },
           { path: "notifications", element: <NotifyPage /> },
           { path: "email", element: <EmailPage /> },
           { path: "projects", element: <ProjectsPage /> },
           { path: "settings", element: <SettingsPage /> },
-          { path: "dashboard/maintenance", element: <MaintenancePage /> },
         ],
         },
 

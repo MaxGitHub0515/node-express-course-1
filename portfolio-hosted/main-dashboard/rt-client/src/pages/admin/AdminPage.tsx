@@ -35,14 +35,14 @@ export default function AdminPage() {
                         <Link to={"/cpanel/dashboard/maintenance"} className='text-gray-700 hover:text-green-600 transition-colors duration-200' title='Maintance Mode Switch'>Maintenance</Link>
                     </li>
                     <li>
-                        <Link to={"/cpanel/users"} className='text-gray-700 hover:text-green-600 transition-colors duration-200' title="Manual Action Queue">Task Runner</Link>
+                        <Link to={"/cpanel/dashboard/task-runner"} className='text-gray-700 hover:text-green-600 transition-colors duration-200' title="Manual Action Queue">Task Runner</Link>
                     </li>
                     <li>
-                        <Link to={"/cpanel/users"} className='text-gray-700 hover:text-green-600 transition-colors duration-200'>System Health</Link>
+                        <Link to={"/cpanel/dashboard/system"} className='text-gray-700 hover:text-green-600 transition-colors duration-200'>System Health</Link>
                     </li>
                   
                     <li>
-                    <Link to={"/cpanel/users"} className='text-gray-700 hover:text-green-600 transition-colors duration-200' title='Admin Sessions'>Logs Review</Link>
+                    <Link to={"/cpanel/dashboard/logs"} className='text-gray-700 hover:text-green-600 transition-colors duration-200' title='Admin Sessions'>Logs Review</Link>
                     </li>
                 </ul>
             </aside>

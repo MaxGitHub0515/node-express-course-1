@@ -1,7 +1,5 @@
 
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv"
-dotenv.config({ path: '.env.local' });
 
 const generateTokenAndSetCookie = (userID, res) => {
     if(!process.env.JWT_SECRET){

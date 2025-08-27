@@ -21,18 +21,22 @@ const aggregateUser = async(req, res) => {
     const result = await Visitor.aggregate([
     {
       $group: {
-        _id: { $month: "$createdAt" },
+        _id: {
+          year: {$year: "$createdAt"}, 
+          month: {$month: "$createdAt"}
+          },
         visits: { $sum: 1 },
       },
     },
     {
       $project: {
-        month: '$_id',
+        year: '$_id.year',
+        month: '$_id.month',
         visits: 1,
         _id: 0,
       },
     },
-    { $sort: { month: 1 } }
+    { $sort: { year:1, month: 1 } }
     ]);
 
     res.json(result)

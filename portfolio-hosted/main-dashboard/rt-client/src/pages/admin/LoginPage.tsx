@@ -15,6 +15,8 @@ interface FormValues {
 
 
 export default function LoginPage() {
+    // const baseURL = process.env.API_BASE_URL;
+
     const navigate = useNavigate();
     const {setAuthUser} = useAuthContext();
     const initValues: FormValues  = {
@@ -25,13 +27,21 @@ export default function LoginPage() {
     const validSchema = Yup.object({
         username: Yup.string()
          .required("Username is required")
-         .min(3)
+         .min(3, "Username must contain at least 3 characters")
          .max(24),
         pwd: Yup.string()
-            .min(6)
-            .required("Password is required"),
+            .min(12, "Password should be at least 12 characters long")
+            .required("Password is required")
+            .matches(/\d/, "Password must contain numbers")
+            .matches(/^(?=.*[a-z])(?=.*[A-Z]).+$/, "Must contain at least one uppercase and one lowercase letter")
+            .matches(/[!@#$%^&*(),.?":{}|<>_\-]/, "Must contain must contain special characters"),
+            
+        //   confirmPwd: Yup.string()
+        //     .oneOf([Yup.ref('pwd'), null], "Passwords must match")
+        //     .required("Confirm Password is required"),
         email: Yup.string()
-            .email('Invalid Email').required('Email is required')
+        .email('Invalid Email').required('Email is required')
+        .matches( /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, "Please enter a valid email")
 
     })
 
@@ -51,9 +61,7 @@ export default function LoginPage() {
         if (!res.ok) {
             throw new Error(data.msg || 'Login failed');
         }
-        localStorage.setItem("authUser", JSON.stringify(data));
-        // Storing only  user data (not JWT) in context
-        setAuthUser(data); // e.g., { _id, username, email }
+        setAuthUser(data);
 
         toast.success("Admin logged in yeahh");
         resetForm();  
@@ -62,24 +70,22 @@ export default function LoginPage() {
         navigate('/cpanel')
      
         } catch (error) {
-
-        if (error instanceof Error) {
-            toast.error(error.message);
-        } else {
-            toast.error("Login failed");
-        }
+            
+        if (error instanceof Error) toast.error(error.message);
+        else toast.error('Login failed');
         }
 
 
         // logout logic here!!!
-        
 
     } 
+   
     return ( 
-        <div className="flex flex-col max-w-md  mx-auto bg-gray-200 p-6 mt-10 rounded-xl shadow justify-center items-center">
+        
+        <div className="flex flex-col max-w-sm  mx-auto bg-gray-200 p-6 mt-10 rounded-xl shadow justify-center items-center">
           <div className="uppercase font-medium text-2xl mb-6">Log In</div>
           <Formik initialValues={initValues} validationSchema={validSchema} onSubmit={handleSubmit}>
-            <Form className="space-y-4">
+            <Form className="space-y-4 w-full">
                 <div>
                     <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">Username</label>
                     <Field name="username" type="text" className="w-full px-3 py-2 border rounded "/>

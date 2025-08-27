@@ -1,0 +1,16 @@
+
+User-agent: *
+
+# Block entire API
+Disallow: /api/
+
+# Block specific frontend routes
+Disallow: /auth/login
+Disallow: /auth/signup
+Disallow: /auth/logout
+Disallow: /cpanel
+
+# Allow public content to be crawlable
+
+Allow: /
+

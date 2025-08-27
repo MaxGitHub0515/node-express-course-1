@@ -2,12 +2,24 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./public/ic-web.svg" />
+    <link rel="icon" type="image/svg+xml" href="./public/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MAX-PORT-FOLIO</title>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="./src/main.tsx"></script>
-  </body>
+    <!-- <script type="module" src="./src/main.tsx"></script> -->
+
+    <!-- after every new build, new filename is being generated as follows:  index.generatedplaceholder...js 
+      that is potentially why https can not serve my index.placeholder...js in the dist   -->
+
+     <!-- This is where your JS bundle script will be automatically injected by HtmlWebpackPlugin -->
+      <!-- Analytics for cloudflare -->
+      <script src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" 
+      crossorigin="anonymous"async>
+      </script>
+
+  
+
+    </body>
 </html>

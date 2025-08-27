@@ -4,7 +4,7 @@ const app = express();
 import path from 'path';
 import colors from 'colors';
 import dotenv from "dotenv"
-dotenv.config({ path: '.env.local' });mongoose.set('bufferCommands', false);
+dotenv.config({ path: '.env.local' });
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import Redis from 'ioredis';
@@ -27,15 +27,24 @@ import projectRouter from './routes/project.routes.js';
 import userRouter from "./routes/auth.routes.js"
 // import middleware like for visitor
 import visitorRouter from "./routes/visitor.routes.js"
+// verify cookie http only
+import verifyAuthRouter from "./routes/authVerify.routes.js"
+// contact 
+import contactRouter from "./routes/contact.routes.js"
 // Mongo Santize
 import mongoSanitize from 'express-mongo-sanitize';
-import mongoose from "mongoose"
-// middleware
-// import protectRoute from './middleware/protectRoute.js';
+
+// middleware from utils
+import protectRoute from './middleware/protectRoute.js';
+import adminOnly from './middleware/roleCheck.js';
 // CORS configuration
 app.use(configedCors());
-// helps to catch connection issues
-mongoose.set('bufferCommands', false)
+// custpm middleware
+import errorHandlerMid from './middleware/error-handler.js';
+//temporary
+import crypto from "crypto"
+import NotFoundError from './errors/not-found.js';
+
 // parse JSON request bodies, json body can not be < 10mb
 app.use(express.json({ limit: "10mb" }));
 // parse URL-encoded request bodies
@@ -55,8 +64,47 @@ app.set('trust proxy', 2);
 // });
 
 
+function generateNonce() {
+  return crypto.randomBytes(16).toString('base64');
+}
 // Headers Set by Default 
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false, // diasble default CSP middleware
+}));
+// to be better added as a middleware in seperate file
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://vo.vercel-scripts.com", "https://static.cloudflareinsights.com"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:"],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'"],
+      objectSrc: ["'none'"],
+    },
+  })
+);
+
+app.use((req, res, next) => {
+  const nonce = generateNonce();
+  res.locals.nonce = nonce;
+  
+  const csp = `
+    default-src 'self';
+    script-src 'self' https://vo.vercel-scripts.com https://static.cloudflareinsights.com 'nonce-${nonce}';
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data: https://res.cloudinary.com;
+    connect-src 'self';
+    font-src 'self';
+    object-src 'none';
+  `.replace(/\n/g, ''); // remove line breaks
+
+  res.setHeader('Content-Security-Policy', csp);
+  next();
+});
+
+
 
 // cookie parser - parse the incoming cookies from req.cookies
 app.use(cookieParser())
@@ -95,14 +143,15 @@ redisClient.on('ready', () => {  console.log('   --> Redis Client: Ready to acce
 
 // Routes
 app.use('/api/v1/projects', apiLimiter, projectRouter);
-app.use('/api/v1/visitors', visitorRouter);
+app.use('/api/v1/visitors', protectRoute, adminOnly, visitorRouter);
 app.use('/api/v1/auth', apiLimiter, userRouter);
+app.use('/api/v1/auth/verify', protectRoute, verifyAuthRouter)
+app.use('/api/v1/contact', apiLimiter, contactRouter)
 // app.use('/api/v1/logs')
 // app.use('/api/v1/cpanel', protectRoute, adminCheck)
 
 // handle cuid routes
 // app.get('/main-dashboard/projects/mern/:cuidId/*', handleCUIDRoute);
-
 
 // --> Static File Serving for Production(loading frontend) <--
 
@@ -112,32 +161,34 @@ console.log(`NODE_ENV is: ${process.env.NODE_ENV}`);
 if (process.env.NODE_ENV === "production") {
   const clientBuildPath = path.join(__dirname, '..', 'rt-client', 'dist');
   console.log(`Serving static files from: ${clientBuildPath.yellow}`);
-// serve static files from the built   
-app.use(express.static(clientBuildPath));
-
-
-/*
-there is a problem with express 5+, it's using path-to-regexp library, and they changed the rules.
-Instead of using:
-.get('/**', xxxx) / .get('/*', xxxx)
-Use this workaround:
-.get('/*\w', xxxx)
-*/
-
-app.get(/(.*)/, (req, res, next) => {
-  const tryPath = path.join(clientBuildPath, 'index.html');
-  console.log(`Serving index.html fallback for: ${req.url.blue} from ${tryPath.cyan}`);
-  res.sendFile(tryPath, (err) => {
-     if(err) {
-      console.error(`Error sending index.html: `, err.message);
-      res.status(500).send('Error serving application.');
-     }
-  });
+  // serve static files from the built   
+  app.use(express.static(clientBuildPath));
   
-
-
-});  
-
+  // catch-all SPA fallback 
+  app.get(/(.*)/, (req, res, next) => {
+    const tryPath = path.join(clientBuildPath, 'index.html');
+    console.log(`Serving index.html fallback for: ${req.url.blue} from ${tryPath.cyan}`);
+    res.sendFile(tryPath, (err) => {
+      if(err) {
+        console.error(`Error sending index.html: `, err.message);
+        res.status(500).send('Error serving application.');
+      } else {
+        console.log(`Successfully served index.html for: ${req.url.green}`);
+      }
+    });
+    
+    
+    
+  });  
+  
 }
+  /* Middleware */
+  // catch all unmatched routes
+  app.use((req, res, next) => {
+    next(new NotFoundError(`Route ${req.originalUrl} not found`));
+  });
 
+  app.use(errorHandlerMid)
+
+  
 export default app;

@@ -1,6 +1,5 @@
 
 import express from "express";
-import Visitor from "../models/visitor.model.js";
 import {
     aggregateUser,
     createVisitor
