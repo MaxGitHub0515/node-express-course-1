@@ -2,17 +2,25 @@
 
 import PaginationComponent from "./PaginationComponent"
 import SearchBarAndFilteringComponent from "./SearchBarAndFilteringComponent";
+import ProjectsUrl from "../mockData/index";
+
+
 import { useState } from "react";
 export default function MainComponent() {
- 
+    // Urls extraction
+    const urls = ProjectsUrl.flatMap(project =>
+    Object.values(project).filter(url => typeof url === "string"));
+
     // paginatiion handle
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const handleClick = () => {
-     
-    }
+    // const handleClick = () => {
+    //     alert("Pressed")
+
+    // }
     return(
 /*
-schema:
+What if i have hundreds of projects? Make project adding automatic not hardcoded
+schema that should be both on the UI and for db:
     img-url
     stack:
     title:
@@ -30,10 +38,14 @@ schema:
                 </header>
                 <div className="flex-grow flex-[1_1_0%] max-w-sm sm:mx-auto space-y-8">
                     <div className="relative aniamte-gradient-border">
+                    <a
+                    href={urls[0]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >
                     <img
                     src="https://res.cloudinary.com/dixiuoxw2/image/upload/v1753631592/MESSERA-BG_uvuf8s.png"
                     alt="Messera Logo"
-                    onClick={handleClick}
                     className="
                         cursor-pointer
                         w-full h-auto rounded-xl
@@ -43,7 +55,8 @@ schema:
                         hover:scale-110 block
                         animate-gradient-border
                         "                       
-                    /> 
+                    />
+                    </a> 
                     </div>
                     <div className="space-y-3 border border-[#addbff] rounded-lg p-2 mb-4 ">
                     <section>
@@ -75,6 +88,11 @@ schema:
                 </div>
                 <div className="flex-grow flex-[1_1_0%] shrink max-w-sm sm:mx-auto space-y-8">
                      <div className="relative animate-gradient-border">
+                    <a 
+                     href={urls[1]}
+                     target="_blank"
+                     rel="noopener noreferrer"
+                    >
                     <img src="https://res.cloudinary.com/dixiuoxw2/image/upload/v1753630347/MODAILY_BG_yqbhgx.png" 
                     alt="Medaily Logo"
                         className="
@@ -85,6 +103,7 @@ schema:
                         transition-transform duration-300 ease-in-out
                         hover:scale-110"
                     />
+                    </a>
                     </div>
                       <div className="space-y-3 border border-[#addbff] rounded-lg p-2 mb-4">
                     <section>
@@ -115,7 +134,12 @@ schema:
                      
                 </div>
                 <div className="flex-grow flex-[1_1_0%] max-w-sm sm:mx-auto space-y-8">
-                       <div className="relative animate-gradient-border">
+                    <div className="relative animate-gradient-border">
+                    <a 
+                    href={urls[2]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >
                     <img src="https://res.cloudinary.com/dixiuoxw2/image/upload/v1753815881/Bookstore-BG_ztvpmd.png" 
                     alt="BooklyStore Logo"
                         className="
@@ -126,6 +150,7 @@ schema:
                         transition-transform duration-300 ease-in-out
                         hover:scale-110"
                     />
+                    </a>
                     </div>
                     <div className="space-y-3 border border-[#addbff] rounded-lg p-2 mb-4">
                     <section>
