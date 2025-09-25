@@ -8,7 +8,7 @@
 
 | 📱 Mobile View | 🖥️ Desktop View |
 |:--------------:|:---------------:|
-| ![Mobile](./github-utilities/imgs/mob.png) | ![Desktop](./github-utilities/imgs/desk.png) |
+| ![Mobile](./portfolio-hosted/github-utilities/imgs/mob.png) | ![Desktop](./portfolio-hosted/github-utilities/imgs/desk.png) |
 |  | |
 
 </div>
@@ -16,7 +16,7 @@
 
 <div align="center">
 
-![Hosting & Deployment](./github-utilities/imgs/host-deploy.png)
+![Hosting & Deployment](./portfolio-hosted/github-utilities/imgs/host-deploy.png)
 
 <br>
 
