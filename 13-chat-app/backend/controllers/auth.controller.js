@@ -59,12 +59,12 @@ export const signup = async(req, res) => {
 }
 export const login = async(req, res) => {
     try{            
-    const {username, pwd} = req.body;
+    const {username, password} = req.body;
      // in order to compare passwords you first need to find a user in db 
     const user = await User.findOne({username});
     //if undefined or null compare with empty string = wont throw an error
     // if any of them is false
-    const isPasswordCorrect = await bcrypt.compare(pwd, user?.pwd || "") // 
+    const isPasswordCorrect = await bcrypt.compare(password, user?.password || "") // 
     if(!user || !isPasswordCorrect) {
         return res.status(StatusCodes.BAD_REQUEST).json({error: "Invalid user credentials"})
     }
