@@ -10,8 +10,10 @@ const Conversations = () => {
           key={conversation._id}
           conversation={conversation}
           // last index for devider ui
-          lastIdx={idx === conversation.length - 1} />
+          lastIdx={idx === conversations.length - 1} />
       ))}
+
+      {loading ? <span className="loading loading-spinner mx-auto"></span> : null}
 
     </div>
   )

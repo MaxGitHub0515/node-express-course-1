@@ -13,9 +13,9 @@ const  useGetConversations = () => {
         try {
             const res = await fetch("/api/v1/users");
             const data = await res.json();
-             if(data.error) {
-                throw new Error(data.error)
-            }
+            if(data.error) throw new Error(data.error)
+
+            setConversations(data)
         } catch(error) {
             toast.error(error.message)
         } finally {
