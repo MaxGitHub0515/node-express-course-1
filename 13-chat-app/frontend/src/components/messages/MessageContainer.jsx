@@ -3,6 +3,7 @@ import MessageInput from "./MessageInput"
 import {TiMessages} from "react-icons/ti"
 import useConversation from "../../zustand/useConversation"
 import { useEffect } from "react"
+import { useAuthContext } from "../../context/AuthContext"
 const MessageContainer = () => {
   const {selectedConversation, setSelectedConversation} = useConversation();
   useEffect(() => {
@@ -31,12 +32,14 @@ const MessageContainer = () => {
 export default MessageContainer
 
 const NoChatSelected = () => {
+  const {authUser} = useAuthContext();
+
   return (
     <div className="flex items-center justify-center w-full h-full">
       <div
       className="flex flex-col items-center gap-2 px-4 text-center  sm:text-lg md:tex-xl text-gray-200 font-semibold "
       >
-      <p>Welcome 👋 John Doe ❄️</p>
+      <p>Welcome 👋 {authUser.fullName} ❄️</p>
       <p>Select a chat to start messaging</p>
       <TiMessages className="text-3xl md:text-6xl" />
       </div>
