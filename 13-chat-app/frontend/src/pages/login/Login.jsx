@@ -41,9 +41,9 @@ export function Login() {
                     Don't have an account?</Link>
                     <div>
                         <button className="btn btn-block btn-sm mt-2 tracking-wide border border-slate-600 bg-blue-600 hover:bg-blue-700 ease-in-out"
-                        disabled={loading}
-                        >
-                         {loading ? <span className="loading loading-spinner"></span> : "Login"}</button>
+                        disabled={loading}>
+                         {loading ? <span className="loading loading-spinner"></span> : "Login"}
+                        </button>
                     </div>
                 </form>
             </div>

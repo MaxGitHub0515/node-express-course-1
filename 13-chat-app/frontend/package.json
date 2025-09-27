@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.15.0",
+    "13-chat-app": "file:..",
     "formik": "^2.4.6",
     "lottie-react": "^2.4.1",
     "react": "^18.2.0",

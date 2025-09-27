@@ -8,7 +8,7 @@ const  useGetConversations = () => {
     const [conversations, setConversations] = useState([]);
 
     useEffect(() => {
-        const getConversations = async() {
+        const getConversations = async() => {
         setLoading(true)
         try {
             const res = await fetch("/api/v1/users");
