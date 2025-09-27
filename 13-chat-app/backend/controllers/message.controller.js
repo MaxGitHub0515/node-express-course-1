@@ -1,6 +1,7 @@
 import Message from "../models/message.model.js";
 import Conversation from "../models/conv.model.js"
 import {StatusCodes} from "http-status-codes";
+import { getRecieverSocketID } from "../socket/socket.js";
 
 
 export const sendMessage = async(req, res) => {
@@ -35,17 +36,19 @@ export const sendMessage = async(req, res) => {
       }
       // takes longer to process
       // await conv.save()
-      // await newMessage.save(); 
-
-      // socket.io here
-      
-
+      // await newMessage.save();
       // run at the same time; optimized
-      Promise.all([conv.save(), newMessage.save()])
-
+      await Promise.all([conv.save(), newMessage.save()])
+      // socket.io here
+      const recieverSocketID = getRecieverSocketID(recieverID);
+      if(recieverSocketID) {
+        //sending an event to specific user/client
+        io.to(recieverSocketID).emit("newMessage", newMessage)
+      } 
       res.status(StatusCodes.CREATED).json({
         newMsg: newMessage
       })
+
 
     } catch (error) {
       console.log("Error in sendMessage controller", error.message);
