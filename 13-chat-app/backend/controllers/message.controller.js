@@ -11,14 +11,14 @@ export const sendMessage = async(req, res) => {
       const {id: recieverID} = req.params;
       const senderID = req.user._id;
       // find a participants array that includes ids of sender and reciever
-      let conv = await Conversation.findOne({
+      let conversation = await Conversation.findOne({
         participants: {
           $all: [senderID, recieverID]
         }
       })
       // if sending msg for the first time
-      if(!conv){
-         conv = await Conversation.create({
+      if(!conversation){
+         conversation = await Conversation.create({
           participants: [senderID, recieverID]
           // messages : [] by default
         })
@@ -32,13 +32,13 @@ export const sendMessage = async(req, res) => {
       });
       
       if(newMessage) {
-        conv.messages.push(newMessage._id)
+        conversation.messages.push(newMessage._id)
       }
       // takes longer to process
       // await conv.save()
       // await newMessage.save();
       // run at the same time; optimized
-      await Promise.all([conv.save(), newMessage.save()])
+      await Promise.all([conversation.save(), newMessage.save()])
       // socket.io here
       const recieverSocketID = getRecieverSocketID(recieverID);
       if(recieverSocketID) {
@@ -61,12 +61,12 @@ export const getMessages = async(req, res) => {
     const {id:userToChatId} = req.params;
     const senderID = req.user._id;
 
-    const conv = await Conversation.findOne({
+    const conversation = await Conversation.findOne({
       participants:{$all:[senderID, userToChatId]} // getting all messages 
     }).populate("messages")
 
-    if(!conv) return res.status(StatusCodes.NOT_FOUND).json([]);
-    const messages = conv.messages;
+    if(!conversation) return res.status(StatusCodes.NOT_FOUND).json([]);
+    const messages = conversation.messages;
     return res.status(StatusCodes.OK).json(messages);
   } catch (error) {
     console.log("Error in getMessages controller", error.message);
