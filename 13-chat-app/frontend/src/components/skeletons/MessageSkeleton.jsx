@@ -1,6 +1,4 @@
 
-import Message from "../messages/Message"
-import useGetMessages from "../../hooks/useGetMessages"
 const MessageSkeleton = () => {
   return (
 		<>

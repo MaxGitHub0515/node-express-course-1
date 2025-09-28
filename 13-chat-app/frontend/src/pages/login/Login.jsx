@@ -3,6 +3,8 @@ import {Formik, Form, Field, ErrorMessage} from "formik"
 import { Link } from "react-router-dom";
 import Logo from "../../components/sidebar/Logo";
 import { useState } from "react";
+import useLogin from "../../hooks/useLogin"
+
 export function Login() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -11,7 +13,7 @@ export function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await login({username,password })
+        await login(username,password)
     }
     return (
         <>
