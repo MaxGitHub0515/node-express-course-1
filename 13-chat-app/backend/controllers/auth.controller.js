@@ -64,11 +64,11 @@ export const login = async(req, res) => {
     const user = await User.findOne({username});
     //if undefined or null compare with empty string = wont throw an error
     // if any of them is false
-    const isPasswordCorrect = await bcrypt.compare(password, user?.password || "") // 
+    const isPasswordCorrect = await bcrypt.compare(password, user?.pwd || "") // 
     if(!user || !isPasswordCorrect) {
         return res.status(StatusCodes.BAD_REQUEST).json({error: "Invalid user credentials"})
     }
-    //??
+    
     generateTokenAndSetCookie(user._id, res)
     res.status(StatusCodes.OK).json({
         _id: user._id,

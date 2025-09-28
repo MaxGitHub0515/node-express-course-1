@@ -19,8 +19,9 @@ io.on('connect', (socket) => {
 
     // got into the query which is on the frontend
     const userID = socket.handshake.query.userID;
-    if(userID != "undefined") userSocketMap[userID]
-    // tp send events tp all connected users
+    if(userID != "undefined") userSocketMap[userID] = socket.id;
+
+    // to sends events to all connected users
     io.emit('getOnlineUsers', Object.keys(userSocketMap))
 
     // socket.on() is used to listen to the events, it is used both for front and server-side

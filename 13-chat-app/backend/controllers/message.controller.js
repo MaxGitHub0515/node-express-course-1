@@ -1,7 +1,7 @@
 import Message from "../models/message.model.js";
 import Conversation from "../models/conv.model.js"
 import {StatusCodes} from "http-status-codes";
-import { getRecieverSocketID } from "../socket/socket.js";
+import { getRecieverSocketIDM, io } from "../socket/socket.js";
 
 
 export const sendMessage = async(req, res) => {
@@ -18,7 +18,7 @@ export const sendMessage = async(req, res) => {
       })
       // if sending msg for the first time
       if(!conv){
-        return conv = await Conversation.create({
+         conv = await Conversation.create({
           participants: [senderID, recieverID],
           // messages : [] by default
         })
@@ -45,9 +45,7 @@ export const sendMessage = async(req, res) => {
         //sending an event to specific user/client
         io.to(recieverSocketID).emit("newMessage", newMessage)
       } 
-      res.status(StatusCodes.CREATED).json({
-        newMsg: newMessage
-      })
+      res.status(StatusCodes.CREATED).json(newMessage)
 
 
     } catch (error) {

@@ -7,7 +7,7 @@ export const getUsersForSidebar = async (req, res) => {
         // $ne for not including yourself in the sidebar unless 
         // think about save messages 
         const filteredUser = await User.find({_id: {$ne: loggedInUserId}}).select("-password");
-        return res.status(StatusCodes.OK).json({
+        res.status(StatusCodes.OK).json({
             filteredUser
         })
     } catch (error) {
