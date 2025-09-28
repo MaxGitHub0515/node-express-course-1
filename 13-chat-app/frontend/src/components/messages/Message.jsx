@@ -18,8 +18,9 @@ const Message = ({message}) => {
     <div className={`chat ${chatClassName}`}>
         <div className="chat-image avatar">
             <div className="w-10 rounded-full">
-                <img src={profilePic}
-                 alt="Bubble component" />
+                <img 
+                src={profilePic}
+                alt="Bubble component" />
             </div>
         </div>
         {/* MESSAGE CONTENT */}

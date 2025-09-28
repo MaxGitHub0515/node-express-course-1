@@ -20,7 +20,6 @@ const Messages = () => {
         <div key={message._id}
         ref={lastMessageRef}
         >
-          
           <Message message={message} />
         </div>
         
