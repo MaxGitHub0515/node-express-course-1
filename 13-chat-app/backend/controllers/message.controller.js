@@ -1,7 +1,7 @@
 import Message from "../models/message.model.js";
 import Conversation from "../models/conv.model.js"
 import {StatusCodes} from "http-status-codes";
-import { getRecieverSocketIDM, io } from "../socket/socket.js";
+import { getRecieverSocketID, io } from "../socket/socket.js";
 
 
 export const sendMessage = async(req, res) => {
