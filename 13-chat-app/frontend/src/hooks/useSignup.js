@@ -5,15 +5,15 @@ const useSignup = () => {
     const [loading, setLoading ] = useState(false);
     const {setAuthUser} = useAuthContext();
    
-    const signup = async({fullName, username, pwd, confirmPwd, gender}) => {
-    const success = handleInputErrors({fullName, username, pwd, confirmPwd, gender});
+    const signup = async({fullName, username, password, confirmPwd, gender}) => {
+    const success = handleInputErrors({fullName, username, password, confirmPwd, gender});
     if(!success) return;
     setLoading(true)
         try {
             const res = await fetch('/api/v1/auth/signup', {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({fullName, username, pwd, confirmPwd, gender})
+                body: JSON.stringify({fullName, username, password, confirmPwd, gender})
 
             })
             const data = await res.json();
@@ -43,21 +43,21 @@ const useSignup = () => {
 }
 export default useSignup
 
-function handleInputErrors({fullName, username, pwd, confirmPwd, gender}) {
+function handleInputErrors({fullName, username, password, confirmPwd, gender}) {
     // Relatively good solution but not the best
     // UI Validatiion.  if any of those empty
     // better to use validation handlers like Yup
-    if(!fullName || !username || !pwd || !confirmPwd || !gender) {
+    if(!fullName || !username || !password || !confirmPwd || !gender) {
         toast.error('Please fill in all the fields');
         return false; // for success to be false
     }
 
-    if(pwd !== confirmPwd) {
+    if(password !== confirmPwd) {
         toast.error('Passwords do not match'); /* checked both on ui and server-side */
          return false;
     }  
 
-    if(pwd.length < 6) {
+    if(password.length < 6) {
         toast.error("Password must be at least 6 characters");
         return false;
     }

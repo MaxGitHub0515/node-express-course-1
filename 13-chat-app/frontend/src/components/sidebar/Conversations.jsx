@@ -1,6 +1,7 @@
 
 import Conversation from "./Conversation"
 import useGetConversations from "../../hooks/useGetConversations";
+import { getRandomEmoji } from "../../utilities/emojis";
 const Conversations = () => {
   const {loading, conversations} = useGetConversations();
   return (
@@ -9,6 +10,7 @@ const Conversations = () => {
         <Conversation 
           key={conversation._id}
           conversation={conversation}
+          emoji={getRandomEmoji()}
           // last index for devider ui
           lastIdx={idx === conversations.length - 1} />
       ))}

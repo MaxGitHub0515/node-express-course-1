@@ -21,7 +21,7 @@ const useGetMessages = () => {
             setLoading(false)
           }
         }
-          if(selectedConversation?.id) getMessages();
+          if(selectedConversation?._id) getMessages();
             
 
     }, [selectedConversation?._id, setMessages])

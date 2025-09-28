@@ -11,7 +11,7 @@ const protectRoute = async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         if(!decoded) return res.status(StatusCodes.UNAUTHORIZED).json({e:"Unauthorized: Invalid Token"});
         // userID taken from generateToken.js when signing jwt
-        const user = await User.findById(decoded.userID).select("-pwd");
+        const user = await User.findById(decoded.userID).select("-password");
         if(!user) return res.status(StatusCodes.NOT_FOUND).json({e: "User Not Found"});
 
         // if passing all the checks above; currently authenticated user
