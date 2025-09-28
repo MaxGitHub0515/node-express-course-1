@@ -11,7 +11,7 @@ export const sendMessage = async(req, res) => {
       const {id: recieverID} = req.params;
       const senderID = req.user._id;
       // find a participants array that includes ids of sender and reciever
-      const conv = await Conversation.findOne({
+      let conv = await Conversation.findOne({
         participants: {
           $all: [senderID, recieverID]
         }
@@ -19,7 +19,7 @@ export const sendMessage = async(req, res) => {
       // if sending msg for the first time
       if(!conv){
          conv = await Conversation.create({
-          participants: [senderID, recieverID],
+          participants: [senderID, recieverID]
           // messages : [] by default
         })
       }
