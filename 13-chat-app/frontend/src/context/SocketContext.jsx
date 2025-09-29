@@ -33,7 +33,6 @@ export const SocketContextProvider = ({children}) => {
         }
     }, [authUser])
    
-    useEffect(() => {}, []);
     return (
         <SocketContext.Provider value={{socket, onlineUsers}}>
             {children}
