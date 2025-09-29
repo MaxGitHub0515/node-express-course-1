@@ -7,7 +7,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-export const getRecieverSocketID = (receiverID) => {
+export const getReceiverSocketID = (receiverID) => {
     return userSocketMap[receiverID]
 }
 // {userID : socketID}

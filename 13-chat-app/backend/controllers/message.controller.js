@@ -1,19 +1,19 @@
 import Message from "../models/message.model.js";
 import Conversation from "../models/conv.model.js"
 import {StatusCodes} from "http-status-codes";
-import { getRecieverSocketID, io } from "../socket/socket.js";
+import { getReceiverSocketID, io } from "../socket/socket.js";
 
-
+ 
 export const sendMessage = async(req, res) => {
     try {
       const {message} = req.body;
       // const recieverID = req.params.id
-      const {id: recieverID} = req.params;
+      const {id: receiverID} = req.params;
       const senderID = req.user._id;
       // find a participants array that includes ids of sender and reciever
       let conversation = await Conversation.findOne({
         participants: {
-          $all: [senderID, recieverID]
+          $all: [senderID, receiverID]
         }
       })
       // if sending msg for the first time
@@ -40,10 +40,10 @@ export const sendMessage = async(req, res) => {
       // run at the same time; optimized
       await Promise.all([conversation.save(), newMessage.save()])
       // socket.io here
-      const recieverSocketID = getRecieverSocketID(recieverID);
-      if(recieverSocketID) {
+      const receiverSocketID = getReceiverSocketID(receiverID);
+      if(receiverSocketID) {
         //sending an event to specific user/client
-        io.to(recieverSocketID).emit("newMessage", newMessage)
+        io.to(receiverSocketID).emit("newMessage", newMessage)
       } 
       res.status(StatusCodes.CREATED).json(newMessage)
 
