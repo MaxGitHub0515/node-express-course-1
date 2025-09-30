@@ -1,6 +1,14 @@
 
 # 🔥MERN CHAT-APP DOCUMENTATION
 
+
+## App Preview
+
+<video width="800" controls>
+  <source src="/13-chat-app/frontend/src/assets/videos/preview-chat-app.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 ## STACK:
 
 - [*React/Redux (RTK Query Toolkit)*](#setting-up-reactredux) 
