@@ -3,30 +3,17 @@
 
 
 
-## 🎥 Live Preview test 1
+## 🎥 Live Preview
 
 <div align="center">
-
-  *Watch full video with audio:*
-  <video width="800" controls>
-    <source src=".github/preview-chat-app.mp4" type="video/mp4">
-  </video>
-</div>
-
-## 🎥 Live Preview test 2
-
-![App Demo](.github/preview-chat-app.mp4)
-
-## Demo test 3
-
-
-<div align="center">
-  
-![Chat App Demo](.github/preview-chat-app.mp4)
 
 *Demo showing real-time messaging features*
-
+  *Watch full video with audio:*
+  [![Watch the demo](https://img.youtube.com/vi/1ZlZooxQg_o/maxresdefault.jpg)](https://www.youtube.com/watch?v=1ZlZooxQg_o)
 </div>
+
+
+
 
 ## STACK:
 
