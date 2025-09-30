@@ -19,7 +19,7 @@ export const sendMessage = async(req, res) => {
       // if sending msg for the first time
       if(!conversation){
          conversation = await Conversation.create({
-          participants: [senderID, recieverID]
+          participants: [senderID, receiverID]
           // messages : [] by default
         })
       }
@@ -27,7 +27,7 @@ export const sendMessage = async(req, res) => {
       
       const newMessage = new Message({
         senderID,
-        recieverID,
+        receiverID,
         message
       });
       
