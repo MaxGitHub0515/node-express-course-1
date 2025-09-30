@@ -2,12 +2,31 @@
 # 🔥MERN CHAT-APP DOCUMENTATION
 
 
-## App Preview
 
-<video width="800" controls>
-  <source src="./frontend/src/assets/videos/preview-chat-app.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+## 🎥 Live Preview test 1
+
+<div align="center">
+
+  *Watch full video with audio:*
+  <video width="800" controls>
+    <source src=".github/preview-chat-app.mp4" type="video/mp4">
+  </video>
+</div>
+
+## 🎥 Live Preview test 2
+
+![App Demo](.github/preview-chat-app.mp4)
+
+## Demo test 3
+
+
+<div align="center">
+  
+![Chat App Demo](.github/preview-chat-app.mp4)
+
+*Demo showing real-time messaging features*
+
+</div>
 
 ## STACK:
 
