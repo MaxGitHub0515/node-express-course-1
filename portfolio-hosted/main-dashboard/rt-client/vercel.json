@@ -17,11 +17,17 @@
   ],
 
   "routes": [
-
+    {"src": "^/$", "status": 308,
+    "headers": {
+      "Location": "/main-dashboard"
+    }
+  },
     { "handle": "filesystem" },
 
     { "src": "/.*", "dest": "/index.html" }
 
+
   ]
+  
 
 }
