@@ -11,6 +11,9 @@ dotenv.config({path: ".env.local"})
 // Routes imports 
 import authRoutes from "./routes/auth.route.js";
 
+// default middlewares
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 app.use("/api/v1/auth", authRoutes);
 // app.use("api/v1/", )

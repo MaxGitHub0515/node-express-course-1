@@ -2,9 +2,11 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
 const userSchema =  new mongoose.Schema({
-    name: {
+    username: {
         type: String,
-        required: [true, "Name is required"]
+        required: [true, "Userame is required"],
+        unique: true,
+        trim: true
     },  
     email: {
         type: String,
@@ -32,26 +34,28 @@ const userSchema =  new mongoose.Schema({
     ],
     role: {
         type: String,
-        enum: ["costumer", "admin"],
+        enum: ["customer", "admin"],
         default: "customer"
     }
 
 }, {timestamps: true});
 
 
-const User = mongoose.model("User", userSchema, "user")
-userSchemae.pre('save', async (next) => {
+
+userSchema.pre('save', async (next) => {
     if (!this.isModified('password')) return next();
     try {
         const salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt)
+        this.password = await bcrypt.hash(this.password, salt) // this. referes to every document created by new User(); -> const user = new User();
         next();
     } catch (error) {
         next(error);
     }
 });
 userSchema.methods.comparePwd = async function(password) {
-    return await bcrypt.compare(password,  this.password)
+    return await bcrypt.compare(password, this.password)
 } 
+const User = mongoose.model("User", userSchema, "users"); // should be always below pre-save 
+
 export default User;
-3142
+
