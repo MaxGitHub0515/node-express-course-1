@@ -11,7 +11,7 @@ import dotenv from "dotenv"
 dotenv.config({ path: '.env.local' });
 import configCors from "./config/cors.config.js"
 // optional - cli, running, server spinning, etc
-import colors from "colors"
+import "colors"
 
 
 // for parsing our requests like req.body etc

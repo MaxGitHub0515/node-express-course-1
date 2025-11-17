@@ -23,9 +23,9 @@ const UserSchema = new mongoose.Schema({
     //     required:true
     // },
 
-    pwd: {
+    password: {
         type:String,
-        minlenght: 6,
+        minlength: 6,
         required:true,
 
     },
@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema({
     gender: {
         type:String,
         enum:["male", "female"],
-        require: true 
+        required: true 
     },
 
     profilePic: {

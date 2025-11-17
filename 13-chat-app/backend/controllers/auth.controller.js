@@ -5,9 +5,9 @@ import generateTokenAndSetCookie from "../utils/generateToken.js";
 export const signup = async(req, res) => {
    try {
   
-    const {fullName, username, pwd, confirmPwd, gender} = req.body;
+    const {fullName, username, password, confirmPwd, gender} = req.body;
     // if the passwords are matching
-    if(pwd !== confirmPwd) {
+    if(password !== confirmPwd) {
         return res.status(StatusCodes.BAD_REQUEST).json({error:"Passwords do not match"})
     }
     // if such username already present in db
@@ -17,7 +17,7 @@ export const signup = async(req, res) => {
     }
     // hashing pwd,  10 rounds
     const salt = await bcrypt.genSalt(10);
-    const hashedPwd = await bcrypt.hash(pwd, salt);
+    const hashedPwd = await bcrypt.hash(password, salt);
 
     
     // https://avatar.iran.liara.run/public
@@ -32,7 +32,7 @@ export const signup = async(req, res) => {
     const newUser = new User({
         fullName,
         username,
-        pwd:hashedPwd,
+        password:hashedPwd,
         gender, 
         profilePic: gender === "male" ? boyProfilePic : girlProfilePic
     })
@@ -59,16 +59,16 @@ export const signup = async(req, res) => {
 }
 export const login = async(req, res) => {
     try{            
-    const {username, pwd} = req.body;
+    const {username, password} = req.body;
      // in order to compare passwords you first need to find a user in db 
     const user = await User.findOne({username});
     //if undefined or null compare with empty string = wont throw an error
     // if any of them is false
-    const isPasswordCorrect = await bcrypt.compare(pwd, user?.pwd || "") // 
+    const isPasswordCorrect = await bcrypt.compare(password, user?.password || "") // 
     if(!user || !isPasswordCorrect) {
         return res.status(StatusCodes.BAD_REQUEST).json({error: "Invalid user credentials"})
     }
-    //??
+    
     generateTokenAndSetCookie(user._id, res)
     res.status(StatusCodes.OK).json({
         _id: user._id,

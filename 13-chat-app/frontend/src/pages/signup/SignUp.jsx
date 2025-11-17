@@ -8,7 +8,7 @@ export function SignUp() {
     const [inputs, setInputs] = useState({
         fullName: "",
         username: "",
-        pwd: "",
+        password: "",
         confirmPwd: "",
         gender: ""
     });
@@ -54,8 +54,8 @@ export function SignUp() {
                                 <span className="text-base label-text tracking-wide">Password</span>
                             </label>
                             <input 
-                            value={inputs.pwd}
-                            onChange={(e) => setInputs({...inputs, pwd: e.target.value})}
+                            value={inputs.password}
+                            onChange={(e) => setInputs({...inputs, password: e.target.value})}
                             type="password" placeholder="Enter password"className="w-full input input-bordered h-10" />
                         </div>
                         <div>

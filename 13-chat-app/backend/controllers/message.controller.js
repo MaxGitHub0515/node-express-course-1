@@ -1,24 +1,25 @@
 import Message from "../models/message.model.js";
 import Conversation from "../models/conv.model.js"
 import {StatusCodes} from "http-status-codes";
+import { getReceiverSocketID, io } from "../socket/socket.js";
 
-
+ 
 export const sendMessage = async(req, res) => {
     try {
       const {message} = req.body;
       // const recieverID = req.params.id
-      const {id: recieverID} = req.params;
+      const {id: receiverID} = req.params;
       const senderID = req.user._id;
       // find a participants array that includes ids of sender and reciever
-      const conv = await Conversation.findOne({
+      let conversation = await Conversation.findOne({
         participants: {
-          $all: [senderID, recieverID]
+          $all: [senderID, receiverID]
         }
       })
       // if sending msg for the first time
-      if(!conv){
-        return conv = await Conversation.create({
-          participants: [senderID, recieverID],
+      if(!conversation){
+         conversation = await Conversation.create({
+          participants: [senderID, receiverID]
           // messages : [] by default
         })
       }
@@ -26,30 +27,30 @@ export const sendMessage = async(req, res) => {
       
       const newMessage = new Message({
         senderID,
-        recieverID,
+        receiverID,
         message
       });
       
       if(newMessage) {
-        conv.messages.push(newMessage._id)
+        conversation.messages.push(newMessage._id)
       }
       // takes longer to process
       // await conv.save()
-      // await newMessage.save(); 
-
-      // socket.io here
-      
-
+      // await newMessage.save();
       // run at the same time; optimized
-      Promise.all([conv.save(), newMessage.save()])
+      await Promise.all([conversation.save(), newMessage.save()])
+      // socket.io here
+      const receiverSocketID = getReceiverSocketID(receiverID);
+      if(receiverSocketID) {
+        //sending an event to specific user/client
+        io.to(receiverSocketID).emit("newMessage", newMessage)
+      } 
+      res.status(StatusCodes.CREATED).json(newMessage)
 
-      res.status(StatusCodes.CREATED).json({
-        newMsg: newMessage
-      })
 
     } catch (error) {
       console.log("Error in sendMessage controller", error.message);
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({e: "Internal Server Error"})
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error"})
  
     }
 }   
@@ -60,12 +61,12 @@ export const getMessages = async(req, res) => {
     const {id:userToChatId} = req.params;
     const senderID = req.user._id;
 
-    const conv = await Conversation.findOne({
+    const conversation = await Conversation.findOne({
       participants:{$all:[senderID, userToChatId]} // getting all messages 
     }).populate("messages")
 
-    if(!conv) return res.status(StatusCodes.NOT_FOUND).json([]);
-    const messages = conv.messages;
+    if(!conversation) return res.status(StatusCodes.NOT_FOUND).json([]);
+    const messages = conversation.messages;
     return res.status(StatusCodes.OK).json(messages);
   } catch (error) {
     console.log("Error in getMessages controller", error.message);

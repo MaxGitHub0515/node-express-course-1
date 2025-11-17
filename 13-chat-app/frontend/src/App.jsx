@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import {Home} from './pages/home/Home.jsx';
 import {Login} from './pages/login/Login.jsx';
