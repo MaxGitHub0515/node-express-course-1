@@ -15,6 +15,7 @@ export default function errorHandlerMid(err, req, res, next) {
             status: 'error',
             statusCode: err.statusCode,
             message: err.message,
+            errors: err.errors, // validation errors
             stack: isProduction ? null : err.stack,
             timestamp: isProduction ? now.toISOString() : timestamp,
         })

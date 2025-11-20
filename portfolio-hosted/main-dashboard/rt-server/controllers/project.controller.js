@@ -7,10 +7,8 @@ import { asyncWrapper } from '../middleware/async-wrapper.js';
 
 export const createProject = asyncWrapper (async (req, res) => {
   const { name, description, image } = req.body;
-  const errors = validationResult(req);
-  if(!errors.isEmpty() ) {
-    return  res.status(StatusCodes.BAD_REQUEST).json({ message: "Validation failed:", errors: errors.array() });
-  }
+  // removed and added as a middleware to route 
+  // .....
   const project = await Project.create({
     name,
     description,
@@ -57,6 +55,8 @@ export const deleteProject = asyncWrapper ( async (req, res) => {
 export const updateProject = asyncWrapper ( async (req, res) => {
   const { name, description, image } = req.body;
   const {id: projectId} = req.params;
+  // removed and added as a middleware to route 
+  // .....
   const errors = validationResult(req);
   if(!errors.isEmpty() ) {
     return  res.status(StatusCodes.BAD_REQUEST).json({ message: "Validation failed:", errors: errors.array() });

@@ -1,6 +1,7 @@
 
 import express from "express";
-
+import validateRequest from "../middleware/validate-request.js";
+import { validateProject, validateProjectUpdate } from "../utils/validators/project-validator.js";
 const router = express.Router();
 
 import { 
@@ -13,11 +14,11 @@ import {
  } from "../controllers/project.controller.js";
 
 
-router.post("/", createProject);
+router.post("/", validateProject, validateRequest, createProject);
 
 router.get("/:id",getSingleProject) 
 
-router.patch("/:id", updateProject)
+router.patch("/:id", validateProjectUpdate, validateRequest, updateProject)
 
 router.delete("/:id", deleteProject)
 
