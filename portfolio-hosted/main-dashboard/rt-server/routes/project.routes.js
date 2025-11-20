@@ -10,7 +10,7 @@ const router = express.Router();
 router.post("/", createProject);
 
 // Get project by cuid
-router.get("/:id",getSingleProject) 
+router.get("/:projectId",getSingleProject) 
 
 
 export default router;

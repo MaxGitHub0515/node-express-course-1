@@ -4,8 +4,8 @@ import { FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useRef } from "react";
 
-// import { Suggestions, SuggestProjectName } from "../mockData/data";
-// import {Stack, stacksMock} from "../mockData/data";
+// import { Suggestions, SuggestProjectName, Stack, stacksMock } from "../mockData/data";
+
 
 
 interface Stack {
@@ -35,7 +35,8 @@ export const Suggestions: SuggestProjectName[] = [
 ];
 
 
-
+// cuid should be generated so it comes from utils and 
+// should be comming from server side only 
 
 // projects name suggestions
 

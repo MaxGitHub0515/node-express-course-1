@@ -4,7 +4,7 @@
 
 import Joi from "joi";
 
-const schemaJoi = Joi.object({
+const contactValidator = Joi.object({
     email: Joi.string()
         .email({maxDomainSegments: 2, tlds: { allow: ['com', 'net']} })
         .required(),
@@ -21,6 +21,6 @@ const schemaJoi = Joi.object({
 })
 
 
-export default schemaJoi;
+export default contactValidator;
 
 
