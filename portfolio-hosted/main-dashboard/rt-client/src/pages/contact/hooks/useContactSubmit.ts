@@ -1,0 +1,45 @@
+
+
+
+
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom"; 
+// import {useEffect, useState} from "react";
+
+interface FormValues {
+    email: string;
+    subject: string;
+    message: string;
+}
+
+
+export default function ContactPage() {
+
+
+
+    const useContactSubmit = async  (values:FormValues, {resetForm}: FormikHelpers<FormValues>) =>{
+        const navigate = useNavigate();
+        const initValues: FormValues  = {
+        email: "",
+        subject: "",
+        message: ""
+        }
+        const res = await fetch('/api/v1/contact/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values),
+            credentials: 'include' // sending cookies httpOnly
+        })
+        const getParsedJSON = await res.json();
+        if (!res.ok) {
+            throw new Error(getParsedJSON.msg || 'Contact form submission failed');
+        }
+        toast.success("Email was sent successfully")
+        navigate('/contact')
+        resetForm();
+    }
+    return ();
+}
+
+
+

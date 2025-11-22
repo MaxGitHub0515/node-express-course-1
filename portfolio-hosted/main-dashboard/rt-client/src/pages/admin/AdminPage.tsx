@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 // MAIN Admin Dashboard Sidebar 
 import SideBar from './components/SibeBar';
-// Line Chart 
+// Line Chart for Analytics
 import LineChartComponent from './components/LineChart';
 
 export default function AdminPage() {
