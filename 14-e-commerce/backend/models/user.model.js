@@ -58,4 +58,3 @@ userSchema.methods.comparePwd = async function(password) {
 const User = mongoose.model("User", userSchema, "users"); // should be always below pre-save 
 
 export default User;
-
