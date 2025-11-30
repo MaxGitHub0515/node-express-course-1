@@ -21,7 +21,6 @@ export default function errorHandlerMid(err, req, res, next) {
         })
     }
      const statusCode = err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
-        
         return res.status(statusCode).json({
             status: 'error',
             statusCode,

@@ -1,6 +1,6 @@
 import app from "./server.js";
 import http from "http"
-import colors from 'colors';
+import  'colors';
 import {connectDB} from './db/connect.js'
 import dotenv from "dotenv"
 dotenv.config({ path: '.env.local' });

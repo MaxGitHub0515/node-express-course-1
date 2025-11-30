@@ -1,39 +1,26 @@
 
-
-
-import {
-  LineChart, Line,
-  // BarChart, Bar,
-  // PieChart, Pie, Cell,
-  // AreaChart, Area,
-  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-} from 'recharts';
 import { useEffect, useState } from 'react';
-
+import type { VisitData } from '../../../types';
 
 {/* Urgent charts for Admin Page - Area chart Bar chart  Line Chart */}
 
-interface VisitData {
-  month: string;
-  visits: number;
-}
-
-export default function useLineChart() {
+export function useLineChart() {
      const [data, setData] = useState<VisitData[]>([]);
-    
+
       useEffect(() => {
-          fetch('/api/v1/visitors/monthly') 
-          .then(res => res.json())
-          .then((raw: { month: number; visits: number }[]) => {
-            const months = [
-              "Jan", "Feb", "Mar", "Apr",
-              "May", "Jun", "Jul", "Aug",
-              "Sep", "Oct", "Nov", "Dec"
-            ];
+        const getVisitors = async () => {
+          try {
+          const res = await fetch('/api/v1/visitors/monthly');
+          const raw: { month: number; visits: number }[] = await res.json();
+          const months = [
+            "Jan", "Feb", "Mar", "Apr",
+            "May", "Jun", "Jul", "Aug",
+            "Sep", "Oct", "Nov", "Dec"
+          ];
     
-            const filled: VisitData[] = Array.from({ length: 12 }, (_, i) => ({
-              month: months[i],
-              visits: 0
+          const filled: VisitData[] = Array.from({ length: 12 }, (_, i) => ({
+            month: months[i],
+            visits: 0
             }));
     
             raw.forEach(({ month, visits }) => {
@@ -43,7 +30,11 @@ export default function useLineChart() {
             });
             
             setData(filled);
-          });
-      }, []);
-    return ()
+          } catch (error) {
+            console.log("Failed to fetch chart data:", error)
+          }
+      };
+      getVisitors();
+    }, []);
+    return data;
 }

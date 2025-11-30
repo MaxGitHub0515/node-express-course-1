@@ -36,7 +36,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 
 // middleware from utils
 import protectRoute from './middleware/protectRoute.js';
-import adminOnly from './middleware/roleCheck.js';
+// import adminOnly from './middleware/roleCheck.js';
 // CORS configuration
 app.use(configedCors());
 // custpm middleware
@@ -129,29 +129,27 @@ const apiLimiter = rateLimit({
 });
 
 // Redis Client Setup & Connection
-const redisClient = new Redis({
-  host: process.env.REDIS_HOST || 'localhost',
-  port: process.env.REDIS_PORT || 6379,
-  password: process.env.REDIS_PASSWORD || '',
-});
+// const redisClient = new Redis({
+//   host: process.env.REDIS_HOST || 'localhost',
+//   port: process.env.REDIS_PORT || 6379,
+//   password: process.env.REDIS_PASSWORD || '',
+// });
 
-// Redis Client Event Listeners
-redisClient.on('connect', () =>  console.log('   --> Redis Client: Connected to Redis!'.green));
-redisClient.on('error', (err) => console.error('   --> Redis Client: Error connecting to Redis:', err.message.red));
-redisClient.on('ready', () => {  console.log('   --> Redis Client: Ready to accept commands.'.blue)});
+// // Redis Client Event Listeners
+// redisClient.on('connect', () =>  console.log('   --> Redis Client: Connected to Redis!'.green));
+// redisClient.on('error', (err) => console.error('   --> Redis Client: Error connecting to Redis:', err.message.red));
+// redisClient.on('ready', () => {  console.log('   --> Redis Client: Ready to accept commands.'.blue)});
 
 
 // Routes
 app.use('/api/v1/projects', apiLimiter, projectRouter);
-app.use('/api/v1/visitors', protectRoute, adminOnly, visitorRouter);
+app.use('/api/v1/visitors', protectRoute, visitorRouter);
 app.use('/api/v1/auth', apiLimiter, userRouter);
 app.use('/api/v1/auth/verify', protectRoute, verifyAuthRouter)
 app.use('/api/v1/contact', apiLimiter, contactRouter)
 // app.use('/api/v1/logs')
 // app.use('/api/v1/cpanel', protectRoute, adminCheck)
 
-// handle cuid routes
-// app.get('/main-dashboard/projects/mern/:cuidId/*', handleCUIDRoute);
 
 // --> Static File Serving for Production(loading frontend) <--
 

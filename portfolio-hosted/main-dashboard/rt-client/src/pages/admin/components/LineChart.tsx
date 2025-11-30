@@ -6,46 +6,15 @@ import {
   // AreaChart, Area,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
-import { useEffect, useState } from 'react';
+import { useLineChart } from '../hooks/useLineChart';
+import type { VisitData } from '../../../types';
 
-  {/* Urgent charts for Admin Page
-  Area chart Bar chart  Line Chart */}
-interface VisitData {
-  month: string;
-  visits: number;
-}
+{/* Urgent charts for Admin Page
+Area chart Bar chart  Line Chart */}
 
 export default function LineChartComponent() {
-  const [data, setData] = useState<VisitData[]>([]);
-
-  useEffect(() => {
-      fetch('/api/v1/visitors/monthly') 
-      .then(res => res.json())
-      .then((raw: { month: number; visits: number }[]) => {
-        const months = [
-          "Jan", "Feb", "Mar", "Apr",
-          "May", "Jun", "Jul", "Aug",
-          "Sep", "Oct", "Nov", "Dec"
-        ];
-
-        const filled: VisitData[] = Array.from({ length: 12 }, (_, i) => ({
-          month: months[i],
-          visits: 0
-        }));
-
-        raw.forEach(({ month, visits }) => {
-          if (month >= 1 && month <= 12) {
-            filled[month - 1].visits = visits;
-          }
-        });
-
-        setData(filled);
-      });
-  }, []);
-
-
-    return (
-            
+    const data: VisitData[] = useLineChart();
+    return (       
     <div className='flex flex-wrap gap-4 mt-1.5  '>
     {/* Line Charts */}
     <div className="bg-white p-4 rounded-2xl shadow flex flex-col justify-center flex-grow min-w-[860px]  ">
@@ -61,9 +30,5 @@ export default function LineChartComponent() {
     </ResponsiveContainer>
     </div>  
     </div>
-
-    
     )
-    
-
 }

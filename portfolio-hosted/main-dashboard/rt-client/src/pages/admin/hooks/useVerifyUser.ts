@@ -1,35 +1,39 @@
 
-
-
-
 import { useEffect, useState } from "react";
-
-export const verifyUser = () => {
-  const [authUser, setAuthUser] = useState
-
-  // Load user from localStorage on first mount
+import toast from "react-hot-toast";
+// import the user from the types folder
+import type { User } from "../../../types";
 
   // I will try to fetch from a separate route to check 
   // whether the user is logged in to avoid xss of local storage
-  // This version with localstorage is completely working but unreliable in terms of security  
-  
+  // The version with localstorage is totaly to be aware of  but unreliable in terms of security  
+
+
+export function useVerifyUser() {
+  const [authUser, setAuthUser] = useState<User | null>(null);
+
   useEffect(() => {
+    const verifyUser = async () => {
       try {
-        const res = await fetch('/api/v1/auth/verify', {
-          credentials: 'include'
+        const res = await fetch("/api/v1/auth/verify", {
+          credentials: "include",
         });
-        if (!res.ok) throw new Error('Not logged in');
+        if (!res.ok) throw new Error("Not logged in");
         const userData = await res.json();
-        setAuthUser(userData)
-
-      } catch (error) {
-        setAuthUser(null) // not logged in 
+        setAuthUser(userData);
+      } catch (error: unknown) {
+        setAuthUser(null); 
+        if(error instanceof Error) {
+          toast.error(error.message)
+        } else {
+            toast.error("An unexpected error occurred");
+        }
+       
       }
-   
-  }, []);
-  // set remove 
+    };
 
-  return (
-   
-  );
-};
+    verifyUser();
+  }, []);
+
+  return { authUser, setAuthUser };
+}

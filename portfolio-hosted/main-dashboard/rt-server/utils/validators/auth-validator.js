@@ -2,7 +2,7 @@
 // Using express validator instead of Joi
 import {body} from "express-validator";
 
-export const authValidator = [
+export const validateSignUp = [
     body("email")
         .trim()
         .normalizeEmail()
@@ -24,3 +24,13 @@ export const authValidator = [
         .custom((value, { req }) => value === req.body.pwd).withMessage("Passwords do not match"),
 
     ];
+
+export const validateLogin = [
+    body("email")
+        .trim()
+        .isEmail()
+        .withMessage("Invalid email"),
+    body("pwd")
+        .notEmpty()
+        .withMessage("Password is required"),
+];
