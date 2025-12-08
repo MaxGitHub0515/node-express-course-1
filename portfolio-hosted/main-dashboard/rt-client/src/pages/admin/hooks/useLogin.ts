@@ -4,11 +4,11 @@
 import type {FormikHelpers} from "formik"
 import { useNavigate } from "react-router-dom";
 // form state and handling
-import {Formik, Form, Field, ErrorMessage} from "formik";
+// import {Formik, Form, Field, ErrorMessage} from "formik";
 // form validation
 import * as Yup from "yup";
 import {toast} from "react-hot-toast"
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../../../context/AuthContext";
 interface FormValues {
     username: string;
     email: string;
@@ -44,11 +44,6 @@ export default function useLogin() {
         const navigate = useNavigate();
         const {setAuthUser} = useAuthContext();
 
-        const initValues: FormValues  = {
-            username: "",
-            email: "",
-            pwd: "",
-        }
         // const baseURL = process.env.API_BASE_URL;
         
         try {
@@ -85,5 +80,5 @@ export default function useLogin() {
         // logout logic here!!!
 
     } 
-    return ();
+    return {validSchema, useLogin};
 }

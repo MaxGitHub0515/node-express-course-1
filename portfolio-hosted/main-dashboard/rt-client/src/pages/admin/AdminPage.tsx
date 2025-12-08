@@ -1,8 +1,7 @@
 
-import {Link} from 'react-router-dom';
-
 // MAIN Admin Dashboard Sidebar 
 import SideBar from './components/SibeBar';
+import { MenuLink } from './components/MenuLink';
 // Line Chart for Analytics
 import LineChartComponent from './components/LineChart';
 
@@ -31,19 +30,10 @@ export default function AdminPage() {
           <div className='flex gap-x-4'>
             <aside>
                 <ul className='flex flex-col gap-y-0.5 text-xs min-w-32 min-h-96 px-3 py-2 overflow-y-scroll border border-gray-300' >
-                    <li>
-                        <Link to={"/cpanel/dashboard/maintenance"} className='text-gray-700 hover:text-green-600 transition-colors duration-200' title='Maintance Mode Switch'>Maintenance</Link>
-                    </li>
-                    <li>
-                        <Link to={"/cpanel/dashboard/task-runner"} className='text-gray-700 hover:text-green-600 transition-colors duration-200' title="Manual Action Queue">Task Runner</Link>
-                    </li>
-                    <li>
-                        <Link to={"/cpanel/dashboard/system"} className='text-gray-700 hover:text-green-600 transition-colors duration-200'>System Health</Link>
-                    </li>
-                  
-                    <li>
-                    <Link to={"/cpanel/dashboard/logs"} className='text-gray-700 hover:text-green-600 transition-colors duration-200' title='Admin Sessions'>Logs Review</Link>
-                    </li>
+                    <MenuLink to={"/cpanel/dashboard/maintenance"} title='Maintance Mode Switch'>Maintenance</MenuLink>
+                    <MenuLink to={"/cpanel/dashboard/task-runner"} title='Manual Action Queu'>Task Runner</MenuLink>
+                    <MenuLink to={"/cpanel/dashboard/system"} title='Maintance Mode Switch'>System Health</MenuLink>
+                    <MenuLink to={"/cpanel/dashboard/logs"} title='Admin Sessions'>Logs Review</MenuLink>
                 </ul>
             </aside>
           <LineChartComponent/>

@@ -16,9 +16,6 @@ import AppLayout from './AppLayout';
 import ProtectedLayout from './context/ProtectedLayout';
 import RedirectIfAuthenticated from './context/RedirectIfAuthenticated';
 
-
-
-
 const routes = createBrowserRouter([
     {
         path: "/",

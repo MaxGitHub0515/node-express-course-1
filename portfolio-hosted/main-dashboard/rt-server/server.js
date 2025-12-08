@@ -32,7 +32,7 @@ import verifyAuthRouter from "./routes/authVerify.routes.js"
 // contact 
 import contactRouter from "./routes/contact.routes.js"
 // Mongo Santize
-import mongoSanitize from 'express-mongo-sanitize';
+// import mongoSanitize from 'express-mongo-sanitize';
 
 // middleware from utils
 import protectRoute from './middleware/protectRoute.js';

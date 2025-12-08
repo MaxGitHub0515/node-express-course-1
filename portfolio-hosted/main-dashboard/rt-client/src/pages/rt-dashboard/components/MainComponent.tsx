@@ -44,7 +44,7 @@ schema that should be both on the UI and for db:
                     rel="noopener noreferrer"
                     >
                     <img
-                    src="https://res.cloudinary.com/dixiuoxw2/image/upload/v1753631592/MESSERA-BG_uvuf8s.png"
+                    src="https://res.cloudinary.com/dixiuoxw2/image/upload/v1765215528/Ellipse_21_6_xf9sv5.svg"
                     alt="Messera Logo"
                     className="
                         cursor-pointer

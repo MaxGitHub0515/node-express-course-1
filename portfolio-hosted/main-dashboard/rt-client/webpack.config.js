@@ -62,7 +62,7 @@ export default {
     plugins: [
         new HtmlWebpackPlugin({
             template: './index.html', // clean HTML template
-            favicon: './public/favicon.svg'
+            favicon: './public/favicon.ico', // favicon path
         }),
 
         ],
