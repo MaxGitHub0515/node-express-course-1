@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 
 export default function UserLogger() {
     const location = useLocation();
+  // TODO: make each visiter unique based on ip address and user agent - so i wouldn't have double log for the same user
 
     useEffect(() => {
     // Only log visits when location is available

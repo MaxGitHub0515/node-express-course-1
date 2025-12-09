@@ -11,7 +11,7 @@ export function useLineChart() {
         const getVisitors = async () => {
           try {
           const res = await fetch('/api/v1/visitors/monthly');
-          const raw: { month: number; visits: number }[] = await res.json();
+          const raw: { month: number; visits: number, year:number }[] = await res.json();
           const months = [
             "Jan", "Feb", "Mar", "Apr",
             "May", "Jun", "Jul", "Aug",
@@ -20,9 +20,10 @@ export function useLineChart() {
     
           const filled: VisitData[] = Array.from({ length: 12 }, (_, i) => ({
             month: months[i],
-            visits: 0
+            visits: 0,
+            year: raw[0]?.year ?? new Date().getFullYear(),
             }));
-    
+            // TODO:be able to retrive previous years for later analytics 
             raw.forEach(({ month, visits }) => {
               if (month >= 1 && month <= 12) {
                 filled[month - 1].visits = visits;

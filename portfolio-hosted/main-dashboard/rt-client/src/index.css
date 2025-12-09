@@ -37,6 +37,10 @@ body{
   animation: spinSlowly 5s linear infinite; /* 5 seconds, continuous, constant speed */
 }
 
+.sidebar-icon {
+  @apply sm:text-xl md:text-2xl lg:text-3xl text-[#333];
+}
+
 
 .icon-spin-on-hover {
   transition: transform 0.7.icon-pulses ease-in-out;

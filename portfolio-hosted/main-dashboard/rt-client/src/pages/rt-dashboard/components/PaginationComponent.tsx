@@ -18,7 +18,7 @@ const Pagination  = ({ currentPage, totalPages, onPageChange }: PaginationProps)
             key={page}
             onClick={() => onPageChange(page)}
             className={`border rounded-lg text-sm px-2.5 py-1 sm:py-1.5 sm:px-3  hover:bg-[#E5E7EB] transition ${
-                page === currentPage ? "bg-[#3B82F6] text-white border-[#2196F3]" : ""
+            page === currentPage ? "bg-[#3B82F6] text-white border-[#2196F3]" : ""
             }`}
             aria-current={page === currentPage ? "page" : undefined}
             >

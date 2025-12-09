@@ -36,7 +36,7 @@ export default function AdminPage() {
                     <MenuLink to={"/cpanel/dashboard/logs"} title='Admin Sessions'>Logs Review</MenuLink>
                 </ul>
             </aside>
-          <LineChartComponent/>
+            <LineChartComponent/>
         </div>
         </main>
        </div>

@@ -6,6 +6,15 @@ export type User = {
 };
 
 export interface VisitData {
+  year: number;
   month: string;
   visits: number;
+}
+
+
+export interface AuthFormValues {
+  username: string;
+  email: string;
+  pwd: string;
+  confirmPwd?: string; 
 }

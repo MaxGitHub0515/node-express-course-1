@@ -14,11 +14,12 @@ Area chart Bar chart  Line Chart */}
 
 export default function LineChartComponent() {
     const data: VisitData[] = useLineChart();
+    const year = data.length ? data[0].year : "";
     return (       
     <div className='flex flex-wrap gap-4 mt-1.5  '>
     {/* Line Charts */}
     <div className="bg-white p-4 rounded-2xl shadow flex flex-col justify-center flex-grow min-w-[860px]  ">
-    <div className="text-lg font-medium uppercase mb-4 text-center">Monthly Visits</div> 
+    <div className="text-lg font-medium uppercase mb-4 text-center">Monthly Visits: Year {year}</div> 
     <ResponsiveContainer width="100%" height={400}>
     <LineChart data={data}>
     <XAxis dataKey="month" />
