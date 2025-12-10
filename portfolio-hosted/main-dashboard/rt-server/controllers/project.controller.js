@@ -4,15 +4,22 @@ import {StatusCodes} from 'http-status-codes';
 import { validationResult } from 'express-validator';
 import NotFoundError from '../errors/not-found.js';
 import { asyncWrapper } from '../middleware/async-wrapper.js';
+import {uploadToCloudinary} from '../utils/project/cloudinary-upload.js';
 
 export const createProject = asyncWrapper (async (req, res) => {
-  const { name, description, image } = req.body;
-  // removed and added as a middleware to route 
-  // .....
+  const { name, description, imageUrl } = req.body;
+  let finalImageUrl = imageUrl || "";
+
+  if (req.files && req.files.fileUpload) {
+    finalImageUrl = await uploadToCloudinary(req.files.fileUpload);
+  }
+   if (!finalImageUrl) {
+    return res.status(StatusCodes.BAD_REQUEST).json({ msg: "Project image is required" });
+  }
   const project = await Project.create({
     name,
     description,
-    image,
+    image: finalImageUrl
   });
     res.status(StatusCodes.CREATED).json({
       _id: project._id,
@@ -32,7 +39,7 @@ export const getSingleProject = asyncWrapper (async (req, res) => {
     res.status(StatusCodes.OK).json({
       _id: project._id,
       name: project.name,
-      slug: project.slug,
+      // slug: project.slug,
       description: project.description,
       image: project.image
     });
@@ -40,9 +47,31 @@ export const getSingleProject = asyncWrapper (async (req, res) => {
 });
 
 export const getAllProjects = asyncWrapper (async (req, res) => {
-    const projects = await Project.find({});
-    if (projects.length === 0) throw new NotFoundError('No projects found');
-    res.status(StatusCodes.OK).json(projects);
+    const page = parseInt(req.query.page) || 1;
+    const limit = 3;
+    // mongodb document skipping
+    const skip = (page -1) * limit;
+    const [projects, totalCount] = await Promise.all([
+      Project.find({}).skip(skip).limit(limit).sort({createdAt: -1}),
+      Project.countDocuments()
+    ]);
+   if (projects.length === 0) {
+    return res.status(StatusCodes.OK).json({
+      currentPage: page,
+      totalPages: 1,
+      totalCount: 0,
+      projects: []
+    });
+    }
+
+    const totalPages = Math.ceil(totalCount / limit);
+      res.status(StatusCodes.OK).json({
+      currentPage: page,
+      totalPages,
+      totalCount,
+      projects
+    });
+    
 });
 
 export const deleteProject = asyncWrapper ( async (req, res) => {
@@ -53,7 +82,7 @@ export const deleteProject = asyncWrapper ( async (req, res) => {
 });
 
 export const updateProject = asyncWrapper ( async (req, res) => {
-  const { name, description, image } = req.body;
+  const { name, description, imageUrl } = req.body;
   const {id: projectId} = req.params;
   // removed and added as a middleware to route 
   // .....
@@ -61,8 +90,12 @@ export const updateProject = asyncWrapper ( async (req, res) => {
   if(!errors.isEmpty() ) {
     return  res.status(StatusCodes.BAD_REQUEST).json({ message: "Validation failed:", errors: errors.array() });
   }
+  let finalImageUrl = imageUrl || "";
+  if (req.files?.fileUpload) {
+    finalImageUrl = await uploadToCloudinary(req.files.fileUpload);
+  }
   const project = await Project.findByIdAndUpdate(projectId,
-    { name, description, image },
+    { name, description, image: finalImageUrl },
     { new: true, runValidators: true }
     );
     if(!project) {
@@ -71,7 +104,7 @@ export const updateProject = asyncWrapper ( async (req, res) => {
     res.status(StatusCodes.OK).json({
       _id: project._id,
       name: project.name,
-      slug: project.slug,
+      // slug: project.slug,
       description: project.description,
       image: project.image
     });

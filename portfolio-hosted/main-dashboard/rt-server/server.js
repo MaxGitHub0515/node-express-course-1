@@ -2,13 +2,14 @@
 import express from 'express';
 const app = express();
 import path from 'path';
-import colors from 'colors';
+import 'colors';
 import dotenv from "dotenv"
 dotenv.config({ path: '.env.local' });
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import Redis from 'ioredis';
+import 'ioredis';
 import compression from 'compression';
+import fileUpload from 'express-fileupload';
 import hpp from 'hpp';
 import { xss } from 'express-xss-sanitizer';
 import configedCors from  './config/cors.config.js';
@@ -47,6 +48,8 @@ import NotFoundError from './errors/not-found.js';
 
 // parse JSON request bodies, json body can not be < 10mb
 app.use(express.json({ limit: "10mb" }));
+// File Upload Middleware
+app.use(fileUpload({ useTempFiles: true }));
 // parse URL-encoded request bodies
 app.use(express.urlencoded({ extended: true }));
 // (When hosted on the web) Trust proxy to get real client IP behind proxies like CloudFlare  proxy server
@@ -174,9 +177,6 @@ if (process.env.NODE_ENV === "production") {
         console.log(`Successfully served index.html for: ${req.url.green}`);
       }
     });
-    
-    
-    
   });  
   
 }

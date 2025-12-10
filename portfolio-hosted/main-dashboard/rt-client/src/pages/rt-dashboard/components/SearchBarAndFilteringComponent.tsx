@@ -116,10 +116,6 @@ export default function SearchBarAndFilteringComponent(): React.ReactElement {
     );
   };
 
-
-
-
-
   return (
     <div className="relative flex sm:flex-row flex-col 
     sm:justify-between sm:items-center 

@@ -13,17 +13,12 @@ export const validateProject = [
         .withMessage("Validation: Project description is required")
         .isString()
         .withMessage("Validation: Project description must be a string"),
-    body("image")
-        .exists({checkFalsy: true})
-        .withMessage("Validation: Project image is required")
+    body("imageUrl")
+        .optional()
         .isString()
         .withMessage("Validation: Project image must be a string"),
-    body("slug")
-        .exists({checkFalsy: true})
-        .withMessage("Validation: Project slug is required")
-        .isString()
-        .withMessage("Validation: Project slug must be a string")
-        .trim(),
+    body("fileUpload") 
+        .optional()
         
 ]
 
@@ -39,13 +34,10 @@ export const validateProjectUpdate = [
         .isString()
         .withMessage("Project description must be a string")
         .trim(),
-    body("image")
+    body("imageUrl")
         .optional()
         .isURL()
         .withMessage("Image must be a valid URL"),
-    body("slug")
+    body("fileUpload") 
         .optional()
-        .isString()
-        .withMessage("Project slug must be a string")
-        .trim(),
 ];

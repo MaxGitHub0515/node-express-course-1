@@ -7,18 +7,19 @@ const projectSchema = new mongoose.Schema({
     required: [true, 'Project name is required'],
     unique: true,
     trim: true,
-    minlength: [6, 'Name must be at least 6 characters long'],
+    minlength: [3, 'Name must be at least 3 characters long'],
     maxlength: [50, 'Name cannot exceed 30 characters']
   },
   description: {
     type: String,
     required: [true, 'Project description is required'],
-    minlength: [60, 'Description must be at least 60 characters long'],
-    maxlength: [500, 'Description cannot exceed 500 characters']
+    minlength: [20, 'Description must be at least 60 characters long'],
+    maxlength: [1500, 'Description cannot exceed 1500 characters'],
+    trim: true,
   },
   image: {
     type: String,
-    required: [true, 'Project image is required'],
+    // required: [true, 'Project image is required'],
     trim: true,
   },
   slug: {
@@ -26,10 +27,20 @@ const projectSchema = new mongoose.Schema({
     required: true,
     unique: true,
     trim: true,
+  },
+  stack: [{
+    type: String,
+    enum: ['MERN', 'PERN', ],
+    trim: true,
+  }],
+  features: [{
+    type: String,
+    required: true,
+    trim: true,
+  }],
 
-  }
 }, {timestamps:true} );
-
+// used for urls 
 projectSchema.pre('validate', function (next) {
   if (this.name && !this.slug) {
     this.slug = slugify(this.name, { lower: true, strict: true });

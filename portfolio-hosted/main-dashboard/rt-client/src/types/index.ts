@@ -18,3 +18,17 @@ export interface AuthFormValues {
   pwd: string;
   confirmPwd?: string; 
 }
+
+export interface ProjectFormValues {
+  name: string;
+  description: string;
+  imageUrl: string;
+  fileUpload: FileList | null;
+}
+
+export interface Project {
+  _id: string;
+  name: string;
+  description: string;
+  image: string; // Stored Final Image URL
+}

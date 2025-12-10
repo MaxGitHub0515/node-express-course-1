@@ -14,6 +14,7 @@ import {
 
  } from "../controllers/project.controller.js";
 
+// MAIN ROUTE: /api/v1/projects
 
 router.post("/", protectRoute, validateProject, validateRequest, createProject);
 
