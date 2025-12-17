@@ -28,16 +28,16 @@ const projectSchema = new mongoose.Schema({
     unique: true,
     trim: true,
   },
-  stack: [{
-    type: String,
-    enum: ['MERN', 'PERN', ],
-    trim: true,
-  }],
-  features: [{
-    type: String,
-    required: true,
-    trim: true,
-  }],
+  // stack: [{
+  //   type: String,
+  //   enum: ['MERN', 'PERN'],
+  //   trim: true,
+  // }],
+  // features: [{
+  //   type: String,
+  //   required: true,
+  //   trim: true,
+  // }],
 
 }, {timestamps:true} );
 // used for urls 

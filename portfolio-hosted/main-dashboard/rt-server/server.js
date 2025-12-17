@@ -22,7 +22,6 @@ const __filename = fileURLToPath(import.meta.url);
 // getting absolute path of the dir containing this file.
 const __dirname = dirname(__filename);
 // Routes
-// import handleCUIDRoute from './controllers/cuid.controller.js';
 import projectRouter from './routes/project.routes.js';
 //
 import userRouter from "./routes/auth.routes.js"

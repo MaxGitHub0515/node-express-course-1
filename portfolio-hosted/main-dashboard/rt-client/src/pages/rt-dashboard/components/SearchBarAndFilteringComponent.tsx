@@ -15,8 +15,8 @@ interface Stack {
 interface SuggestProjectName {
     _id: string;
     name: string;
-    cuid: string,
     stack: string
+    slug: string
 }
 // mock data for stacks, later be added from db 
 
@@ -27,24 +27,16 @@ const stacksMock: Stack[] = [
 ];
 
 export const Suggestions: SuggestProjectName[] = [
-  { _id: "1", name: "Messera", cuid: "54f4t4fdf45ds454fr", stack: "mern" },
-  { _id: "2", name: "BooklyStore", cuid: "jfj53454fd343dgf4g", stack: "mern" },
-  { _id: "3", name: "Modaily", cuid: "kcf3t4fdf45ds454fa", stack: "mern" },
-  { _id: "4", name: "Project", cuid: "942ft4fdf45ds454fb", stack: "mern" },
-  { _id: "5", name: "Project", cuid: "76f4t4fdf45ds454fc", stack: "lamp" },
+  { _id: "1", name: "Messera", slug: "54f4t4fdf45ds454fr", stack: "mern" },
+  { _id: "2", name: "BooklyStore", slug: "jfj53454fd343dgf4g", stack: "mern" },
+  { _id: "3", name: "Modaily", slug: "kcf3t4fdf45ds454fa", stack: "mern" },
+  { _id: "4", name: "Project", slug: "942ft4fdf45ds454fb", stack: "mern" },
+  { _id: "5", name: "Project", slug: "76f4t4fdf45ds454fc", stack: "lamp" },
 ];
 
-
-// cuid should be generated so it comes from utils and 
-// should be comming from server side only 
-
 // projects name suggestions
-
-
-
 export default function SearchBarAndFilteringComponent(): React.ReactElement {
-   const navigate = useNavigate();
-  const [isOpen, setOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   // Set mern checked by default
@@ -56,8 +48,6 @@ export default function SearchBarAndFilteringComponent(): React.ReactElement {
 
   const [isAutocompleteOpen, setAutocompleteOpen] = useState(false); 
   const containerRef = useRef<HTMLDivElement>(null); 
-  const toggleDropdown = (): void => setOpen((prev) => !prev);
-  
   function toggleStack(id: string): void {
     setSelectedStack((prev) => ({
       ...prev,
@@ -72,7 +62,6 @@ export default function SearchBarAndFilteringComponent(): React.ReactElement {
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
       ) {
-        setOpen(false); // close filter dropdown
         setAutocompleteOpen(false); // close autocomplete dropdown
       }
     }
@@ -94,7 +83,6 @@ export default function SearchBarAndFilteringComponent(): React.ReactElement {
       );
 
 
-
    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
      if (e.target.value.trim() !== "") {
@@ -107,10 +95,9 @@ export default function SearchBarAndFilteringComponent(): React.ReactElement {
   // When clicking a suggestion label, toggle its checkbox
   const handleSuggestionClick = (project: SuggestProjectName) => {
     setAutocompleteOpen(false);
-    setOpen(false);
     // Navigate to detailed page with query params: search term, stack, and page=1
     navigate(
-      `/main-dashboard/projects/${project.cuid}?search=${encodeURIComponent(
+      `/main-dashboard/projects/${project.slug}?search=${encodeURIComponent(
         searchTerm
       )}&stack=${project.stack}&page=1`
     );
@@ -120,68 +107,68 @@ export default function SearchBarAndFilteringComponent(): React.ReactElement {
     <div className="relative flex sm:flex-row flex-col 
     sm:justify-between sm:items-center 
     gap-y-2 gap-x-6 bg-blue-300 sm:bg-blue-200 sm:p-4 p-3 rounded-md"
-    ref={containerRef}
     >
 
-      {/* Filter stack toggle button */}
-    <div className="">
+    {/* Filter stack hover dropdown*/}
+    <div className="relative inline-block group pb-2" ref={containerRef}>
       <button
-        onClick={toggleDropdown}
         className="flex items-center gap-2
-         px-2 py-1.5 sm:px-4 sm:py-1.5 text-sm  border-1 rounded-md 
+         px-2 py-1.5 sm:px-4 sm:py-1.5 text-sm border rounded-md 
          focus:outline-none focus:ring-2 focus:ring-blue-500 
-         sm:hover:bg-gray-100 sm:focus:bg-transparent focus:bg-gray-100
-         transition-colors duration-300 ease-in-out
-        
-         "
+         sm:hover:bg-gray-100 focus:bg-gray-100
+         transition-colors duration-300"
         aria-haspopup="true"
-        aria-expanded={isOpen}
-        type="button"
-      >
+        type="button">
         <FaSlidersH />
         <span>Filter Stack</span>
       </button>
-        </div>
-   
-      {isOpen && (
-        <div className="absolute top-full mt-2 w-40 bg-white border rounded-md shadow-lg z-10">
-          <form className="p-3">
+      
+     {/* Filter dropdown menu  */}
+        <div className={`absolute top-full w-40 bg-white 
+        rounded-md  z-10 shadow-md
+        opacity-0 pointer-events-none
+        transition-all duration-300 ease-in-out
+        group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
+      `}>
+       <form className="p-3">
             {filteredStacks.map(({ id, label }) => (
               <label
                 key={id}
-                className={`flex items-center gap-2 mb-2 cursor-pointer ${
-                  selectedStack[id] ? "text-green-600 font-semibold" : "text-gray-700"
+                role="menuitemcheckbox"
+                className={`flex items-center gap-2 mb-2 cursor-pointer tracking-wider ${
+                  selectedStack[id] ? "text-blue-200 font-semibold" : "text-gray-700"
                 }`}
               >
                 <input
                   type="checkbox"
                   checked={selectedStack[id]}
                   onChange={() => toggleStack(id)}
-                  className="accent-green-600"
+                  className="accent-blue-700 size-4 rounded"
                 />
                 {label}
               </label>
             ))}
           </form>
         </div>
-      )}
+      </div>
+      {/* ------------------------------- */}
+     {/* Search bar with autocomplete */}
         <div className="flex-1 sm:max-w-md">
           <div className="relative flex sm:flex-row flex-row-reverse gap-2 items-center">
             <button
               type="button"
               value=""
-              onClick={() => console.log("Search clicked")}
+              onClick={() => {}}
               className="
-              cursor-pointer
-              border-1  rounded-md sm:p-1.5 p-2
+              cursor-pointer border
+              rounded-md p-1.5 md:p-2
               focus:outline-none focus:ring-2 focus:ring-blue-500
               sm:hover:bg-gray-100 focus:bg-gray-100 sm:focus:bg-transparent
-              transition-colors duration-200 ease-in-out 
-            
+              transition-colors duration-200 
               "
               aria-label="Search"
             > 
-              <FiSearch className="sm:w-[30px] sm:h-[30px] " />
+              <FiSearch className="size-4 md:size-5" />
             </button>
             <input
                 type="text"
@@ -190,39 +177,32 @@ export default function SearchBarAndFilteringComponent(): React.ReactElement {
                 onFocus={() => setAutocompleteOpen(true)}
                 placeholder="Search projects..."
                 className="w-full text-sm placeholder-gray-700 sm:placeholder-gray-500 
-                tracking-wider px-4 py-1.5 sm:py-1.5 border-1 rounded-md
+                tracking-wider px-4 py-1.5 sm:py-1.5 border rounded-md
                 focus:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500
-                transition-colors duration-300 ease-in-out 
+                transition-colors duration-300 
                 "
             />
               {/* Autocomplete dropdown */}
            {isAutocompleteOpen && filteredProjects.length > 0 && (
                 <ul
-                className="absolute top-full left-0 right-0 z-20 mt-2 max-h-60 overflow-auto 
-                bg-white border rounded-md shadow-lg
+                className="absolute top-full left-0 right-0 z-10 mt-2 max-h-60 overflow-auto 
+                bg-white rounded-md shadow-md
                 transition-opacity duration-300 ease-in-out opacity-100"
                 style={{ animation: "fadeIn 0.3s ease forwards" }}
                 >
-      {filteredProjects.map(({ _id, name, cuid, stack }) => (
+      {filteredProjects.map(({ _id, name, slug, stack }) => (
         <li
           key={_id}
-          onClick={() => handleSuggestionClick({ _id, name, cuid, stack })}
+          onClick={() => handleSuggestionClick({ _id, name, slug, stack })}
           className="cursor-pointer px-4 py-2 hover:bg-blue-100"
         >
           {name} <span className="text-xs text-gray-500">({stack.toUpperCase()})</span>
         </li>
       ))}
-    </ul>
-    )}
-          </div>
-           
-        </div>
+     </ul>
+        )}
+      </div>
     </div>
+  </div> 
   );
-
-
-
-
-
 }
-

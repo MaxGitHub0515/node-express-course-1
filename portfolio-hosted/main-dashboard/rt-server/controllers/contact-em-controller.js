@@ -30,16 +30,14 @@ export default async function sendEmailContact(req, res) {
         msg: "Email was sent Successfuly"
       })
     } catch (error) {
+      console.log(error)
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       status: 'error',
       message: 'Failed to send an email',
+      
     });
        
     }
-
-
-
-
 
 }
 

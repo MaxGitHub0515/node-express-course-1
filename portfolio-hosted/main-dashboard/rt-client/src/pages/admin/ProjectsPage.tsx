@@ -1,6 +1,5 @@
 
 import {useForm} from "react-hook-form";
-import toast from "react-hot-toast";
 // no validation - data is not extremely sensitive
 import { FaFileUpload } from "react-icons/fa";
 import { MdOutlineKeyboardDoubleArrowLeft, MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
@@ -20,18 +19,8 @@ export default function ProjectsPage() {
     const urlWatch = watch("imageUrl");
 
     const onSubmit = async  (values: ProjectFormValues) => {
-    if (!values.imageUrl && !values.fileUpload?.length) {
-    toast.error("Please provide an Image URL or Upload a file");
-    return;
-    }
 
-    if (values.imageUrl && values.fileUpload?.length) {
-    toast.error("Provide either Image URL OR Upload File, not both");
-    return;
-    }
-
-    await createProject(values);
-    reset();
+    await createProject(values, () => reset());
     }
     return (
     <>

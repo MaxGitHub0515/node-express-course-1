@@ -10,6 +10,7 @@ export default function MainComponent() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+  
     useEffect(() => {
         async function fetchProjects() {
             const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || '';
