@@ -11,6 +11,8 @@ const configCors = () => {
                  // front in production
                 'https://www.illustrates.info',
                 'https://illustrates.info',
+                // back in production
+                'https://api.illustrates.dev'
 
             ]
       
