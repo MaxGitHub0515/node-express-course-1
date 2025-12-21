@@ -17,10 +17,10 @@ export default async function sendEmailContact(req, res) {
 
     const mailOptions = {
       from: process.env.NODE_MAILER_EMAIL_USER,
-      to: process.env.NODE_MAILER_EMAIL_USER_TO_FIXED,
+      to: process.env.NODE_MAILER_EMAIL_USER_TO,
       replyTo: email,
-      subject,
-      text: message
+      subject: `Portfolio Contact: ${subject}`,
+      text: `Message from ${email}:\n\n${message}`
     }
     try {
       await transporter.sendMail(mailOptions);

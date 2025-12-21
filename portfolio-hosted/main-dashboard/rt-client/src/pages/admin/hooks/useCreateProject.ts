@@ -10,6 +10,9 @@ export default function useCreateProject() {
         const formData = new FormData();
         formData.append("name", values.name);
         formData.append("description", values.description);
+        if (values.projectLocUrl) {
+        formData.append("projectLocUrl", values.projectLocUrl);
+        }
         // loop through the array and append each tag to the same key "stack"
         if (values.stack && values.stack.length > 0) {
             values.stack.forEach((tag) => {

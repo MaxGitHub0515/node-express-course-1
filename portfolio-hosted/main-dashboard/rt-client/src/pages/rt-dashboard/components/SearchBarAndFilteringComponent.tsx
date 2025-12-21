@@ -65,7 +65,7 @@ export default function SearchBarAndFilteringComponent({stackOptions, onStackCha
       `}>
        <form className="p-3">
         {/* 1. THE "ALL" CHECKBOX */}
-            <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
+            <label className="flex items-center gap-2 cursor-pointer hover:bg-blue-300 p-1 rounded">
                 <input
                   type="checkbox"
                   checked={activeStack.length === 0} // "All" is active if nothing else is ticked
@@ -76,7 +76,7 @@ export default function SearchBarAndFilteringComponent({stackOptions, onStackCha
                 All
               </span>
             </label>
-            <hr className="border-gray-100" />
+            <hr className="border-gray-100 mb-1" />
           {/*  DYNAMIC CHECKBOXES FROM DB */ }
             {stackOptions?.map((stack) => {
               const isTicked = activeStack.includes(stack.name);
@@ -84,7 +84,7 @@ export default function SearchBarAndFilteringComponent({stackOptions, onStackCha
               <label
                 key={stack._id}
                 role="menuitemcheckbox"
-                className={`flex items-center gap-2 mb-2 cursor-pointer tracking-wider ${
+                className={`flex items-center gap-2 mb-2  cursor-pointer tracking-wider ${
                   isTicked ? "text-blue-200 font-semibold" : "text-gray-700"
                 }`}
               >
@@ -92,7 +92,7 @@ export default function SearchBarAndFilteringComponent({stackOptions, onStackCha
                   type="checkbox"
                   checked={isTicked}
                   onChange={() => onStackChange(stack.name)}
-                  className="accent-blue-700 size-4 rounded"
+                  className="accent-blue-700 size-3 ml-3 rounded"
                 />
                 <span className={activeStack.includes(stack.name) ? "text-blue-600 font-bold" : "text-gray-700"}>
                   {stack.name}

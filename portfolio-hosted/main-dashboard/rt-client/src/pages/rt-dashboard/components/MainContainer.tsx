@@ -32,7 +32,7 @@ export default function MainContainer() {
             ) : ( 
             <MainComponent/>
             )} */}
-            <MainComponent projects={projects}/>
+            <MainComponent projects={projects} activeStack={activeStack}/>
             {projects.length > 0 && (
                 <PaginationComponent
                 currentPage={currentPage}

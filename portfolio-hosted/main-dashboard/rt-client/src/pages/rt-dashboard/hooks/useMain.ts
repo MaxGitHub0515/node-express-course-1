@@ -1,91 +1,132 @@
 
-// import toast from "react-hot-toast";
-import type { Project, StackOption } from "../../../types";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react"; // <--- Import useMemo
 import { useSearchParams } from "react-router-dom";
+import type { Project, StackOption } from "../../../types";
 import toast from "react-hot-toast";
 
 export default function useMain() {
-    // 1. URL Params 
     const [searchParams, setSearchParams] = useSearchParams();
-    // paginatiion
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
+    
     const [projects, setProjects] = useState<Project[]>([]);
-    // dropdown filter
-    const [activeStack, setActiveStack] = useState<string[]>(['MERN']);
+    const [totalPages, setTotalPages] = useState(1);
     const [allStacks, setAllStacks] = useState<StackOption[]>([]);
-    // search filter
-    const [searchTerm, setSearchTerm ] = useState("");
-    // const [loading, setLoading] = useState(false);
-    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || '';
+    
+    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "";
+
+    const currentPage = Number(searchParams.get("page")) || 1;
+    const searchTerm = searchParams.get("search") || "";
+    const stackParam = searchParams.get("stack");
+    // This creates a stable reference for activeStack. 
+    // It only recreates the array when 'stackParam' string changes.
+    const activeStack = useMemo(() => {
+        return (stackParam && stackParam !== "All") 
+            ? stackParam.split(",") 
+            : [];
+    }, [stackParam]);
 
     useEffect(() => {
         const getProjects = async () => {
             try {
+                const stackQueryValue = activeStack.length > 0 ? activeStack.join(",") : "All";
+                
                 const query = new URLSearchParams({
-                    stack: activeStack.join(','),
+                    stack: stackQueryValue,
                     page: currentPage.toString(),
                     search: searchTerm
-                })
+                });
+
                 const res = await fetch(`${API_BASE_URL}/api/v1/projects?${query.toString()}`);
-                if (!res.ok) throw new Error("Failed fetching projects for pagination");
+                if (!res.ok) throw new Error("Failed fetching projects");
+                
                 const data = await res.json();
                 setProjects(data.projects);
                 setTotalPages(data.totalPages);
-                // SAFETY CLAMP
-                // If we are on Page 5, but results only have 3 pages, force go to Page 3. etc
+
                 if (data.totalPages > 0 && currentPage > data.totalPages) {
-                    setCurrentPage(data.totalPages);
+                    setSearchParams(prev => {
+                        prev.set("page", data.totalPages.toString());
+                        return prev;
+                    });
                 }
             } catch (error) {
                 console.error(error);
                 setProjects([]);
-                toast.error("Error loading projects")
+                toast.error("Error loading projects");
             }
         };
-        // DEBOUNCE
-        // Wait 500ms after user stops typing/clicking before fetching
+
         const timeoutId = setTimeout(() => {
             getProjects();
-        }, 500)
-        // Cleanup: If user types again before 500ms, cancel the previous timer
-            return () => clearTimeout(timeoutId);
-        }, [currentPage, activeStack, searchTerm, API_BASE_URL]);
+        }, 500);
 
-        const handleStackChange = (stackName: string) => {
-        // reset to page 1 when filter changes
-        setCurrentPage(1);
-        if(stackName === "All") {
-        // Ticking "All" clears all specific filters
-        setActiveStack([]); 
-        return;
-        };
-        setActiveStack((prev) => 
-        prev.includes(stackName) 
-            ? prev.filter(s => s !== stackName) // Untick
-            : [...prev, stackName]              // Tick
-        );
+        return () => clearTimeout(timeoutId);
+        
+    // Because we used useMemo above, this won't cause an infinite loop.
+    }, [currentPage, activeStack, searchTerm, API_BASE_URL, setSearchParams]); 
+
+    // ... (Keep the rest of your handlers: setCurrentPage, setSearchTerm, handleStackChange, refetchStacks) ...
+    
+    // For completeness, here are the handlers again so you don't lose them:
+    const setCurrentPage = (page: number) => {
+        setSearchParams(prev => {
+            prev.set("page", page.toString());
+            return prev;
+        });
+    };
+
+    const setSearchTerm = (term: string) => {
+        setSearchParams(prev => {
+            if (term) prev.set("search", term);
+            else prev.delete("search");
+            prev.set("page", "1"); 
+            return prev;
+        });
+    };
+
+    const handleStackChange = (stackName: string) => {
+        setSearchParams(prev => {
+            const currentRaw = prev.get("stack");
+            const currentList = (currentRaw && currentRaw !== "All") 
+                ? currentRaw.split(",") 
+                : [];
+
+            let newStacks: string[];
+
+            if (stackName === "All") {
+                newStacks = []; 
+            } else {
+                if (currentList.includes(stackName)) {
+                    newStacks = currentList.filter(s => s !== stackName);
+                } else {
+                    newStacks = [...currentList, stackName];
+                }
+            }
+
+            if (newStacks.length === 0) {
+                prev.delete("stack"); 
+            } else {
+                prev.set("stack", newStacks.join(","));
+            }
+            prev.set("page", "1"); 
+            return prev;
+        });
+    };
+
+    const refetchStacks = useCallback(async () => {
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/v1/projects/stacks`, {
+                headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
+            });
+            const data = await res.json();
+            setAllStacks(data);
+        } catch (error) {
+            console.error("Failed to get stack", error);
         }
+    }, [API_BASE_URL]);
 
     useEffect(() => {
-        const getStacks = async() => {
-            try {
-                const res = await fetch(`${API_BASE_URL}/api/v1/projects/stacks`, {
-                    headers: {
-                        'Cache-Control': 'no-cache',
-                        'Pragma': 'no-cache'
-                    }
-                });
-                const data = await res.json();
-                // backend returns: array: [{_id: "1", name: "MERN" ..
-                setAllStacks(data);
-            } catch (error) {
-                console.error("Failed to get stack", error)
-            }
-        };
-        getStacks();
-    }, [API_BASE_URL]);
+        refetchStacks();
+    }, [refetchStacks]);
 
     return {
         projects, 
@@ -96,7 +137,7 @@ export default function useMain() {
         searchTerm, 
         setSearchTerm,
         setCurrentPage,
-        setActiveStack,
-        allStacks
+        allStacks,
+        refetchStacks
     };
 }

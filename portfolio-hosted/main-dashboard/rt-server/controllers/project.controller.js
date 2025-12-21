@@ -14,7 +14,7 @@ export const getAllStacks = asyncWrapper(async (req, res) => {
 })
 
 export const createProject = asyncWrapper (async (req, res) => {
-  const { name, description, imageUrl, stack } = req.body;
+  const { name, description, imageUrl, stack, projectLocUrl } = req.body;
   let finalImageUrl = imageUrl || "";
 
   if (req.files && req.files.fileUpload) {
@@ -49,7 +49,8 @@ export const createProject = asyncWrapper (async (req, res) => {
     name,
     description,
     image: finalImageUrl,
-    stack: stackIds
+    stack: stackIds,
+    projectLocUrl: projectLocUrl || ""
   });
     res.status(StatusCodes.CREATED).json({
       _id: project._id,
@@ -57,7 +58,8 @@ export const createProject = asyncWrapper (async (req, res) => {
       slug: project.slug,
       description: project.description,
       image: project.image,
-      stack: stackIds
+      stack: stackIds,
+      projectLocUrl: projectLocUrl || ""
 
     });  
 });
@@ -78,14 +80,47 @@ export const getSingleProject = asyncWrapper (async (req, res) => {
 });
 
 export const getAllProjects = asyncWrapper (async (req, res) => {
-    const page = parseInt(req.query.page) || 1;
+  const { search, stack, page } = req.query;
+  const queryObject = {};
+  // SEARCH FILTER
+    if (search) {
+        queryObject.$or = [
+            { name: { $regex: search, $options: 'i' } },
+            { description: { $regex: search, $options: 'i' } }
+        ];
+    }
+    // STACK FILTER
+    // Logic: If stack is "All" (or empty), we skip this block -> MongoDB returns everything.
+    if (stack && stack !== 'All' && stack !== '') {
+        const stackList = stack.split(',');
+
+        // Find Stack IDs matching the names
+        const matchingStacks = await Stack.find({ 
+            name: { $in: stackList.map(s => new RegExp(`^${s.trim()}$`, 'i')) } 
+        });
+
+        const stackIds = matchingStacks.map(s => s._id);
+
+        if (stackIds.length > 0) {
+            // Filter projects that have AT LEAST ONE of these stacks
+            queryObject.stack = { $in: stackIds };
+        } else {
+            // User searched for a stack that doesn't exist -> Return empty list
+            return res.status(StatusCodes.OK).json({ 
+                currentPage: 1, totalPages: 0, totalCount: 0, projects: [] 
+            });
+        }
+    }
+    // PAGINATION
+    const pageNum = Number(page) || 1;
     const limit = 3;
     // mongodb document skipping
-    const skip = (page -1) * limit;
+    const skip = (pageNum - 1) * limit;
     const [projects, totalCount] = await Promise.all([
-      Project.find({}).skip(skip).limit(limit).sort({createdAt: -1}).populate('stack', 'name'),
-      Project.countDocuments()
+      Project.find(queryObject).skip(skip).limit(limit).sort({createdAt: -1}).populate('stack', 'name'),
+      Project.countDocuments(queryObject)
     ]);
+    
    if (projects.length === 0) {
     return res.status(StatusCodes.OK).json({
       currentPage: page,
@@ -95,9 +130,10 @@ export const getAllProjects = asyncWrapper (async (req, res) => {
     });
     }
 
+
     const totalPages = Math.ceil(totalCount / limit);
       res.status(StatusCodes.OK).json({
-      currentPage: page,
+      currentPage: pageNum,
       totalPages,
       totalCount,
       projects

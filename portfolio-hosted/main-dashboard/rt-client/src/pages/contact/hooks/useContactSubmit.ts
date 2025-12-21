@@ -14,15 +14,15 @@ interface FormValues {
 
 
 export default function ContactPage() {
-
+    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "";
+    const navigate = useNavigate();
     const useContactSubmit = async  (values:FormValues, {resetForm}: FormikHelpers<FormValues>) =>{
-        const navigate = useNavigate();
         // const initValues: FormValues  = {
         // email: "",
         // subject: "",
         // message: ""
         // }
-        const res = await fetch('/api/v1/contact/send-email', {
+        const res = await fetch(`${API_BASE_URL}/api/v1/contact/send-email`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(values),

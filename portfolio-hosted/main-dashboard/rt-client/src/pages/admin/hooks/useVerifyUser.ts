@@ -11,11 +11,11 @@ import type { User } from "../../../types";
 
 export function useVerifyUser() {
   const [authUser, setAuthUser] = useState<User | null>(null);
-
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "";
   useEffect(() => {
     const verifyUser = async () => {
       try {
-        const res = await fetch("/api/v1/auth/verify", {
+        const res = await fetch(`${API_BASE_URL}/api/v1/auth/verify`, {
           credentials: "include",
         });
         if (!res.ok) throw new Error("Not logged in");
@@ -33,7 +33,7 @@ export function useVerifyUser() {
     };
 
     verifyUser();
-  }, []);
+  }, [API_BASE_URL]);
 
   return { authUser, setAuthUser };
 }

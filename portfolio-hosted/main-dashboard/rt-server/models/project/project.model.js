@@ -32,11 +32,12 @@ const projectSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Stack'
   }],
-  // features: [{
-  //   type: String,
-  //   required: true,
-  //   trim: true,
-  // }],
+  projectLocUrl: {
+    type:String,
+    trim: true,
+    default: ""
+  }
+
 
 }, {timestamps:true} );
 // used for urls on the ui

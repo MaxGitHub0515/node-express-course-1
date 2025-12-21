@@ -6,11 +6,11 @@ import type { VisitData } from '../../../types';
 
 export function useLineChart() {
      const [data, setData] = useState<VisitData[]>([]);
-
+      const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "";
       useEffect(() => {
         const getVisitors = async () => {
           try {
-          const res = await fetch('/api/v1/visitors/monthly');
+          const res = await fetch(`${API_BASE_URL}/api/v1/visitors/monthly`);
           const raw: { month: number; visits: number, year:number }[] = await res.json();
           const months = [
             "Jan", "Feb", "Mar", "Apr",
@@ -36,6 +36,6 @@ export function useLineChart() {
           }
       };
       getVisitors();
-    }, []);
+    }, [API_BASE_URL]);
     return data;
 }
