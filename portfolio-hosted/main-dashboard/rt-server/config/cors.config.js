@@ -44,7 +44,7 @@ const configCors = () => {
         // cors will authomatically handle it if false
         preflightContinue:false,
         maxAge: 600, // Cache preflight response for 10 minutes
-        optionsSuccessStatus: 204, // ok/successful options requests
+        optionsSuccessStatus: 200, // ok/successful options requests
 
 
     })
