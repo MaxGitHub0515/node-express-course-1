@@ -6,10 +6,11 @@ import { MdOutlineKeyboardDoubleArrowLeft, MdOutlineKeyboardDoubleArrowRight } f
 import { useNavigate } from "react-router-dom";
 import type {ProjectFormValues} from "../../types";
 import useCreateProject from "./hooks/useCreateProject";
-
-
+import { useEffect } from "react";
+import useMain from "../rt-dashboard/hooks/useMain"
+import StackSelector from "./components/StackSelector";
 export default function ProjectsPage() {
-    const { register, handleSubmit, watch, reset, formState: { errors } } = useForm<ProjectFormValues>();
+    const { register, handleSubmit, watch, reset, setValue, formState: { errors } } = useForm<ProjectFormValues>();
     const { createProject } = useCreateProject();
 
     const navigate = useNavigate();
@@ -17,6 +18,11 @@ export default function ProjectsPage() {
     // use because we choose either URL OR file — not both
     const fileWatch = watch("fileUpload");
     const urlWatch = watch("imageUrl");
+    const {allStacks} = useMain()
+    // Important: Register the hidden field in the parent so validation works
+    useEffect(() => {
+        register("stack", { required: "At least one stack is required" });
+    }, [register]);
 
     const onSubmit = async  (values: ProjectFormValues) => {
 
@@ -26,8 +32,7 @@ export default function ProjectsPage() {
     <>
     <div className='flex gap-x-1'>
         <main className='relative w-full p-3 rounded-lg shadow-lg bg-[#F5F5F5]'>
-        {/* Header */}
-        {/* <div className='text-1xl font-bold text-gray-800 '>Projects</div> */}
+        {/* ARROWS << >> */}
           <div className='absolute top-[300px] left-0 right-0 flex justify-between items-center px-5'>
              <button
                 onClick={() => navigate(-1)}>
@@ -64,6 +69,22 @@ export default function ProjectsPage() {
             className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-600"
             />
             {errors.description && <p className="text-red-600 text-sm">{errors.description.message}</p>}
+        </div>
+        {/* STACK DROPDOWN*/}
+        <StackSelector 
+        allStacks={allStacks} 
+        setValue={setValue} 
+        errors={errors} 
+        />
+        {/* PROJECT LOCATION URL*/}
+        <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Project Location</label>
+            <input 
+            type="url"
+            {...register("projectLocUrl")}
+            placeholder="Project Location URL"
+            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-600"
+            />
         </div>
 
         {/* IMAGE URL */}

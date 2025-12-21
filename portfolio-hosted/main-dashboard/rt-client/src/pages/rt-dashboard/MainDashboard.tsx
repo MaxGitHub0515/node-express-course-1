@@ -1,12 +1,12 @@
 
 
 import NavBarComponent from "./components/NavBar";
-import MainComponent from "./components/MainComponent"
+import MainContainer from "./components/MainContainer"
 export default function MainDashboard() {
     return (
        <>
        <NavBarComponent/>
-        <MainComponent />
+        <MainContainer />
        </>
         
     );

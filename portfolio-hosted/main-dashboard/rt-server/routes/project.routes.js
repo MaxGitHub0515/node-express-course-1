@@ -10,22 +10,24 @@ import {
     getSingleProject,
     updateProject,
     getAllProjects,
-    deleteProject
+    deleteProject,
+    getAllStacks
 
  } from "../controllers/project.controller.js";
 
+ 
 // MAIN ROUTE: /api/v1/projects
-
-router.post("/", protectRoute, validateProject, validateRequest, createProject);
+router.get("/stacks", getAllStacks )
 
 router.get("/:id",getSingleProject) 
+
+router.post("/", protectRoute, validateProject, validateRequest, createProject);
 
 router.patch("/:id", protectRoute, validateProjectUpdate, validateRequest, updateProject)
 
 router.delete("/:id", protectRoute, deleteProject)
 
 router.get("/", getAllProjects)
-
 
 
 export default router;

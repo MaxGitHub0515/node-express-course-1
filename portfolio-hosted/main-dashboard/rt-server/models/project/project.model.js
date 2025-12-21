@@ -28,11 +28,10 @@ const projectSchema = new mongoose.Schema({
     unique: true,
     trim: true,
   },
-  // stack: [{
-  //   type: String,
-  //   enum: ['MERN', 'PERN'],
-  //   trim: true,
-  // }],
+  stack: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Stack'
+  }],
   // features: [{
   //   type: String,
   //   required: true,
@@ -40,7 +39,7 @@ const projectSchema = new mongoose.Schema({
   // }],
 
 }, {timestamps:true} );
-// used for urls 
+// used for urls on the ui
 projectSchema.pre('validate', function (next) {
   if (this.name && !this.slug) {
     this.slug = slugify(this.name, { lower: true, strict: true });

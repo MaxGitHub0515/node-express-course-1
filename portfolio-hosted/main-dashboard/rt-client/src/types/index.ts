@@ -23,6 +23,8 @@ export interface ProjectFormValues {
   name: string;
   description: string;
   imageUrl: string;
+  projectLocUrl: string,
+  stack: string[],
   fileUpload: FileList | null;
 }
 
@@ -31,4 +33,21 @@ export interface Project {
   name: string;
   description: string;
   image: string; // Stored Final Image URL
+  projectLocUrl: string;
+  slug: string;
+  // IMPORTANT: Since we use .populate('stack'), this is an array of OBJECTS, not strings!
+  stack: StackOption[];
+}
+
+export interface StackOption {
+  _id: string,
+  name: string
+}
+
+export interface SearchBarProps {
+    stackOptions: StackOption[]; 
+    activeStack: string[];      
+    onStackChange: (stack: string) => void;
+    searchTerm: string;
+    onSearchChange: (term: string) => void;
 }

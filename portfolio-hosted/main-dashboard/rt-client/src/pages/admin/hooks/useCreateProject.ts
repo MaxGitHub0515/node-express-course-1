@@ -10,6 +10,12 @@ export default function useCreateProject() {
         const formData = new FormData();
         formData.append("name", values.name);
         formData.append("description", values.description);
+        // loop through the array and append each tag to the same key "stack"
+        if (values.stack && values.stack.length > 0) {
+            values.stack.forEach((tag) => {
+                formData.append("stack", tag);
+            });
+        }
 
         if (!values.imageUrl && !values.fileUpload?.length) {
         toast.error("Please provide an Image URL or Upload a file");

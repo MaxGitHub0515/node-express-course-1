@@ -1,47 +1,20 @@
 
 
-import PaginationComponent from "./PaginationComponent"
-import SearchBarAndFilteringComponent from "./SearchBarAndFilteringComponent";
-import { useEffect, useState } from "react";
 // import ReactMarkdown from "react-markdown";
 import type { Project } from "../../../types";
-export default function MainComponent() {
-    // paginatiion
-    const [projects, setProjects] = useState<Project[]>([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-  
-    useEffect(() => {
-        async function fetchProjects() {
-            const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || '';
-            try {
-            const res = await fetch(`${API_BASE_URL}/api/v1/projects?page=${currentPage}`);
-            if (!res.ok) throw new Error("Failed fetching projects for pagination");
-            const data = await res.json();
-            setProjects(data.projects);
-            setTotalPages(data.totalPages);
-            } catch (error) {
-                console.error(error);
-                setProjects([]);
-            }
-
-    } fetchProjects();
-    }, [currentPage]);
-
+export default function MainComponent({projects}: {projects: Project[]}) {
     return (
-    /* Projects dynamically via admin console later - hardcoded data removed*/
-        <div className="mx-auto md:gap-8 max-w-[1280px] md:mt-3 mt-29 bg-[#E5E5E5] drop-shadow-lg drop-shadow-blue-500/50 p-3">
-            <SearchBarAndFilteringComponent />
+        /* Projects dynamically via admin console later - hardcoded data removed*/
             <main className="flex flex-col sm:flex-row  mx-auto sm:items-start items-center flex-wrap gap-4 h-full">
-                <header className=" w-full ">
-                    <div className="text-xl uppercase tracking-wide font-semibold px-1 mt-4 sm:text-start text-center">Mern Stack Projects</div>
+               <header className=" w-full ">
+                    <div className="text-xl uppercase tracking-wide font-semibold px-1 mt-4 sm:text-start text-center"> Stack Projects</div>
                 </header>
                 {projects.map((project) => (
                 <div key={project._id} className="flex-grow flex-[1_1_0%] max-w-sm sm:mx-auto space-y-8">
                     <div className="relative aniamte-gradient-border">
                     {/* projectUrl */}
                     <a
-                    href={project.image}
+                    href={project.projectLocUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     >
@@ -79,12 +52,6 @@ export default function MainComponent() {
                 </div>
                 ))}
             </main>
-             <PaginationComponent
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={(page: number) => setCurrentPage(page)}
-            />
-        </div>
         
     )
 }
