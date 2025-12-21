@@ -97,7 +97,7 @@ app.use((req, res, next) => {
     script-src 'self' https://vo.vercel-scripts.com https://static.cloudflareinsights.com 'nonce-${nonce}';
     style-src 'self' 'unsafe-inline';
     img-src 'self' data: https://res.cloudinary.com;
-    connect-src 'self';
+    connect-src 'self' https://api.illustrates.dev;
     font-src 'self';
     object-src 'none';
   `.replace(/\n/g, ''); // remove line breaks
