@@ -16,7 +16,8 @@ const configCors = () => {
                 'https://api.illustrates.dev'
 
             ]
-      
+            if (!origin) return callback(null, true);
+            
             if(!origin || allowedOrigins.includes(origin)) {
                 callback(null, true) // if true - request is allowed
             } else {

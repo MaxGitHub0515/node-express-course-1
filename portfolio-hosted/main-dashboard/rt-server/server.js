@@ -40,6 +40,7 @@ const app = express();
 // import adminOnly from './middleware/roleCheck.js';
 // (When hosted on the web) Trust proxy to get real client IP behind proxies like CloudFlare  proxy server
 app.set('trust proxy', 2);
+app.options('*', configedCors());
 // CORS configuration
 app.use(configedCors());
 // parse JSON request bodies, json body can not be < 10mb
@@ -80,7 +81,7 @@ app.use((req, res, next) => {
     `script-src 'self' https://vo.vercel-scripts.com https://static.cloudflareinsights.com https://pagead2.googlesyndication.com 'nonce-${nonce}'`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https://res.cloudinary.com",
-    "connect-src 'self' https://client.illustrates.dev https://api.illustrates.dev https://cloudflareinsights.com",
+    "connect-src 'self' https://client.illustrates.dev https://api.illustrates.dev https://cloudflareinsights.com https://pagead2.googlesyndication.com",
     "font-src 'self'",
     "object-src 'none'",
     "base-uri 'self'",
