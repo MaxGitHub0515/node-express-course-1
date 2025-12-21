@@ -80,7 +80,7 @@ app.use((req, res, next) => {
     `script-src 'self' https://vo.vercel-scripts.com https://static.cloudflareinsights.com https://pagead2.googlesyndication.com 'nonce-${nonce}'`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https://res.cloudinary.com",
-    "connect-src 'self' https://api.illustrates.dev https://api.illustrates.dev https://cloudflareinsights.com",
+    "connect-src 'self' https://client.illustrates.dev https://api.illustrates.dev https://cloudflareinsights.com",
     "font-src 'self'",
     "object-src 'none'",
     "base-uri 'self'",
