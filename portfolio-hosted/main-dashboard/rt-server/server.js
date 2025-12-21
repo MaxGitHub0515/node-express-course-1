@@ -151,10 +151,7 @@ if (process.env.NODE_ENV === "localproduction") {
   app.use(express.static(clientBuildPath));
   
   // catch-all SPA fallback 
-  app.get('/*splat', (req, res, next) => {
-    if (req.url.startsWith('/api/v1/')) {
-      return next();
-    }
+  app.get(/(.*)/, (req, res) => {
     const tryPath = path.join(clientBuildPath, 'index.html');
     console.log(`Serving index.html fallback for: ${req.url.blue} from ${tryPath.cyan}`);
     res.sendFile(tryPath, (err) => {
