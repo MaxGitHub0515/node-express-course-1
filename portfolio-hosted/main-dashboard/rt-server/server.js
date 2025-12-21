@@ -1,13 +1,11 @@
 
-import express from 'express';
-const app = express();
-import path from 'path';
-import 'colors';
 import dotenv from "dotenv"
 dotenv.config({ path: '.env.local' });
+import express from 'express';
+import path from 'path';
+import 'colors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import 'ioredis';
 import compression from 'compression';
 import fileUpload from 'express-fileupload';
 import hpp from 'hpp';
@@ -17,42 +15,41 @@ import cookieParser from 'cookie-parser';
 // __dirname is not available in es modules, so derive it
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import crypto from "crypto"
+import 'ioredis';
+//Routes & Middleware
+import projectRouter from './routes/project.routes.js';
+import userRouter from "./routes/auth.routes.js"
+import visitorRouter from "./routes/visitor.routes.js"
+import verifyAuthRouter from "./routes/authVerify.routes.js"
+import contactRouter from "./routes/contact.routes.js"
+import protectRoute from './middleware/protectRoute.js';
+import errorHandlerMid from './middleware/error-handler.js';
+import NotFoundError from './errors/not-found.js';
+
+const app = express();
 // full URL of the current module file
 const __filename = fileURLToPath(import.meta.url);
 // getting absolute path of the dir containing this file.
 const __dirname = dirname(__filename);
-// Routes
-import projectRouter from './routes/project.routes.js';
-//
-import userRouter from "./routes/auth.routes.js"
-// import middleware like for visitor
-import visitorRouter from "./routes/visitor.routes.js"
-// verify cookie http only
-import verifyAuthRouter from "./routes/authVerify.routes.js"
-// contact 
-import contactRouter from "./routes/contact.routes.js"
+
 // Mongo Santize
 // import mongoSanitize from 'express-mongo-sanitize';
 
 // middleware from utils
-import protectRoute from './middleware/protectRoute.js';
 // import adminOnly from './middleware/roleCheck.js';
-// CORS configuration
-app.use(configedCors());
-// custpm middleware
-import errorHandlerMid from './middleware/error-handler.js';
-//temporary
-import crypto from "crypto"
-import NotFoundError from './errors/not-found.js';
-
-// parse JSON request bodies, json body can not be < 10mb
-app.use(express.json({ limit: "10mb" }));
-// File Upload Middleware
-app.use(fileUpload({ useTempFiles: true }));
-// parse URL-encoded request bodies
-app.use(express.urlencoded({ extended: true }));
 // (When hosted on the web) Trust proxy to get real client IP behind proxies like CloudFlare  proxy server
 app.set('trust proxy', 2);
+// CORS configuration
+app.use(configedCors());
+// parse JSON request bodies, json body can not be < 10mb
+app.use(express.json({ limit: "10mb" }));
+
+// parse URL-encoded request bodies
+app.use(express.urlencoded({ extended: true }));
+// cookie parser - parse the incoming cookies from req.cookies
+app.use(cookieParser())
+
 // mongo sanatize
 // app.use(mongoSanitize({ allowDots: true, replaceWith: '_' }));
 // app.use(mongoSanitize()); // causes issues 
@@ -65,51 +62,36 @@ app.set('trust proxy', 2);
 
 // });
 
+// Headers Set by Default - CSP + HELMET
+app.use(helmet({
+    contentSecurityPolicy: false, // diasble default CSP middleware
+}));
 
 function generateNonce() {
   return crypto.randomBytes(16).toString('base64');
 }
-// Headers Set by Default 
-app.use(helmet({
-    contentSecurityPolicy: false, // diasble default CSP middleware
-}));
-// to be better added as a middleware in seperate file
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "https://vo.vercel-scripts.com", "https://static.cloudflareinsights.com"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:"],
-      connectSrc: ["'self'", "https://api.illustrates.dev"],
-      fontSrc: ["'self'"],
-      objectSrc: ["'none'"],
-    },
-  })
-);
 
 app.use((req, res, next) => {
   const nonce = generateNonce();
   res.locals.nonce = nonce;
   
-  const csp = `
-    default-src 'self';
-    script-src 'self' https://vo.vercel-scripts.com https://static.cloudflareinsights.com 'nonce-${nonce}';
-    style-src 'self' 'unsafe-inline';
-    img-src 'self' data: https://res.cloudinary.com;
-    connect-src 'self' https://api.illustrates.dev;
-    font-src 'self';
-    object-src 'none';
-  `.replace(/\n/g, ''); // remove line breaks
-
-  res.setHeader('Content-Security-Policy', csp);
+  const csp = [
+    "default-src 'self'",
+    `script-src 'self' https://vo.vercel-scripts.com https://static.cloudflareinsights.com https://pagead2.googlesyndication.com 'nonce-${nonce}'`,
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: https://res.cloudinary.com",
+    "connect-src 'self' https://api.illustrates.dev https://api.illustrates.dev https://cloudflareinsights.com",
+    "font-src 'self'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'"
+  ]; 
+  res.setHeader('Content-Security-Policy', csp.join('; '));
   next();
 });
 
 
 
-// cookie parser - parse the incoming cookies from req.cookies
-app.use(cookieParser())
 
 // Reduce size of response bodies sent to the client
 app.use(compression());
@@ -119,6 +101,9 @@ app.use(hpp());
 
 // xss senetizer
 app.use(xss());
+// file upload
+app.use(fileUpload({ useTempFiles: true }));
+
 
 
 // API Rate Limiter
