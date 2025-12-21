@@ -2,7 +2,7 @@
 import dotenv from "dotenv"
 dotenv.config({ path: '.env.local' });
 import express from 'express';
-// import path from 'path';
+import path from 'path';
 import 'colors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
@@ -13,8 +13,8 @@ import { xss } from 'express-xss-sanitizer';
 import configedCors from  './config/cors.config.js';
 import cookieParser from 'cookie-parser';
 // __dirname is not available in es modules, so derive it
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+// import { fileURLToPath } from 'url';
+// import { dirname } from 'path';
 import crypto from "crypto"
 import 'ioredis';
 //Routes & Middleware
@@ -140,30 +140,30 @@ app.use('/api/v1/contact', apiLimiter, contactRouter)
 
 // --> Static File Serving for Production(loading frontend) <--
 
-// console.log(`Current project directory: ${__dirname.blue}`);
-// console.log(`NODE_ENV is: ${process.env.NODE_ENV}`);
-// // change to  NODE_ENV === "production" !!!
-// if (process.env.NODE_ENV === "production") {
-//   const clientBuildPath = path.join(__dirname, '..', 'rt-client', 'dist');
-//   console.log(`Serving static files from: ${clientBuildPath.yellow}`);
-//   // serve static files from the built   
-//   app.use(express.static(clientBuildPath));
+console.log(`Current project directory: ${__dirname.blue}`);
+console.log(`NODE_ENV is: ${process.env.NODE_ENV}`);
+// change to  NODE_ENV === "production" !!!
+if (process.env.NODE_ENV === "production") {
+  const clientBuildPath = path.join(__dirname, '..', 'rt-client', 'dist');
+  console.log(`Serving static files from: ${clientBuildPath.yellow}`);
+  // serve static files from the built   
+  app.use(express.static(clientBuildPath));
   
-//   // catch-all SPA fallback 
-//   app.get(/(.*)/, (req, res, next) => {
-//     const tryPath = path.join(clientBuildPath, 'index.html');
-//     console.log(`Serving index.html fallback for: ${req.url.blue} from ${tryPath.cyan}`);
-//     res.sendFile(tryPath, (err) => {
-//       if(err) {
-//         console.error(`Error sending index.html: `, err.message);
-//         res.status(500).send('Error serving application.');
-//       } else {
-//         console.log(`Successfully served index.html for: ${req.url.green}`);
-//       }
-//     });
-//   });  
+  // catch-all SPA fallback 
+  app.get(/(.*)/, (req, res, next) => {
+    const tryPath = path.join(clientBuildPath, 'index.html');
+    console.log(`Serving index.html fallback for: ${req.url.blue} from ${tryPath.cyan}`);
+    res.sendFile(tryPath, (err) => {
+      if(err) {
+        console.error(`Error sending index.html: `, err.message);
+        res.status(500).send('Error serving application.');
+      } else {
+        console.log(`Successfully served index.html for: ${req.url.green}`);
+      }
+    });
+  });  
   
-// }
+}
   /* Middleware */
   // catch all unmatched routes
   app.use((req, res, next) => {
