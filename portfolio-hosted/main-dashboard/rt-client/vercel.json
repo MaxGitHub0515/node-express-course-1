@@ -22,6 +22,11 @@
       "Location": "/main-dashboard"
     }
   },
+    {
+      "src": "/api/(.*)",
+      "dest": "https://api.illustrates.dev/api/$1"
+    },
+
     { "handle": "filesystem" },
 
     { "src": "/.*", "dest": "/index.html" }

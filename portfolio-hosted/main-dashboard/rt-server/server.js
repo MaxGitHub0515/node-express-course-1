@@ -81,7 +81,7 @@ app.use(
       scriptSrc: ["'self'", "https://vo.vercel-scripts.com", "https://static.cloudflareinsights.com"],
       styleSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:"],
-      connectSrc: ["'self'"],
+      connectSrc: ["'self'", "https://api.illustrates.dev"],
       fontSrc: ["'self'"],
       objectSrc: ["'none'"],
     },
