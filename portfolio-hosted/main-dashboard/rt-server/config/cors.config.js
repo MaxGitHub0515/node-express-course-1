@@ -20,7 +20,8 @@ const configCors = () => {
             if(!origin || allowedOrigins.includes(origin)) {
                 callback(null, true) // if true - request is allowed
             } else {
-                callback(new Error("Not allowed by cors"))
+                console.error(`CORS Blocked: ${origin}`);
+                callback(null, false);
             }
         },
         //which HTTP actions users (or other websites) are allowed to perform on your server.
