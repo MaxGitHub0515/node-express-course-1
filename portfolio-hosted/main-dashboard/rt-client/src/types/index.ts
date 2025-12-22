@@ -51,3 +51,9 @@ export interface SearchBarProps {
     searchTerm: string;
     onSearchChange: (term: string) => void;
 }
+
+export interface ContactFormValues {
+    email: string;
+    subject: string;
+    message: string;
+}
