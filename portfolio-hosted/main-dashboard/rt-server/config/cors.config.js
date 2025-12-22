@@ -32,7 +32,9 @@ const configCors = () => {
             'Content-Type',
             'Authorization',
             'Accept-Version',
-            
+            'Cache-Control',
+            'Pragma',
+            'X-Requested-With'
         ],
         // headers client can see in the response
         exposedHeaders: [
