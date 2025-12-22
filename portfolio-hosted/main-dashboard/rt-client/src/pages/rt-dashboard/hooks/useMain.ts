@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 export default function useMain() {
     const [searchParams, setSearchParams] = useSearchParams();
-    
+    const [isLoading, setIsLoading ] = useState<boolean>(true)
     const [projects, setProjects] = useState<Project[]>([]);
     const [totalPages, setTotalPages] = useState(1);
     const [allStacks, setAllStacks] = useState<StackOption[]>([]);
@@ -26,6 +26,7 @@ export default function useMain() {
 
     useEffect(() => {
         const getProjects = async () => {
+            setIsLoading(true)
             try {
                 const stackQueryValue = activeStack.length > 0 ? activeStack.join(",") : "All";
                 
@@ -52,6 +53,8 @@ export default function useMain() {
                 console.error(error);
                 setProjects([]);
                 toast.error("Error loading projects");
+            } finally {
+                setIsLoading(false)
             }
         };
 
@@ -130,6 +133,7 @@ export default function useMain() {
 
     return {
         projects, 
+        isLoading,
         activeStack,
         currentPage,
         totalPages, 

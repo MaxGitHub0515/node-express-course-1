@@ -8,7 +8,10 @@ import { StatusCodes } from "http-status-codes";
 export default async function sendEmailContact(req, res) {
     // to validate and sanatize we use a bit smarter way to do so
     // const {email, subject, message } = req.body;
-
+    console.log("USER:", process.env.NODE_MAILER_EMAIL_USER);
+    console.log("PASS EXISTS:", !!process.env.NODE_MAILER_EMAIL_PASS);
+    console.log("TO_ADDRESS:", process.env.NODE_MAILER_EMAIL_USER_TO);
+    
     const {error, value } = schemaJoi.validate(req.body);
     if (error) {
         // Pass the specific Joi error to your middleware
@@ -34,7 +37,8 @@ export default async function sendEmailContact(req, res) {
       console.error("Nodemailer Error:", error);
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       status: 'error',
-      message: 'Failed to send an email',
+      message: error.message,
+      stack: error.stack
       
     });
        

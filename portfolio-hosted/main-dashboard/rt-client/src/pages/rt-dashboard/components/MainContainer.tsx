@@ -3,6 +3,7 @@ import PaginationComponent from "./PaginationComponent";
 import SearchBarAndFilteringComponent from "./SearchBarAndFilteringComponent";
 import MainComponent from "./MainComponent";
 import useMain from "../hooks/useMain";
+import { Spinner } from "../../../components/UI/Loading";
 export default function MainContainer() {
     const {
         totalPages,
@@ -14,6 +15,7 @@ export default function MainContainer() {
         setSearchTerm,
         allStacks,
         searchTerm,
+        isLoading
     } = useMain();
     return (
         <>
@@ -27,12 +29,11 @@ export default function MainContainer() {
             onStackChange={handleStackChange}
             onSearchChange={setSearchTerm}
             />
-            {/* {loading ? (
-                <div className="text-center p-10">Loading...</div>
+            {isLoading ? (
+               <Spinner />
             ) : ( 
-            <MainComponent/>
-            )} */}
             <MainComponent projects={projects} activeStack={activeStack}/>
+            )}
             {projects.length > 0 && (
                 <PaginationComponent
                 currentPage={currentPage}
