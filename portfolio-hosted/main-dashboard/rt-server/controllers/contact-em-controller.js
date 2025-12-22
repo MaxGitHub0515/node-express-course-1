@@ -10,9 +10,10 @@ export default async function sendEmailContact(req, res) {
     // const {email, subject, message } = req.body;
 
     const {error, value } = schemaJoi.validate(req.body);
-    if(error){
-        throw new BadRequestError('Error occured when validating contact inputs')
-      }
+    if (error) {
+        // Pass the specific Joi error to your middleware
+        throw new BadRequestError(error.details[0].message);
+    }
     const {email, subject, message} = value;
 
     const mailOptions = {
@@ -30,7 +31,7 @@ export default async function sendEmailContact(req, res) {
         msg: "Email was sent Successfuly"
       })
     } catch (error) {
-      console.log(error)
+      console.error("Nodemailer Error:", error);
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       status: 'error',
       message: 'Failed to send an email',

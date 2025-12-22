@@ -6,10 +6,10 @@ import Joi from "joi";
 
 const contactValidator = Joi.object({
     email: Joi.string()
-        .email({maxDomainSegments: 2, tlds: { allow: ['com', 'net']} })
+        .email()
         .required(),
     subject: Joi.string()
-        .min(6)
+        .min(3)
         .max(50)
         .trim()
         .required(),
