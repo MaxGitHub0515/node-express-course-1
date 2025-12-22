@@ -23,7 +23,6 @@ import userRouter from "./routes/auth.routes.js"
 import visitorRouter from "./routes/visitor.routes.js"
 import verifyAuthRouter from "./routes/authVerify.routes.js"
 import contactRouter from "./routes/contact.routes.js"
-import protectRoute from './middleware/protectRoute.js';
 import errorHandlerMid from './middleware/error-handler.js';
 import NotFoundError from './errors/not-found.js';
 
@@ -131,9 +130,9 @@ const apiLimiter = rateLimit({
 
 // Routes
 app.use('/api/v1/projects', apiLimiter, projectRouter);
-app.use('/api/v1/visitors', protectRoute, visitorRouter);
+app.use('/api/v1/visitors', visitorRouter);
 app.use('/api/v1/auth', apiLimiter, userRouter);
-app.use('/api/v1/auth/verify', protectRoute, verifyAuthRouter)
+app.use('/api/v1/auth/verify', verifyAuthRouter)
 app.use('/api/v1/contact', apiLimiter, contactRouter)
 // app.use('/api/v1/logs')
 // app.use('/api/v1/cpanel', protectRoute, adminCheck)

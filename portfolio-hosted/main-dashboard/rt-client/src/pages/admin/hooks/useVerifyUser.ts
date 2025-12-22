@@ -1,6 +1,5 @@
 
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 // import the user from the types folder
 import type { User } from "../../../types";
 
@@ -18,16 +17,15 @@ export function useVerifyUser() {
         const res = await fetch(`${API_BASE_URL}/api/v1/auth/verify`, {
           credentials: "include",
         });
-        if (!res.ok) throw new Error("Not logged in");
         const userData = await res.json();
-        setAuthUser(userData);
+        if(userData) {
+          setAuthUser(userData);
+        } else {
+          setAuthUser(null)
+        }
       } catch (error: unknown) {
         setAuthUser(null); 
-        if(error instanceof Error) {
-          toast.error(error.message)
-        } else {
-            toast.error("An unexpected error occurred");
-        }
+        console.error("Verfication failed: ", error)
        
       }
     };
