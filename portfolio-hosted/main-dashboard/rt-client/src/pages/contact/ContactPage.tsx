@@ -17,6 +17,7 @@ interface FormValues {
 
 export default function ContactPage() {
      const navigate = useNavigate();
+     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "";
        const initValues: FormValues  = {
         email: "",
         subject: "",
@@ -36,19 +37,25 @@ export default function ContactPage() {
     });
 
     const handleContactSubmit = async  (values:FormValues, {resetForm}: FormikHelpers<FormValues>) =>{
-        const res = await fetch('/api/v1/contact/send-email', {
+      try {
+          const res = await fetch(`${API_BASE_URL}/api/v1/contact/send-email`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(values),
             credentials: 'include' // sending cookies httpOnly
         })
-        const getParsedJSON = await res.json();
+        const data = await res.json();
         if (!res.ok) {
-            throw new Error(getParsedJSON.msg || 'Contact form submission failed');
+            toast.error(data.message || data.msg || 'Submission failed');
+            return;
         }
         toast.success("Email was sent successfully")
         navigate('/contact')
         resetForm();
+      } catch (error: unknown) {
+        console.error("Connection error:", error);
+        toast.error("Could not connect to the server.");
+      }
     }
     return (
        <>
