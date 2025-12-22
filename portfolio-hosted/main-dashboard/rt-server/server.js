@@ -39,16 +39,17 @@ const __dirname = dirname(__filename);
 // import adminOnly from './middleware/roleCheck.js';
 // (When hosted on the web) Trust proxy to get real client IP behind proxies like CloudFlare  proxy server
 app.set('trust proxy', 2);
-app.options('*', configedCors());
+// cookie parser - parse the incoming cookies from req.cookies
+app.use(cookieParser())
 // CORS configuration
 app.use(configedCors());
+// 
+app.options('*', configedCors());
 // parse JSON request bodies, json body can not be < 10mb
 app.use(express.json({ limit: "10mb" }));
 
 // parse URL-encoded request bodies
 app.use(express.urlencoded({ extended: true }));
-// cookie parser - parse the incoming cookies from req.cookies
-app.use(cookieParser())
 
 // mongo sanatize
 // app.use(mongoSanitize({ allowDots: true, replaceWith: '_' }));
