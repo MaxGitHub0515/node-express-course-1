@@ -6,8 +6,6 @@ import { contactSchema } from "../../validation";
 import useContactSubmit from "./hooks/useContactSubmit"; 
 import type { ContactFormValues } from "../../types";
 
-
-
 export default function ContactPage() {
     const {submitContact} = useContactSubmit();
     const initValues: ContactFormValues  = {
