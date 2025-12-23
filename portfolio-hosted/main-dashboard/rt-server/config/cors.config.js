@@ -38,7 +38,7 @@ const configCors = () => {
         ],
         // headers client can see in the response
         exposedHeaders: [
-            "X-Request-ID", // - needed?
+            "X-Request-ID", 
             "X-RateLimit-Limit",
             "X-RateLimit-Remaining"
         ],
