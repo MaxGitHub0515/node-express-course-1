@@ -1,28 +1,22 @@
 
 
 // Global transporter
+// Adandoned the idea of using nodemailer alone - constant failure blocked 
+// apparently by Render or even cloudlare - adding Resend Service - http
+import { Resend } from "resend";
 
-import nodemailer from "nodemailer";
+const resend = new Resend(process.env.RESEND_API_KEY);
+export const transporter = {
+    sendMail: async (options) => {
+        return await resend.emails.send({
+            from: 'Portfolio <contact@illustrates.dev>',
+            //contoller data
+            to: options.to,
+            subject: options.subject,
+            text:options.text,
+            reply_to: options.replyTo
+        })
+    }
 
-export const transporter = nodemailer.createTransport({
-    pool: true, 
-    host: 'smtp.gmail.com',
-    // port: 465,
-    port: 587, // cloud standard
-    secure: false, //crucial for port 587 - secure
-    maxConnections: 1,
-    rateLimit: 1, 
-    rateDelta: 2000, // 1 email per 2 sec in a qeue
-    auth: {
-        user: process.env.NODE_MAILER_EMAIL_USER,
-        pass: process.env.NODE_MAILER_EMAIL_PASS
-    },
-    family: 4, // force the IPV4 instead of possible failure of IPV6
-    tls: {
-        rejectUnauthorized: false 
-    },
-    connectionTimeout: 30000,
-    logger: true,
-    debug: true
-});
+};
 
