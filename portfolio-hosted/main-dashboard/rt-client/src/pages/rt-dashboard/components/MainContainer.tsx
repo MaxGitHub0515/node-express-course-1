@@ -19,7 +19,7 @@ export default function MainContainer() {
     } = useMain();
     return (
         <>
-          <div className="mx-auto md:gap-8 max-w-[1280px] md:mt-3 mt-29 bg-[#E5E5E5] drop-shadow-lg drop-shadow-blue-500/50 p-3 overflow-hidden">
+          <div className="mx-auto md:gap-8 max-w-[1280px] mt-2 p-3 bg-[#E5E5E5] drop-shadow-lg drop-shadow-blue-500/50  overflow-hidden">
             <SearchBarAndFilteringComponent 
             // data pass
             stackOptions={allStacks}
