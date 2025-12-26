@@ -20,7 +20,7 @@ export default function MainComponent({projects, activeStack}: MainComponentProp
 
     return (
         /* Projects dynamically via admin console later - hardcoded data removed*/
-            <main className="flex flex-col sm:flex-row  mx-auto sm:items-start items-center flex-wrap gap-4 h-full">
+            <section className="flex flex-col sm:flex-row  mx-auto sm:items-start items-center flex-wrap gap-4 h-full">
                <header className=" w-full ">
                     <div className="text-xl uppercase tracking-wide font-semibold px-1 mt-4 sm:text-start text-center">{headerTitle}</div>
                 </header>
@@ -75,7 +75,7 @@ export default function MainComponent({projects, activeStack}: MainComponentProp
                     </div>
                 </div>
                 ))}
-            </main>
+            </section>
         
     )
 }

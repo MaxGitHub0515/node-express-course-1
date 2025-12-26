@@ -14,9 +14,11 @@ export const transporter = {
             to: options.to,
             subject: options.subject,
             text:options.text,
-            reply_to: options.replyTo
+            reply_to: options.replyTo,
+            html: htmlContent
         })
     }
 
 };
 
+const htmlContent =  ``

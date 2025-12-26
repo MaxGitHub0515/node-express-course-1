@@ -4,7 +4,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "render:start": "node start.js",
+    "render:start": "node --watch start.js",
     "local:start": "cross-env NODE_ENV=localproduction node start.js",
     "dev": "cross-env NODE_ENV=development node --watch start.js",
     "test": "jest --watchAll=false",
