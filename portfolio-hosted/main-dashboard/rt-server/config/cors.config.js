@@ -7,17 +7,22 @@ const configCors = () => {
             console.log('Incoming Origin:', origin);
             const allowedOrigins = [
                 'http://localhost:3000', // front in development
-                'http://localhost:5000',
+                'http://localhost:5001',
                  // front in production
                 'https://www.illustrates.info',
                 'https://illustrates.info',
+                'https://client.illustrates.dev',
+                // back in production
+                'https://api.illustrates.dev'
 
             ]
-      
+            if (!origin) return callback(null, true);
+            
             if(!origin || allowedOrigins.includes(origin)) {
                 callback(null, true) // if true - request is allowed
             } else {
-                callback(new Error("Not allowed by cors"))
+                console.error(`CORS Blocked: ${origin}`);
+                callback(null, false);
             }
         },
         //which HTTP actions users (or other websites) are allowed to perform on your server.
@@ -27,11 +32,13 @@ const configCors = () => {
             'Content-Type',
             'Authorization',
             'Accept-Version',
-            
+            'Cache-Control',
+            'Pragma',
+            'X-Requested-With'
         ],
         // headers client can see in the response
         exposedHeaders: [
-            "X-Request-ID", // - needed?
+            "X-Request-ID", 
             "X-RateLimit-Limit",
             "X-RateLimit-Remaining"
         ],
@@ -40,7 +47,7 @@ const configCors = () => {
         // cors will authomatically handle it if false
         preflightContinue:false,
         maxAge: 600, // Cache preflight response for 10 minutes
-        optionsSuccessStatus: 204, // ok/successful options requests
+        optionsSuccessStatus: 200, // ok/successful options requests
 
 
     })

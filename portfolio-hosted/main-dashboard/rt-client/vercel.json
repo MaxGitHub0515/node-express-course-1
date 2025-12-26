@@ -1,0 +1,38 @@
+{
+
+  "version": 2,
+
+  "builds": [
+
+    {
+
+      "src": "package.json",
+
+      "use": "@vercel/static-build",
+
+      "config": { "distDir": "dist" }
+
+    }
+
+  ],
+
+  "routes": [
+    {"src": "^/$", "status": 308,
+    "headers": {
+      "Location": "/main-dashboard"
+    }
+  },
+    {
+      "src": "/api/(.*)",
+      "dest": "https://api.illustrates.dev/api/$1"
+    },
+
+    { "handle": "filesystem" },
+
+    { "src": "/.*", "dest": "/index.html" }
+
+
+  ]
+  
+
+}

@@ -8,38 +8,37 @@ import { StatusCodes } from "http-status-codes";
 export default async function sendEmailContact(req, res) {
     // to validate and sanatize we use a bit smarter way to do so
     // const {email, subject, message } = req.body;
-
+   
     const {error, value } = schemaJoi.validate(req.body);
-    if(error){
-        throw new BadRequestError('Error occured when validating contact inputs')
-      }
+    if (error) {
+        // Pass the specific Joi error to your middleware
+        throw new BadRequestError(error.details[0].message);
+    }
     const {email, subject, message} = value;
 
     const mailOptions = {
-      from: process.env.NODE_MAILER_EMAIL_USER,
-      to: process.env.NODE_MAILER_EMAIL_USER_TO_FIXED,
+      to: process.env.NODE_MAILER_EMAIL_USER_TO,
       replyTo: email,
-      subject,
-      text: message
+      subject: `Portfolio Contact: ${subject}`,
+      text: `Message from ${email}:\n\n${message}`
     }
     try {
-      await transporter.sendMail(mailOptions);
-      
+      const data = await transporter.sendMail(mailOptions);
+      if(data.error) throw new Error(data.error.message);
       return res.status(StatusCodes.OK).json({
         status: 'success',
-        msg: "Email was sent Successfuly"
+        msg: "Email was sent Successfuly",
+        id: data.data?.id
       })
     } catch (error) {
+      console.error("Resend/Nodemailer Error:", error);
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       status: 'error',
-      message: 'Failed to send an email',
+      message: error.message,
+      stack: error.stack
     });
        
     }
-
-
-
-
 
 }
 

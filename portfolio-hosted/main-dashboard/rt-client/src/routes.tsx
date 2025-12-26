@@ -15,54 +15,54 @@ import MaintenancePage from './pages/admin/MaintenancePage';
 import AppLayout from './AppLayout';
 import ProtectedLayout from './context/ProtectedLayout';
 import RedirectIfAuthenticated from './context/RedirectIfAuthenticated';
-
-
-
-
+import PublicLayout from "./PublicLayout"
 const routes = createBrowserRouter([
     {
         path: "/",
-        element: <AppLayout />,
+        element: <AppLayout />, // *GLOBAL*
         children: [
         {
+            // *PUBLIC ROUTES*
+            element: <PublicLayout />,
+            children: [
+            {
             path: "/main-dashboard",
             element: <MainDashboardPage />
+            },
+            {
+                path: "/contact",
+                element: <ContactPage />
+            },
+            {
+                path: "/auth/login",
+                element: <RedirectIfAuthenticated />
+            },
+            ] 
         },
 
-        {
-            path: "/contact",
-            element: <ContactPage />
-        },
-
-        {
-            path: "/auth/login",
-            element: <RedirectIfAuthenticated />
-        },
-
-        {
-        path: "/cpanel",
-        element: <ProtectedLayout />,
-        children: [
-            // adding navigate temporarilt
-          {index:true, element: <Navigate to="dashboard" replace /> },
-          { path: "dashboard", element: <AdminPage />,
+        {   // *ADMIN ROUTES*
+            path: "/cpanel",
+            element: <ProtectedLayout />,
             children: [
-                {path: "maintenance", element: <MaintenancePage />},
-                // {path: "task-runner", element: <TaskRunerPage />},
-                // {path: "system",  element: <SystemHealthPage />},
-                // {path: "logs", element: <LogsReview />}
+            {index:true, element: <Navigate to="dashboard" replace /> },
+            { path: "dashboard", element: <AdminPage />,
+                children: [
+                    {path: "maintenance", element: <MaintenancePage />},
+                    // {path: "task-runner", element: <TaskRunerPage />},
+                    // {path: "system",  element: <SystemHealthPage />},
+                    // {path: "logs", element: <LogsReview />}
 
+                ],
+            },  
+            { path: "stats", element: <StatisticsPage /> },
+            { path: "users", element: <UserPage /> },
+            { path: "notifications", element: <NotifyPage /> },
+            { path: "email", element: <EmailPage /> },
+            { path: "projects", element: <ProjectsPage /> },
+            { path: "settings", element: <SettingsPage /> },
             ],
-          },  
-          { path: "stats", element: <StatisticsPage /> },
-          { path: "users", element: <UserPage /> },
-          { path: "notifications", element: <NotifyPage /> },
-          { path: "email", element: <EmailPage /> },
-          { path: "projects", element: <ProjectsPage /> },
-          { path: "settings", element: <SettingsPage /> },
-        ],
         },
-
+        
         {
             path: "*",
             element: <NotFoundPage />,

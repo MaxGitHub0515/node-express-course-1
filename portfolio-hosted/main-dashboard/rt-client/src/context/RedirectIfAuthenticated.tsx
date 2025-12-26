@@ -5,8 +5,6 @@ import LoginPage from "../pages/admin/LoginPage";
 
 const RedirectIfAuthenticated = () => {
   const { authUser } = useAuthContext();
-//if logged in - redirect to dash
-// Otherwise, show login page
   return authUser ? <Navigate to="/cpanel" replace /> : <LoginPage />;
 };
 

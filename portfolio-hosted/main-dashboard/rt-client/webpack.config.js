@@ -2,6 +2,11 @@
 import path from "path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+import webpack from "webpack";
+
+// Load environment variables from .env file
+dotenv.config();
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -62,8 +67,11 @@ export default {
     plugins: [
         new HtmlWebpackPlugin({
             template: './index.html', // clean HTML template
-            favicon: './public/favicon.svg'
+            favicon: './public/favicon.ico', // favicon path
         }),
+        new webpack.DefinePlugin({
+        "process.env.REACT_APP_API_BASE_URL": JSON.stringify(process.env.REACT_APP_API_BASE_URL),
+        })
 
         ],
     devServer: {

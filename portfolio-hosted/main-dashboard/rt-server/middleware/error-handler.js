@@ -15,12 +15,12 @@ export default function errorHandlerMid(err, req, res, next) {
             status: 'error',
             statusCode: err.statusCode,
             message: err.message,
+            errors: err.errors, // validation errors
             stack: isProduction ? null : err.stack,
             timestamp: isProduction ? now.toISOString() : timestamp,
         })
     }
      const statusCode = err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
-        
         return res.status(statusCode).json({
             status: 'error',
             statusCode,

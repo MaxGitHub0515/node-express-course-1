@@ -1,5 +1,6 @@
 
 import express from "express";
+import protectRoute from "../middleware/protectRoute.js";
 import {
     aggregateUser,
     createVisitor
@@ -8,7 +9,7 @@ import {
 const router = express.Router();
 
 
-router.get("/monthly", aggregateUser )
+router.get("/monthly", protectRoute, aggregateUser )
 router.post('/', createVisitor)
 
 

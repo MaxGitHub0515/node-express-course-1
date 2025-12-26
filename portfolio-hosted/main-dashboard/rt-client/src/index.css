@@ -7,6 +7,7 @@
 :root {
   --grape: 114, 35, 204;
 }
+
 /*  global styles go here, after the @import */
 body{
     margin: 0;
@@ -21,10 +22,11 @@ body{
     "Noto Sans",    /* Google's open-source font, good for internationalization */
     sans-serif;     /* Generic fallback to ensure a sans-serif font is always used */
 }
+/* AD DASH */
 
 /* ... other styles ... */
 
-
+/* MAIN DASHBOARD: CARDS */
 /*  gentle rotation */
 @keyframes spinSlowly {
   from {transform: rotate(0deg);}
@@ -33,6 +35,10 @@ body{
 
 .icon-spin {
   animation: spinSlowly 5s linear infinite; /* 5 seconds, continuous, constant speed */
+}
+
+.sidebar-icon {
+  @apply sm:text-xl md:text-2xl lg:text-3xl text-[#333];
 }
 
 

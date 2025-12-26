@@ -2,24 +2,40 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./public/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="./public/favicon.ico" />
+    <!-- SEARCH ENGINES: prevent duplicate content issues -->
+    <link rel="canonical" href="https://client.illustrates.dev" />
+    <!-- ----------------- -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="description" content="Portfolio Page Designed to Showcase Projects with Live, Click-to-Open Versions, Built with Different Tech Stacks"/>
+    <meta name="keywords" content="Portfolio, Web Development, MERN, React, Node.js, Express, TypeScript, Web Applications"/>
+    <meta name="author" content="Max P."/> 
+    <!-- SOCIAL MEDIA APPEREANCE -->
+    <meta property="og:title" content="MAX-PORT-FOLIO" />
+    <meta property="og:description" content="Here, You Can Review Max's P. Portfolio" />
+    <meta property="og:image" content="./public/favicon.ico" />
+    <meta property="og:url" content="https://client.illustrates.dev" />
+    <meta propert="og:type" content="website" /> 
+    <!-- PERFOMANCE: Preconnect/Preload -->
+    <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <!-- ----------------- -->
     <title>MAX-PORT-FOLIO</title>
+    <!-- AdSense -->
+     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7337795052932806"
+     crossorigin="anonymous"></script>
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d81cf1be601144b68a4d1683d9ab1031"}'></script>
+    <!-- SCHEMA.ORG -->
+    <script type="application/ld+json"></script>
+    
+
   </head>
   <body>
     <div id="root"></div>
     <!-- <script type="module" src="./src/main.tsx"></script> -->
-
     <!-- after every new build, new filename is being generated as follows:  index.generatedplaceholder...js 
       that is potentially why https can not serve my index.placeholder...js in the dist   -->
-
-     <!-- This is where your JS bundle script will be automatically injected by HtmlWebpackPlugin -->
-      <!-- Analytics for cloudflare -->
-      <script src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" 
-      crossorigin="anonymous"async>
-      </script>
-
-  
-
+    <!-- This is where your JS bundle script will be automatically injected by HtmlWebpackPlugin -->
     </body>
 </html>

@@ -3,7 +3,7 @@
 export interface SuggestProjectName {
     _id: string;
     name: string;
-    cuid: string,
+    slug: string,
 }
 
 export interface Stack {
@@ -14,11 +14,11 @@ export interface Stack {
 // MOCK DATA
 
 export const Suggestions: SuggestProjectName[] = [
-    { _id: "1", name: "Project A", cuid: "54f4t4fdf45ds454fr" },
-    { _id: "2", name: "Project B", cuid: "jfj53454fd343dgf4g" },
-    { _id: "3", name: "Project C", cuid: "kcf3t4fdf45ds454fa" },
-    { _id: "4", name: "Project D", cuid: "942ft4fdf45ds454fb" },
-    { _id: "5", name: "Project E", cuid: "76f4t4fdf45ds454fc" },
+    { _id: "1", name: "Project A", slug: "54f4t4fdf45ds454fr" },
+    { _id: "2", name: "Project B", slug: "jfj53454fd343dgf4g" },
+    { _id: "3", name: "Project C", slug: "kcf3t4fdf45ds454fa" },
+    { _id: "4", name: "Project D", slug: "942ft4fdf45ds454fb" },
+    { _id: "5", name: "Project E", slug: "76f4t4fdf45ds454fc" },
 ]
 
 export const stacksMock: Stack[] = [
