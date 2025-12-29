@@ -17,11 +17,6 @@
   ],
 
   "routes": [
-    {"src": "^/$", "status": 308,
-    "headers": {
-      "Location": "/main-dashboard"
-    }
-  },
     {
       "src": "/api/(.*)",
       "dest": "https://api.illustrates.dev/api/$1"

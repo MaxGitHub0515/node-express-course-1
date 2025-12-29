@@ -15,7 +15,9 @@ import MaintenancePage from './pages/admin/MaintenancePage';
 import AppLayout from './AppLayout';
 import ProtectedLayout from './context/ProtectedLayout';
 import RedirectIfAuthenticated from './context/RedirectIfAuthenticated';
-import PublicLayout from "./PublicLayout"
+import PublicLayout from "./PublicLayout";
+import PrivacyPage from './pages/privacy/PrivacyPage';
+import LandingPage from './pages/home/LandingPage';
 const routes = createBrowserRouter([
     {
         path: "/",
@@ -25,6 +27,10 @@ const routes = createBrowserRouter([
             // *PUBLIC ROUTES*
             element: <PublicLayout />,
             children: [
+            {
+                index:true,
+                element: <LandingPage />
+            },
             {
             path: "/main-dashboard",
             element: <MainDashboardPage />
@@ -37,6 +43,10 @@ const routes = createBrowserRouter([
                 path: "/auth/login",
                 element: <RedirectIfAuthenticated />
             },
+            {
+                path:"/privacy",
+                element: <PrivacyPage />
+            }
             ] 
         },
 

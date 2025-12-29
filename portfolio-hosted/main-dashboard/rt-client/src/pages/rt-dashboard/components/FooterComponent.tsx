@@ -32,7 +32,7 @@ export default function FooterComponent() {
                     
                     {/* Logo - Far Left */}
                     <div className="flex-shrink-0">
-                        <Link to="/main-dashboard">
+                        <Link to="/">
                             <img 
                                 src="https://res.cloudinary.com/dixiuoxw2/image/upload/v1753813816/logo_prg3wf.svg"
                                 alt="Logo"
