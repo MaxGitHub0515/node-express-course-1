@@ -7,9 +7,9 @@ import NavLinks from "../../../components/UI/NavLinks";
 import HamburgerMenu from "../../../components/UI/HamburgerMenu";
 export default function NavBarComponent() {
     const navItems: LinkItem[] = [
+        { label: "Blog", path: "/blog" },
         { label: "Dashboard", path: "/main-dashboard" },
         { label: "Contact", path: "/contact" },
-        // { label: "Blog", path: "/blog" }
     ];
     return (
      

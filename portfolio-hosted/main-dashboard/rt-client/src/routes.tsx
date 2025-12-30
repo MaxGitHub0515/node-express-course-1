@@ -18,6 +18,7 @@ import RedirectIfAuthenticated from './context/RedirectIfAuthenticated';
 import PublicLayout from "./PublicLayout";
 import PrivacyPage from './pages/privacy/PrivacyPage';
 import LandingPage from './pages/home/LandingPage';
+import BlogPage from './pages/blog/BlogPage';
 const routes = createBrowserRouter([
     {
         path: "/",
@@ -30,6 +31,10 @@ const routes = createBrowserRouter([
             {
                 index:true,
                 element: <LandingPage />
+            },
+            {
+                path: "/blog",
+                element: <BlogPage />
             },
             {
             path: "/main-dashboard",
