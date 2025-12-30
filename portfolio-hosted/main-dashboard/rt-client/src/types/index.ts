@@ -57,3 +57,19 @@ export interface ContactFormValues {
     subject: string;
     message: string;
 }
+
+// REPLACING THE REPITION OF LINK
+/* IF TO CREATE BLOG: FOLLOWS THE CREATION OF HANMBURGER as REUSABLE COMPONENT */
+export interface LinkItem {
+  label: string,
+  path: string,
+  isButton?: boolean
+}
+
+export interface NavLinksProps {
+  items: LinkItem[],
+  containerStyles: string,
+  linkStyles: string,
+  buttonStyles?: string,
+  onLinkClick?: () => void
+}
