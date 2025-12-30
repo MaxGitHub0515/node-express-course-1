@@ -19,6 +19,7 @@ import PublicLayout from "./PublicLayout";
 import PrivacyPage from './pages/privacy/PrivacyPage';
 import LandingPage from './pages/home/LandingPage';
 import BlogPage from './pages/blog/BlogPage';
+import SupportPage from './pages/support/SupportPage';
 const routes = createBrowserRouter([
     {
         path: "/",
@@ -37,12 +38,16 @@ const routes = createBrowserRouter([
                 element: <BlogPage />
             },
             {
-            path: "/main-dashboard",
-            element: <MainDashboardPage />
+                path: "/main-dashboard",
+                element: <MainDashboardPage />
             },
             {
                 path: "/contact",
                 element: <ContactPage />
+            },
+            {
+                path: "/support",
+                element: <SupportPage />
             },
             {
                 path: "/auth/login",

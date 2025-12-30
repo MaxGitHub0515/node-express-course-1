@@ -10,6 +10,7 @@ export default function NavBarComponent() {
         { label: "Blog", path: "/blog" },
         { label: "Dashboard", path: "/main-dashboard" },
         { label: "Contact", path: "/contact" },
+        { label: "Support ", path: "/support" }
     ];
     return (
      

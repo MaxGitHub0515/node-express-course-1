@@ -9,6 +9,7 @@ const CookieBanner = () => {
 
     useEffect(() => {
         // Check if user has already made a choice
+        // disable UI until not consented or rejected
         const consent = localStorage.getItem('cookieConsent');
         if (!consent) {
             setIsVisible(true);
