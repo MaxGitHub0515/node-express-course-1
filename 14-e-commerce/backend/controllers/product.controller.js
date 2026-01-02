@@ -1,15 +1,15 @@
 
-import Product from "../models/product.model";
-import redis from "../lib/redis.js";
-import {StatusCodes, Statuscodes} from "http-status-codes";
+import Product from "../models/product.model.js";
+import {redis} from "../lib/redis.js";
+import {StatusCodes} from "http-status-codes";
 import cloudinary from "../lib/cloudinary.js";
 export const getAllProducts = async (req, res) => {
     try {
         const products = await Product.find({});
-        res.status(Statuscodes.OK).json(products);
+        res.status(StatusCodes.OK).json(products);
     } catch (error) {
         console.log("Error in getAllProducts:", error.message);
-        res.status(Statuscodes.INTERNAL_SERVER_ERROR).json({message: "Server Error", error: error.message});
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message: "Server Error", error: error.message});
     }
 }
 
@@ -17,7 +17,7 @@ export const getFeaturedProducts = async (req, res) => {
     try {
         let featuredProducts = await redis.get("featured_products");
         if(featuredProducts) {
-            return res.status(Statuscodes.OK).json(JSON.parse(featuredProducts));
+            return res.status(StatusCodes.OK).json(JSON.parse(featuredProducts));
         }
         // If not in cache, fetch from DB
         // lean() to get plain JS objects instead of Mongoose documents - performance optimization
