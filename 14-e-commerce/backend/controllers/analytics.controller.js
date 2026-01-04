@@ -9,7 +9,7 @@ export const getAnalyticsData = async () => {
 
         const salesData = await Order.aggregate([
             {
-                // group based on common values
+                // to group based on common values
                 $group: {
                     _id: null, // group all documents together under the same group
                     totalSales: { $sum: 1 }, // 1 = true for each document
