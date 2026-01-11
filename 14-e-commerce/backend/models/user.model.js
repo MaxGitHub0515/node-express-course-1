@@ -53,6 +53,7 @@ userSchema.pre('save', async function (next) {
     }
 });
 userSchema.methods.comparePwd = async function(password) {
+    // REMINDER: compare(plainPwd, hashedPwd)
     return await bcrypt.compare(password, this.password)
 } 
 const User = mongoose.model("User", userSchema, "users"); // should be always below pre-save 

@@ -1,40 +1,28 @@
+# Node and Express Tutorial
 
+#### Node Course
 
+[Node Tutorial and Projects Course](https://www.udemy.com/course/nodejs-tutorial-and-projects-course/?referralCode=E94792BEAE9ADD204BC7)
 
-## Portfolio Hosted Documentation
+#### Support
 
-### 🌟 Responsive Design Preview
-<div align="center">
+Find the App Useful? [You can always buy me a coffee](https://www.buymeacoffee.com/johnsmilga)
 
-| 📱 Mobile View | 🖥️ Desktop View |
-|:--------------:|:---------------:|
-| ![Mobile](./portfolio-hosted/github-utilities/imgs/mob.png) | ![Desktop](./portfolio-hosted/github-utilities/imgs/desk.png) |
-|  | |
+#### Contents
 
-</div>
+1. Node Tutorial
+2. Express Tutorial
+3. Task Manager (MongoDB, Mongoose)
+4. Store API
+5. JWT Basics
+6. Jobs API
 
+#### Course Exclusive
 
-<div align="center">
+[Node Tutorial and Projects Course](https://www.udemy.com/course/nodejs-tutorial-and-projects-course/?referralCode=E94792BEAE9ADD204BC7)
 
-![Hosting & Deployment](./portfolio-hosted/github-utilities/imgs/host-deploy.png)
-
-<br>
-
-| 🌐 Hosting | ⚙️ Deployment Workflow |
-|:-----------|:----------------------|
-| **Frontend is hosted on Vercel** while the **Backend** (to ensure better functionality for server-side apps) is hosted on **Render** in this project. | For changes to take effect, **Render** needs all modifications to be committed and pushed to remote. In contrast, **Vercel** simply takes a copy of all your directory after running `vercel --prod` and applies changes instantly. |
-| **Subdomains** <br> • **API Fetching** - https://api.illustrates.dev/<br>• **UI** - https://client.illustrates.dev/main-dashboard | |
-
-| 🛠️ Admin Dashboard| 👣 Visitor Analytics |
-|:------------------------|:-------------------------|
-| ![DashboardAdmin](./portfolio-hosted/github-utilities/imgs/adm-dash.png) | ![VisitorAmo](./portfolio-hosted/github-utilities/imgs/visitors/total-amo-users.png) |
-![VisitorTrack](./portfolio-hosted/github-utilities/imgs/visitors/track-save-user.png)
-|  
-
-</div>
-
-
-
-
-
-
+7. File Upload (local and cloudinary)
+8. Send Email (nodemailer,ethereal and sendgrid )
+9. Stripe Payment
+10. E-Commerce API
+11. Auth Workflow (verify email, reset password)
