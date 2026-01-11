@@ -1,0 +1,43 @@
+{
+  "name": "13-chat-app",
+  "private": true, 
+  "type": "module",
+   "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types"
+  },
+   "devDependencies": {
+    "turbo": "^2.5.4"
+    
+  },
+  
+  "engines": {
+    "node": ">=18 <=22"
+  },
+  
+ "packageManager": "npm@10.9.2",
+ "workspaces": [
+    "frontend",
+    "backend"
+  ],
+
+"keywords": [
+    "chat-app",
+    "REST API",
+    "MERN",
+    "nodejs",
+    "express",
+    "mongodb",
+    "mongoose",
+    "backend"
+  ],
+  "author": "Max Pavlovskyi",
+  "license": "MIT",
+  "description": "Chat Application which allows you to communicate and connect with others"
+
+  
+}
