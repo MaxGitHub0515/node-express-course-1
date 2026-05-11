@@ -1,19 +1,23 @@
 
 # 🔥MERN CHAT-APP DOCUMENTATION
 
+---
 
+# Live Demo
 
-## 🎥 Live Preview
+<p align="center">
+  <img src=".github/preview-chat-app.gif" width="95%">
+</p>
 
-<div align="center">
+<p align="center">
+  🚀 <a href="https://one3-chat-app.onrender.com">Open Live Application</a>
+</p>
 
-*Demo showing real-time messaging features*
-  *Watch full video with audio:*
-  [![Watch the demo](https://img.youtube.com/vi/1ZlZooxQg_o/maxresdefault.jpg)](https://www.youtube.com/watch?v=1ZlZooxQg_o)
-</div>
+<p align="center">
+  <a href=".github/assets/demo.gif">▶ Watch Full HD Demo</a>
+</p>
 
-
-
+---
 
 ## STACK:
 
