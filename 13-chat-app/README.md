@@ -13,10 +13,6 @@
   🚀 <a href="https://one3-chat-app.onrender.com">Open Live Application</a>
 </p>
 
-<p align="center">
-  <a href=".github/assets/demo.gif">▶ Watch Full HD Demo</a>
-</p>
-
 ---
 
 ## STACK:
