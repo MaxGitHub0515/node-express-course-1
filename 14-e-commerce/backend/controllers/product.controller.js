@@ -37,6 +37,8 @@ export const getFeaturedProducts = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
+        console.log("HEADERS:", req.headers["content-type"]);
+        console.log("BODY:", req.body);
         const {name, description, price, image, category } = req.body;
         let cloudinaryRes = null; 
         if(image) {
@@ -44,6 +46,7 @@ export const createProduct = async (req, res) => {
             cloudinaryRes = await cloudinary.uploader.upload(image, {
                 folder: "e-commerce/products"
             });
+            
         }
         const product = await Product.create({
             name,
