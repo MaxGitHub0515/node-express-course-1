@@ -197,6 +197,7 @@ Create a `.env` file in the project root:
 ```env
 MONGO=mongodb+srv://<user>:<password>@cluster.mongodb.net/estateflow
 JWT_SECRET=your_jwt_secret_here
+VITE_FIREBASE_API_KEY=your_api_key
 ```
 
 Configure Firebase credentials in `client/src/firebase.js`.
