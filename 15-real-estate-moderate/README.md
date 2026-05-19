@@ -1,4 +1,6 @@
-# EstateFlow — Real Estate Marketplace
+<h1 align="center">
+  EstateFlow — Real Estate Marketplace
+</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=white" />
