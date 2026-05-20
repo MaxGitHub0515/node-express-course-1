@@ -3,16 +3,14 @@ services:
   # ── MongoDB ────────────────────────────────────────────────────────────────
   mongo:
     image: mongo:7
-    container_name: ecommerce_mongo
+    container_name: modaily_mongo
     restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:-admin}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-changeme}
-      MONGO_INITDB_DATABASE: ecommerce
+      MONGO_INITDB_DATABASE: modaily
     volumes:
       - mongo_data:/data/db
-    ports:
-      - "27017:27017"        # expose only if you need external access (optional)
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
@@ -20,14 +18,14 @@ services:
       retries: 5
       start_period: 20s
     networks:
-      - ecommerce_net
+      - modaily_net
 
   # ── Backend (Express + Node.js) ────────────────────────────────────────────
   backend:
     build:
-      context: ./backend        # path to backend/ folder
+      context: ./backend
       dockerfile: ../backend.Dockerfile
-    container_name: ecommerce_backend
+    container_name: modaily_backend
     restart: unless-stopped
     depends_on:
       mongo:
@@ -36,53 +34,43 @@ services:
       NODE_ENV: production
       PORT: 5001
 
-      # MongoDB — points to the mongo service above
-      MONGO_URI: mongodb://${MONGO_ROOT_USER:-admin}:${MONGO_ROOT_PASSWORD:-changeme}@mongo:27017/ecommerce?authSource=admin
+      # MongoDB — uses the mongo service above
+      MONGO_URI: mongodb://${MONGO_ROOT_USER:-admin}:${MONGO_ROOT_PASSWORD:-changeme}@mongo:27017/modaily?authSource=admin
 
-      # JWT secrets — override in .env
+      # JWT
       ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET}
       REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
 
-      # Upstash Redis (HTTP-based — no local Redis container needed)
+      # Upstash Redis (HTTP-based — no Redis container needed)
       UPSTASH_REDIS_REST_URL: ${UPSTASH_REDIS_REST_URL}
       UPSTASH_REDIS_REST_TOKEN: ${UPSTASH_REDIS_REST_TOKEN}
 
       # Stripe
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      CLIENT_URL: ${CLIENT_URL:-http://localhost}
 
-      # Cloudinary (product image uploads)
+      # Cloudinary
       CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
       CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
       CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
-
-      # Frontend origin (for CORS if needed)
-      CLIENT_URL: ${CLIENT_URL:-http://localhost}
-
-    # Mount .env.local so the app can dotenv({ path: '.env.local' })
-    # Remove this volume if you pass all vars above
-    # volumes:
-    #   - ./backend/.env.local:/app/.env.local:ro
-    ports:
-      - "5001:5001"            # expose only if you need direct API access
     networks:
-      - ecommerce_net
+      - modaily_net
 
   # ── Frontend (React + Vite → Nginx) ───────────────────────────────────────
   frontend:
     build:
-      context: ./frontend       # path to frontend/ folder
+      context: ./frontend
       dockerfile: ../frontend.Dockerfile
       args:
-        # Passed to Vite at build time — only VITE_* vars are exposed to the browser
-        VITE_API_BASE_URL: ""   # leave empty — Nginx proxies /api to backend
-    container_name: ecommerce_frontend
+        VITE_STRIPE_PUBLISHABLE_KEY: ${VITE_STRIPE_PUBLISHABLE_KEY}
+    container_name: modaily_frontend
     restart: unless-stopped
     depends_on:
       - backend
     ports:
       - "80:80"
     networks:
-      - ecommerce_net
+      - modaily_net
 
 # ── Volumes ───────────────────────────────────────────────────────────────────
 volumes:
@@ -91,5 +79,5 @@ volumes:
 
 # ── Networks ──────────────────────────────────────────────────────────────────
 networks:
-  ecommerce_net:
+  modaily_net:
     driver: bridge
