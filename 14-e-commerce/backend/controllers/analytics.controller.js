@@ -17,9 +17,11 @@ export const getAnalyticsData = async () => {
                 },
                 
 
-            }
+            },
         ]);
+
         const {totalSales, totalRevenue} = salesData[0] || {totalSales: 0, totalRevenue: 0};
+        
         return {
             users: totalUser,
             products: totalProdiucts,
@@ -47,23 +49,22 @@ export const getDailySalesData = async (startDate, endDate) => {
                     },
                     sales: { $sum: 1 },
                     revenue: { $sum: "$totalAmount" }
-                    }
+                    },
                 },
             {   // smallest to largest (A to Z, 1 to 100, Oldest to Newest).
                 $sort: { _id: 1 } // sort by date ascending
             }
             ]);
             const dateArr = getDatesInRange(startDate, endDate); // from last week till today
-            return dateArr.map(date => {
-                const findDate = dailySalesData.find(item => item._id === date);
+            return dateArr.map((date) => {
+                const findDate = dailySalesData.find((item) => item._id === date);
                 return {
                     date,
                     sales: findDate?.sales || 0,
                     revenue: findDate?.revenue || 0
-                }
+                };
             });
-
-
+            
     } catch (error) {
         console.log("Error in getDailySalesData:", error.message);
         throw new Error("Failed to get daily sales data");
