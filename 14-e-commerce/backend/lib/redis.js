@@ -12,4 +12,3 @@ if(!redis) {
 } else {
     console.log("Redis connected successfully!!!");
 }
-await redis.set('foo', 'bar');
